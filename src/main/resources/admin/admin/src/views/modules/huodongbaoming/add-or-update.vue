@@ -365,8 +365,15 @@ export default {
 
 
 
+
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
+          // 检查活动状态
+          var crossObj = this.$storage.getObj('crossObj');
+          if (crossObj && crossObj.huodongzhuangtai === '已关闭') {
+            this.$message.error('活动报名已关闭，无法提交');
+            return;
+          }
           this.$http({
             url: `huodongbaoming/${!this.ruleForm.id ? "save" : "update"}`,
             method: "post",

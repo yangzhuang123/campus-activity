@@ -134,6 +134,22 @@
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
+                    prop="registeredCount"
+                    header-align="center"
+		    label="已报名人数">
+		     <template slot-scope="scope">
+                       {{scope.row.stats ? scope.row.stats.registeredCount : 0}}
+                     </template>
+                </el-table-column>
+                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
+                    prop="remainingQuota"
+                    header-align="center"
+		    label="剩余名额">
+		     <template slot-scope="scope">
+                       {{scope.row.stats ? scope.row.stats.remainingQuota : 0}}
+                     </template>
+                </el-table-column>
+                <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
                     prop="huodongdidian"
                     header-align="center"
 		    label="活动地点">
@@ -160,6 +176,14 @@
                   label="审核状态">
                   <template slot-scope="scope">
                     <span style="margin-right:10px">{{scope.row.sfsh=='是'?'通过':'未通过'}}</span>
+                  </template>
+              </el-table-column>
+              <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"
+                  prop="huodongzhuangtai"
+                  header-align="center"
+                  label="活动状态">
+                  <template slot-scope="scope">
+                    <span style="margin-right:10px">{{scope.row.huodongzhuangtai || '进行中'}}</span>
                   </template>
               </el-table-column>
               <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"
@@ -191,6 +215,9 @@
                 <el-button v-if="isAuth('shetuanhuodong','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
                 <el-button v-if="isAuth('shetuanhuodong','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
                 <el-button v-if="isAuth('shetuanhuodong','删除') && contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
+                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.huodongzhuangtai != '已关闭' && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="warning" icon="el-icon-close" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}</el-button>
+                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.huodongzhuangtai != '已关闭' && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="warning" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}<i class="el-icon-close el-icon--right" /></el-button>
+                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.huodongzhuangtai != '已关闭' && contents.tableBtnIcon == 0" type="warning" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -260,7 +287,7 @@ export default {
       chartVisiable: false,
       addOrUpdateFlag:false,
       huodongbaomingCrossAddOrUpdateFlag: false,
-      contents:{"searchBtnFontColor":"rgba(255, 255, 255, 1)","pagePosition":"1","inputFontSize":"14px","inputBorderRadius":"0px","tableBtnDelFontColor":"rgba(0, 150, 136, 1)","tableBtnIconPosition":"1","searchBtnHeight":"40px","inputIconColor":"rgba(0, 150, 136, 1)","searchBtnBorderRadius":"4px","tableStripe":true,"btnAdAllWarnFontColor":"rgba(255, 255, 255, 1)","tableBtnDelBgColor":"rgba(255, 255, 255, 1)","searchBtnIcon":"1","tableSize":"medium","searchBtnBorderStyle":"solid","tableSelection":true,"searchBtnBorderWidth":"0px","tableContentFontSize":"14px","searchBtnBgColor":"rgba(0, 150, 136, 1)","inputTitleSize":"14px","btnAdAllBorderColor":"#DCDFE6","pageJumper":true,"btnAdAllIconPosition":"1","searchBoxPosition":"3","tableBtnDetailFontColor":"rgba(0, 150, 136, 1)","tableBtnHeight":"40px","pagePager":true,"searchBtnBorderColor":"#DCDFE6","tableHeaderFontColor":"rgba(255, 255, 255, 1)","inputTitle":"1","tableBtnBorderRadius":"20px","btnAdAllFont":"0","btnAdAllDelFontColor":"rgba(255, 255, 255, 1)","tableBtnIcon":"1","btnAdAllHeight":"40px","btnAdAllWarnBgColor":"rgba(24, 144, 255, 1)","btnAdAllBorderWidth":"1px","tableStripeFontColor":"#606266","tableBtnBorderStyle":"solid","inputHeight":"40px","btnAdAllBorderRadius":"20px","btnAdAllDelBgColor":"rgba(255, 69, 0, 1)","pagePrevNext":true,"btnAdAllAddBgColor":"rgba(0, 150, 136, 1)","searchBtnFont":"1","tableIndex":true,"btnAdAllIcon":"1","tableSortable":false,"pageSizes":true,"tableFit":true,"pageBtnBG":true,"searchBtnFontSize":"14px","tableBtnEditBgColor":"rgba(255, 255, 255, 1)","inputBorderWidth":"1px","inputFontPosition":"3","inputFontColor":"rgba(0, 0, 0, 1)","pageEachNum":10,"tableHeaderBgColor":"rgba(0, 150, 136, 1)","inputTitleColor":"rgba(0, 150, 136, 1)","btnAdAllBoxPosition":"3","tableBtnDetailBgColor":"rgba(255, 255, 255, 1)","inputIcon":"1","searchBtnIconPosition":"2","btnAdAllFontSize":"10px","inputBorderStyle":"none none solid none","inputBgColor":"#fff","pageStyle":false,"pageTotal":true,"btnAdAllAddFontColor":"rgba(255, 255, 255, 1)","tableBtnFont":"1","tableContentFontColor":"#606266","inputBorderColor":"rgba(0, 150, 136, 1)","tableShowHeader":true,"tableBtnFontSize":"10px","tableBtnBorderColor":"#DCDFE6","inputIconPosition":"1","tableBorder":true,"btnAdAllBorderStyle":"solid","tableBtnBorderWidth":"1px","tableStripeBgColor":"#F5F7FA","tableBtnEditFontColor":"rgba(0, 150, 136, 1)","tableAlign":"center"},
+      contents:{"searchBtnFontColor":"rgba(255, 255, 255, 1)","pagePosition":"1","inputFontSize":"14px","inputBorderRadius":"0px","tableBtnDelFontColor":"rgba(0, 150, 136, 1)","tableBtnIconPosition":"1","searchBtnHeight":"40px","inputIconColor":"rgba(0, 150, 136, 1)","searchBtnBorderRadius":"4px","tableStripe":true,"btnAdAllWarnFontColor":"rgba(255, 255, 255, 1)","tableBtnDelBgColor":"rgba(255, 255, 255, 1)","searchBtnIcon":"1","tableSize":"medium","searchBtnBorderStyle":"solid","tableSelection":true,"searchBtnBorderWidth":"0px","tableContentFontSize":"14px","searchBtnBgColor":"rgba(0, 150, 136, 1)","inputTitleSize":"14px","btnAdAllBorderColor":"#DCDFE6","pageJumper":true,"btnAdAllIconPosition":"1","searchBoxPosition":"3","tableBtnDetailFontColor":"rgba(0, 150, 136, 1)","tableBtnHeight":"40px","pagePager":true,"searchBtnBorderColor":"#DCDFE6","tableHeaderFontColor":"rgba(255, 255, 255, 1)","inputTitle":"1","tableBtnBorderRadius":"20px","btnAdAllFont":"0","btnAdAllDelFontColor":"rgba(255, 255, 255, 1)","tableBtnIcon":"1","btnAdAllHeight":"40px","btnAdAllWarnBgColor":"rgba(24, 144, 255, 1)","btnAdAllBorderWidth":"1px","tableStripeFontColor":"#606266","tableBtnBorderStyle":"solid","inputHeight":"40px","btnAdAllBorderRadius":"20px","btnAdAllDelBgColor":"rgba(255, 69, 0, 1)","pagePrevNext":true,"btnAdAllAddBgColor":"rgba(0, 150, 136, 1)","searchBtnFont":"1","tableIndex":true,"btnAdAllIcon":"1","tableSortable":false,"pageSizes":true,"tableFit":true,"pageBtnBG":true,"searchBtnFontSize":"14px","tableBtnEditBgColor":"rgba(255, 255, 255, 1)","inputBorderWidth":"1px","inputFontPosition":"3","inputFontColor":"rgba(0, 0, 0, 1)","pageEachNum":10,"tableHeaderBgColor":"rgba(0, 150, 136, 1)","inputTitleColor":"rgba(0, 150, 136, 1)","btnAdAllBoxPosition":"3","tableBtnDetailBgColor":"rgba(255, 255, 255, 1)","inputIcon":"1","searchBtnIconPosition":"2","btnAdAllFontSize":"10px","inputBorderStyle":"none none solid none","inputBgColor":"#fff","pageStyle":false,"pageTotal":true,"btnAdAllAd[... 415 chars omitted]"},
       layouts: '',
 
 
@@ -498,11 +525,25 @@ export default {
         if (data && data.code === 0) {
           this.dataList = data.data.list;
           this.totalPage = data.data.total;
+          this.getStatsForList();
         } else {
           this.dataList = [];
           this.totalPage = 0;
         }
         this.dataListLoading = false;
+      });
+    },
+    getStatsForList() {
+      this.dataList.forEach(item => {
+        this.$http({
+          url: "shezhang/getHuodongStats",
+          method: "get",
+          params: {huodongId: item.id}
+        }).then(({ data }) => {
+          if (data && data.code === 0) {
+            this.$set(item, 'stats', data.data);
+          }
+        });
       });
     },
     // 每页数
@@ -617,6 +658,37 @@ export default {
         });
       });
     },
+    // 关闭报名
+    closeSignUpHandler(row) {
+      this.$confirm(`确定关闭活动[${row.biaoti}]的报名?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        let form = {
+          id: row.id,
+          huodongzhuangtai: "已关闭"
+        };
+        this.$http({
+          url: "shetuanhuodong/update",
+          method: "post",
+          data: form
+        }).then(({ data }) => {
+          if (data && data.code === 0) {
+            this.$message({
+              message: "操作成功",
+              type: "success",
+              duration: 1500,
+              onClose: () => {
+                this.getDataList();
+              }
+            });
+          } else {
+            this.$message.error(data.msg);
+          }
+        });
+      });
+    },
   }
 
 };
@@ -640,11 +712,11 @@ export default {
       }
     }
   }
-  
+
 
   .el-button+.el-button {
     margin:0;
-  } 
+  }
 
   .tables {
 	& /deep/ .el-button--success {
@@ -657,7 +729,7 @@ export default {
 		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 1);
 	}
-	
+
 	& /deep/ .el-button--primary {
 		height: 40px;
 		color: rgba(0, 150, 136, 1);
@@ -668,7 +740,7 @@ export default {
 		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 1);
 	}
-	
+
 	& /deep/ .el-button--danger {
 		height: 40px;
 		color: rgba(0, 150, 136, 1);
