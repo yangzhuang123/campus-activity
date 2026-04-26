@@ -32,6 +32,46 @@ public class UserEntity implements Serializable {
 	 */
 	private String role;
 	
+	/**
+	 * 邮箱
+	 */
+	private String email;
+	
+	/**
+	 * 手机号
+	 */
+	private String phone;
+	
+	/**
+	 * 昵称
+	 */
+	private String nickname;
+	
+	/**
+	 * 头像
+	 */
+	private String avatar;
+	
+	/**
+	 * 性别
+	 */
+	private String gender;
+	
+	/**
+	 * 生日
+	 */
+	private Date birthday;
+	
+	/**
+	 * 个人简介
+	 */
+	private String introduction;
+	
+	/**
+	 * 通知设置
+	 */
+	private String notificationSettings;
+	
 	private Date addtime;
 
 	public String getUsername() {
@@ -56,6 +96,70 @@ public class UserEntity implements Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public String getNotificationSettings() {
+		return notificationSettings;
+	}
+
+	public void setNotificationSettings(String notificationSettings) {
+		this.notificationSettings = notificationSettings;
 	}
 
 	public Date getAddtime() {

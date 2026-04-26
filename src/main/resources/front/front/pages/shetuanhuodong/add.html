@@ -182,7 +182,8 @@
 
 					<div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item">
 						<div class="layui-input-block" style="text-align: right;">
-							<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.5)","margin":"0 10px","borderColor":"#ccc","backgroundColor":"rgba(255, 153, 0, 1)","color":"#fff","borderRadius":"8px","borderWidth":"0","width":"25%","fontSize":"14px","borderStyle":"solid","height":"44px"}' class="layui-btn btn-submit" lay-submit lay-filter="*">提交</button>
+							<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.5)","margin":"0 10px","borderColor":"#ccc","backgroundColor":"#6c757d","color":"#fff","borderRadius":"8px","borderWidth":"0","width":"25%","fontSize":"14px","borderStyle":"solid","height":"44px"}' class="layui-btn" lay-submit lay-filter="draft">保存草稿</button>
+							<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.5)","margin":"0 10px","borderColor":"#ccc","backgroundColor":"rgba(255, 153, 0, 1)","color":"#fff","borderRadius":"8px","borderWidth":"0","width":"25%","fontSize":"14px","borderStyle":"solid","height":"44px"}' class="layui-btn btn-submit" lay-submit lay-filter="publish">立即发布</button>
 							<button :style='{"padding":"0 10px","boxShadow":"0 0 2px rgb(255,153,0)","margin":"0 10px","borderColor":"#ccc","backgroundColor":"#fff","color":"rgba(255, 153, 0, 1)","borderRadius":"8px","borderWidth":"0","width":"25%","fontSize":"14px","borderStyle":"solid","height":"44px"}' type="reset" class="layui-btn layui-btn-primary">重置</button>
 						</div>
 					</div>
@@ -242,6 +243,7 @@
                         huodongxiangqing: '',
                         sfsh: '',
                         shhf: '',
+                        huodongzhuangtai: '',
                     },
 					centerMenu: centerMenu
 				},
@@ -461,39 +463,76 @@
 				}
 				
 
-				// 提交
-				form.on('submit(*)', function(data) {
+				// 保存草稿
+				form.on('submit(draft)', function(data) {
 					data = data.field;
 					
-                    // 数据校验
-                    if(!data.huodongrenshu){
-                        layer.msg('活动人数不能为空', {
-							time: 2000,
-							icon: 5
-						});
-                        return false
-                    }
-                    if(!isIntNumer(data.huodongrenshu)){
-                        layer.msg('活动人数应输入整数', {
-							time: 2000,
-							icon: 5
-						});
-                        return false
-                    }
+				    // 数据校验
+				    if(!data.huodongrenshu){
+				        layer.msg('活动人数不能为空', {
+						time: 2000,
+						icon: 5
+					});
+				        return false
+				    }
+				    if(!isIntNumer(data.huodongrenshu)){
+				        layer.msg('活动人数应输入整数', {
+						time: 2000,
+						icon: 5
+					});
+				        return false
+				    }
 					var huodongxiangqing = tinymce.get('#huodongxiangqing').getContent()
 					data.huodongxiangqing = huodongxiangqing;
+					
+					// 设置状态为草稿
+					data.huodongzhuangtai = '草稿';
 
-					// 跨表计算
-					
-                    // 比较大小
-					
 					// 提交数据
 					http.requestJson('shetuanhuodong' + '/add', 'post', data, function(res) {
-					 	layer.msg('提交成功', {
-					 		time: 2000,
-					 		icon: 6
-					 	}, function() {
-					 		back();
+					  	layer.msg('草稿保存成功', {
+					  		time: 2000,
+					  		icon: 6
+					  	}, function() {
+					  		back();
+						});
+					 });
+
+					return false
+				});
+
+				// 立即发布
+				form.on('submit(publish)', function(data) {
+					data = data.field;
+					
+				    // 数据校验
+				    if(!data.huodongrenshu){
+				        layer.msg('活动人数不能为空', {
+						time: 2000,
+						icon: 5
+					});
+				        return false
+				    }
+				    if(!isIntNumer(data.huodongrenshu)){
+				        layer.msg('活动人数应输入整数', {
+						time: 2000,
+						icon: 5
+					});
+				        return false
+				    }
+					var huodongxiangqing = tinymce.get('#huodongxiangqing').getContent()
+					data.huodongxiangqing = huodongxiangqing;
+					
+					// 设置状态为发布
+					data.huodongzhuangtai = '发布';
+
+					// 提交数据
+					http.requestJson('shetuanhuodong' + '/add', 'post', data, function(res) {
+					  	layer.msg('发布成功', {
+					  		time: 2000,
+					  		icon: 6
+					  	}, function() {
+					  		back();
 						});
 					 });
 

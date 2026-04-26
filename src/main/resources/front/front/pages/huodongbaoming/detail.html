@@ -1,18 +1,18 @@
-
-<!-- 首页 -->
+<!-- 活动报名详情 -->
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>首页</title>
-	<link rel="stylesheet" href="../../layui/css/layui.css">
-	<!-- 样式 -->
-	<link rel="stylesheet" href="../../css/style.css" />
-	<!-- 主题（主要颜色设置） -->
-	<link rel="stylesheet" href="../../css/theme.css" />
-	<!-- 通用的css -->
-	<link rel="stylesheet" href="../../css/common.css" />
+<head lang="en">
+<meta charset="utf-8">
+<title>活动报名详情</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="../../layui/css/layui.css">
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/theme.css" />
+<link rel="stylesheet" href="../../css/common.css" />
 </head>
 <style>
 	html::after {
@@ -23,387 +23,252 @@
 		bottom: 0;
 		content: '';
 		display: block;
-		background-attachment: fixed;
-		background-size: cover;
-		background-position: center;
+		background: #f5f5f5;
 		z-index: -1;
 	}
-	#swiper {
+	.center-wrapper {
+		max-width: 1000px;
+		margin: 30px auto;
+		display: flex;
+		background: #fff;
+		border-radius: 8px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 		overflow: hidden;
 	}
-	#swiper .layui-carousel-ind li {
-		width: 10px;
-		height: 10px;
-		border-width: 0;
-		border-style: solid;
-		border-color: rgba(0,0,0,.3);
-		border-radius: 6px;
-		background-color: #f7f7f7;
-		box-shadow: 0 0 0px rgba(255,0,0,.8);
+	.left-menu {
+		width: 180px;
+		background: #fff;
+		border-right: 1px solid #eee;
+		flex-shrink: 0;
 	}
-	#swiper .layui-carousel-ind li.layui-this {
-		width: 10px;
-		height: 10px;
-		border-width: 0;
-		border-style: solid;
-		border-color: rgba(0,0,0,.3);
-		border-radius: 0;
-		background-color: rgba(255, 255, 255, 1);
-		box-shadow: 0 0 0px rgba(255,0,0,.8);
+	.left-menu .layui-nav-tree {
+		width: 100%;
 	}
-
-	input#buynumber::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; }
-	input#buynumber[type="number"]{ -moz-appearance: textfield; }
-
-	.message-container {width: 100%}
-
-	.detail-tab .layui-tab-card>.layui-tab-title .layui-this {
-		background-color: rgba(255, 153, 0, 1);
-		color: #fff;
+	.left-menu .layui-nav {
+		position: relative;
+		background: transparent;
+	}
+	.left-menu .layui-nav-item {
+		height: 48px;
+		line-height: 48px;
 		font-size: 14px;
+		color: #333;
 	}
-
-.data-detail {
-padding-bottom: 20px;
-}
-
-.data-detail .layui-breadcrumb a.first {
-color: rgba(52, 52, 52, 1) !important;
-}
+	.left-menu .layui-nav-item a {
+		color: #333;
+		padding: 0 20px;
+	}
+	.left-menu .layui-nav-item.layui-this,
+	.left-menu .layui-nav-item:hover {
+		background: #ff6600;
+		color: #fff;
+	}
+	.left-menu .layui-nav-item.layui-this a,
+	.left-menu .layui-nav-item:hover a {
+		color: #fff;
+	}
+	.right-content {
+		flex: 1;
+		padding: 30px 40px;
+		min-height: 500px;
+	}
+	.page-title {
+		font-size: 18px;
+		font-weight: 600;
+		color: #333;
+		margin-bottom: 25px;
+		padding-bottom: 15px;
+		border-bottom: 2px solid #ff6600;
+	}
+	.detail-card {
+		background: #fff;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+	.detail-card img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+	}
+	.detail-card .content {
+		padding: 20px;
+	}
+	.detail-card .title {
+		font-size: 18px;
+		font-weight: 600;
+		color: #333;
+		margin-bottom: 15px;
+	}
+	.info-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 15px;
+	}
+	.info-item {
+		display: flex;
+		align-items: flex-start;
+	}
+	.info-item .label {
+		font-size: 14px;
+		color: #999;
+		min-width: 80px;
+	}
+	.info-item .value {
+		font-size: 14px;
+		color: #333;
+		flex: 1;
+	}
+	.status-badge {
+		display: inline-block;
+		padding: 4px 12px;
+		border-radius: 4px;
+		font-size: 13px;
+	}
+	.status-badge.approved {
+		background: #e8f8f0;
+		color: #36b468;
+	}
+	.status-badge.pending {
+		background: #fff8e8;
+		color: #ff9900;
+	}
+	.status-badge.rejected {
+		background: #fef0f0;
+		color: #d9534f;
+	}
+	.back-btn {
+		display: inline-block;
+		padding: 10px 20px;
+		background: #ff6600;
+		color: #fff;
+		border-radius: 4px;
+		font-size: 14px;
+		cursor: pointer;
+		margin-top: 20px;
+	}
+	.back-btn:hover {
+		background: #ff5500;
+	}
 </style>
 <body>
-
 	<div id="app">
-
-		<div class="data-detail">
-			<div class="data-detail-breadcrumb" :style='{"padding":"0 10px","boxShadow":"0 00px rgba(255,0,0,.3)","margin":"20px auto","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 1)","borderRadius":"4px","borderWidth":"0","borderStyle":"solid","height":"54px"}'>
-				<span class="layui-breadcrumb">
-					<a class="first" :style='{"padding":"8px 10px","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 5px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"0","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' href="../home/home.html">首页</a>
-					<a><cite :style='{"padding":"8px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 15px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"4px","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}'>{{title}}</cite></a>
-				</span>
-				
-				
+		<div class="center-wrapper">
+			<div class="left-menu">
+				<ul class="layui-nav layui-nav-tree">
+					<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==2?'layui-this':''">
+						<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
+					</li>
+				</ul>
 			</div>
-			<div class="layui-row" style="display: flex">
-				<div class="layui-col-md5" style="width:450px">
-					<!-- <div class="layui-carousel" id="swiper">
-						<div carousel-item id="swiper-item">
-							<div v-for="(item,index) in swiperList" v-bind:key="index">
-								<img class="swiper-item" :src="item.img">
+			<div class="right-content">
+				<div class="page-title">活动报名详情</div>
+				<div v-if="detail.id" class="detail-card">
+					<img :src="detail.picture || '../../img/avator.png'">
+					<div class="content">
+						<div class="title">{{detail.biaoti}}</div>
+						<div class="info-grid">
+							<div class="info-item">
+								<span class="label">主办方：</span>
+								<span class="value">{{detail.shetuanmingcheng || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">账号：</span>
+								<span class="value">{{detail.zhanghao || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">报名内容：</span>
+								<span class="value">{{detail.baomingneirong || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">报名日期：</span>
+								<span class="value">{{detail.baomingriqi || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">学号：</span>
+								<span class="value">{{detail.xuehao || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">学生姓名：</span>
+								<span class="value">{{detail.xueshengxingming || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">手机：</span>
+								<span class="value">{{detail.shouji || '暂无'}}</span>
+							</div>
+							<div class="info-item">
+								<span class="label">审核状态：</span>
+								<span class="value">
+									<span class="status-badge" :class="getStatusClass(detail.sfsh)">{{getStatusText(detail.sfsh)}}</span>
+								</span>
 							</div>
 						</div>
-					</div> -->
-					<div class="layui-carousel" id="swiper" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(0,0,0,.3)","borderRadius":"0px","borderWidth":"0","width":"450px","borderStyle":"solid","height":"400px"}'>
-					  <div carousel-item>
-						<div v-if="swiperList.length" v-for="(item,index) in swiperList" :key="index">
-							<img style="width: 100%;height: 100%;object-fit:cover;" :src="item" />
+						<div v-if="detail.shhf" class="info-item" style="margin-top: 15px;">
+							<span class="label">审核回复：</span>
+							<span class="value">{{detail.shhf}}</span>
 						</div>
-					  </div>
+						<div class="back-btn" @click="goBack">返回我的活动</div>
 					</div>
-
-					
-		
 				</div>
-				<div class="layui-col-md7" style="padding-left: 20px;flex: 1;" :style='{"padding":"0","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 0 0 20px","borderColor":"rgba(247, 247, 247, 1)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"0","borderWidth":"10px","borderStyle":"solid"}'>
-					<h1 style="position: relative;" :style='{"padding":"10px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"rgba(0, 0, 0, 1)","borderRadius":"0","textAlign":"left","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' class="title">{{title}}</h1>
-					
-
-
-					
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>标题：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.biaoti}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>社团名称：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.shetuanmingcheng}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>账号：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.zhanghao}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>报名内容：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.baomingneirong}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>报名日期：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.baomingriqi}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>学号：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.xuehao}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>学生姓名：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.xueshengxingming}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>手机：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.shouji}}
-						</span>
-					</div>
-					
-
-					
-					
-
-				</div>
-			</div>
-
-			
-			
-
-			<div class="layui-row detail-tab">
-				<div class="layui-tab layui-tab-card" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(255, 255, 255, 0.3)","backgroundColor":"rgba(255, 255, 255, 1)","borderRadius":"0px","borderStyle":"solid","borderWidth":"10px"}' style="overflow: hidden;">
-
-					<ul class="layui-tab-title" :style='{"color":"rgba(113, 113, 113, 1)","backgroundColor":"#f2f2f2","fontSize":"14px"}'>
-						
-						
-
-						
-						
-
-						
-						
-
-					</ul>
-
-					<div class="layui-tab-content">
-						
-						
-
-						
-						
-
-						
-						
-
-					</div>
+				<div v-else style="text-align: center; padding: 80px 0; color: #999;">
+					<p>正在加载...</p>
 				</div>
 			</div>
 		</div>
-
 	</div>
-
 
 	<script src="../../layui/layui.js"></script>
 	<script src="../../js/vue.js"></script>
-	<!-- 组件配置信息 -->
 	<script src="../../js/config.js"></script>
-	<!-- 扩展插件配置信息 -->
 	<script src="../../modules/config.js"></script>
-	<!-- 工具方法 -->
 	<script src="../../js/utils.js"></script>
 
-	<script>
+	<script type="text/javascript">
 		var vue = new Vue({
 			el: '#app',
 			data: {
-				// 轮播图
-				swiperList: [],
-				// 数据详情
-				detail: {
-					id: 0
-				},
-				// 商品标题
-				title: '',
-				// 倒计时
-				count: 0,
-				// 加入购物车数量
-				buynumber: 1,
-				// 当前详情页表
-				detailTable: 'huodongbaoming',
-				// 评价列表
-				dataList: [],
-				// 选座座位列表
-				numberList: []
-			},
-			// 倒计时效果
-			computed: {
-				SecondToDate: function() {
-					var time = this.count;
-					if (null != time && "" != time) {
-						if (time > 60 && time < 60 * 60) {
-							time =
-								parseInt(time / 60.0) +
-								"分钟" +
-								parseInt((parseFloat(time / 60.0) - parseInt(time / 60.0)) * 60) +
-								"秒";
-						} else if (time >= 60 * 60 && time < 60 * 60 * 24) {
-							time =
-								parseInt(time / 3600.0) +
-								"小时" +
-								parseInt(
-									(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-								) +
-								"分钟" +
-								parseInt(
-									(parseFloat(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										) -
-										parseInt(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										)) *
-									60
-								) +
-								"秒";
-						} else if (time >= 60 * 60 * 24) {
-							time =
-								parseInt(time / 3600.0 / 24) +
-								"天" +
-								parseInt(
-									(parseFloat(time / 3600.0 / 24) - parseInt(time / 3600.0 / 24)) *
-									24
-								) +
-								"小时" +
-								parseInt(
-									(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-								) +
-								"分钟" +
-								parseInt(
-									(parseFloat(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										) -
-										parseInt(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										)) *
-									60
-								) +
-								"秒";
-						} else {
-							time = parseInt(time) + "秒";
-						}
-					}
-					return time;
-				}
-			},
-			//  清除定时器
-			destroyed: function() {
-				window.clearInterval(this.inter);
+				detail: {},
+				centerMenu: centerMenu()
 			},
 			methods: {
 				jump(url) {
-					jump(url)
+					window.location.href = url;
 				},
-				isAuth(tablename, button) {
-					return isFrontAuth(tablename, button)
+				goBack() {
+					window.location.href = 'list.html';
 				},
-				// 倒计时初始化
-				countDown() {
-					let reversetime = new Date(this.detail.reversetime).getTime()
-					let now = new Date().getTime();
-					let count = reversetime - now;
-					if (count > 0) {
-						this.count = count / 1000
-						var _this = this;
-						this.inter = window.setInterval(function() {
-							_this.count = _this.count - 1;
-							if (_this.count < 0) {
-								window.clearInterval(_this.inter);
-								layer.msg("活动已结束", {
-									time: 2000,
-									icon: 5
-								})
-							}
-						}, 1000);
-					}
+				getStatusClass(status) {
+					if (status === '是') return 'approved';
+					if (status === '否') return 'rejected';
+					return 'pending';
 				},
-				
-				// 下载文件
-				downFile(url) {
-					var download = $("#download");
-					download.append(
-						"<a id=\"down\" href=\"aaaa.txt\" target=\"_blank\" download=\"aaaa.txt\" style=\"display:none\">下载该文件</a>");
-					console.log(download);
-					$("#down")[0].click();
-				},
-				// 跨表
-				onAcrossTap(acrossTable){
-					localStorage.setItem('crossTable',`huodongbaoming`);
-					localStorage.setItem('crossObj', JSON.stringify(this.detail));
-					jump(`../${acrossTable}/add.html?corss=true`);
-				},
-
-
-
-
-
-
+				getStatusText(status) {
+					if (status === '是') return '已通过';
+					if (status === '否') return '已拒绝';
+					return '审核中';
+				}
 			}
-		})
+		});
 
-		layui.use(['layer', 'form', 'element', 'carousel', 'http', 'jquery', 'laypage'], function() {
+		layui.use(['layer', 'http', 'jquery'], function() {
 			var layer = layui.layer;
-			var element = layui.element;
-			var form = layui.form;
-			var carousel = layui.carousel;
 			var http = layui.http;
 			var jquery = layui.jquery;
-			var laypage = layui.laypage;
 
-			var limit = 10;
-
-			// 数据ID
 			var id = http.getParam('id');
-			vue.detail.id = id;
 
-			// 商品信息
-			http.request(`${vue.detailTable}/detail/` + id, 'get', {}, function(res) {
-				// 详情信息
-				vue.detail = res.data
-				// var swiperItemHtml = '';
-				// for (let item of vue.swiperList) {
-				// 	swiperItemHtml +=
-				// 		'<div>' +
-				// 		'<img class="swiper-item" style="width: 100%;height: 100%;object-fit:cover;" src="' + item + '">' +
-				// 		'</div>';
-				// }
-				// jquery('#swiper-item').html(swiperItemHtml);
-				// 轮播图
-				vue.$nextTick(() => {
-				  carousel.render({
-					elem: '#swiper',
-					width: '450px',
-					height: '420px',
-					arrow: 'hover',
-					anim: 'default',
-					autoplay: 'false',
-					interval: '3000',
-					indicator: 'inside'
-				  });
-
-				})
-				// carousel.render({
-				// 	elem: '#swiper',
-				// 	width: swiper.width,height:swiper.height,
-				// 	arrow: swiper.arrow,
-				// 	anim: swiper.anim,
-				// 	interval: swiper.interval,
-				// 	indicator: swiper.indicator
-				// });
-
-
-
-			});
-
-
-			});
-		</script>
-	</body>
+			if (id) {
+				http.request('huodongbaoming/detail/' + id, 'get', {}, function(res) {
+					vue.detail = res.data || {};
+				}, function(err) {
+					layer.msg('加载失败', {icon: 5});
+				});
+			} else {
+				layer.msg('参数错误', {icon: 5}, function() {
+					window.location.href = 'list.html';
+				});
+			}
+		});
+	</script>
+</body>
 </html>

@@ -28,29 +28,7 @@
 			background-position: center;
 			z-index: -1;
 		}
-		#swiper {
-			overflow: hidden;
-		}
-		#swiper .layui-carousel-ind li {
-			width: 20px;
-			height: 20px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(255, 255, 255, 0.3);
-			border-radius: 10px;
-			background-color: rgba(255, 255, 255, 1);
-			box-shadow: 0 0 0px rgba(255,0,0,.8);
-		}
-		#swiper .layui-carousel-ind li.layui-this {
-			width: 20px;
-			height: 20px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			border-radius: 10;
-			background-color: rgba(255, 153, 0, 1);
-			box-shadow: 0 0 0px rgba(255,0,0,.8);
-		}
+		
 
 		.index-title {
 			text-align: center;
@@ -178,13 +156,7 @@
 					</div>
 				</div>
 			</div> -->
-			<div class="layui-carousel" id="swiper" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(255, 255, 255, 0.3)","borderRadius":"0px","borderWidth":"0","width":"90%","borderStyle":"solid"}'>
-			  <div carousel-item>
-				<div v-for="(item,index) in swiperList" :key="index">
-					<img style="width: 100%;height: 100%;object-fit:cover;" :src="item.img" />
-				</div>
-			  </div>
-			</div>
+
 			<!-- 轮播图 -->
 
 			<!-- 标题 -->
@@ -272,6 +244,12 @@
 								<input type="text"  name="shouji" id="shouji" placeholder="手机" autocomplete="off" class="layui-input">
 							</div>
 						</div>
+                        <div class="layui-form-item"  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(181, 181, 181, 1)","margin":"0 0 10px 0","borderColor":"rgba(255, 255, 255, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}'>
+							<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">单位名称</label>
+							<div class="layui-input-block input">
+								<input type="text"  name="danweimingcheng" id="danweimingcheng" placeholder="单位名称（如学生会/XX系）" autocomplete="off" class="layui-input">
+							</div>
+						</div>
 
 						<div class="layui-form-item">
 							<div class="layui-input-block" style="display: flex;flex-wrap:wrap;">
@@ -279,11 +257,6 @@
                 <button :style='{"padding":"0 10px","boxShadow":"0 0 2px rgb(255,153,0)","margin":"10px auto","borderColor":"#ccc","backgroundColor":"#fff","color":"rgba(255, 153, 0, 1)","borderRadius":"8px","borderWidth":"0","width":"10%","fontSize":"14px","borderStyle":"solid","height":"44px"}' @click="logout" class="layui-btn btn-submit">退出登录</button>
 							</div>
 						</div>
-						<!-- <div class="layui-form-item">
-							<div class="layui-input-block">
-								<button :style='{"padding":"0 10px","boxShadow":"0 0 2px rgb(255,153,0)","margin":"10px auto","borderColor":"#ccc","backgroundColor":"#fff","color":"rgba(255, 153, 0, 1)","borderRadius":"8px","borderWidth":"0","width":"10%","fontSize":"14px","borderStyle":"solid","height":"44px"}' @click="logout" class="layui-btn btn-submit">退出登录</button>
-							</div>
-						</div> -->
 					</form>
 				</div>
 				<!-- 个人中心 -->
@@ -369,61 +342,11 @@
                         indicator: 'inside'
                     });
                   })
-          // vue.$nextTick(()=>{
-          //   window.xznSlide();
-          // });
         }
       });
-				// 充值
-				jquery('#btn-recharge').click(function(e) {
-					layer.open({
-						type: 2,
-						title: '用户充值',
-						area: ['900px', '600px'],
-						content: '../shop-recharge/recharge.html'
-					});
-				});
 
 				// 获取轮播图 数据
-				http.request('config/list', 'get', {
-					page: 1,
-					limit: 5
-				}, function(res) {
-					if (res.data.list.length > 0) {
-						var swiperItemHtml = '';
-						for (let item of res.data.list) {
-							if (item.name.indexOf('picture') >= 0 && item.value && item.value != "" && item.value != null) {
-								swiperItemHtml +=
-									'<div>' +
-									'<img style="width: 100%;height: 100%;object-fit:cover;" class="swiper-item" src="' + item.value + '">' +
-									'</div>';
-							}
-						}
-						jquery('#swiper-item').html(swiperItemHtml);
-						// 轮播图
-						vue.$nextTick(() => {
-						  carousel.render({
-						  	elem: '#swiper',
-							width: '90%',
-						  	height: '500px',
-						  	arrow: 'hover',
-						  	anim: 'default',
-						  	autoplay: 'true',
-						  	interval: '3000',
-						  	indicator: 'inside'
-						  });
 
-						})
-						// carousel.render({
-						// 	elem: '#swiper',
-						// 	width: swiper.width,height:swiper.height,
-						// 	arrow: swiper.arrow,
-						// 	anim: swiper.anim,
-						// 	interval: swiper.interval,
-						// 	indicator: "none"
-						// });
-					}
-				});
 
 				vue.xingbie = '男,女'.split(',')
 				// 上传图片
@@ -498,23 +421,23 @@
 					data = data.field;
 					if(!data.zhanghao){
 						layer.msg('账号不能为空', {
-														time: 2000,
-														icon: 5
-												});
+													time: 2000,
+													icon: 5
+											});
 						return false
 					}
 					if(!data.mima){
 						layer.msg('密码不能为空', {
-														time: 2000,
-														icon: 5
-												});
+													time: 2000,
+													icon: 5
+											});
 						return false
 					}
 					if(!isMobile(data.shouji)){
 						layer.msg('手机应输入手机格式', {
-														time: 2000,
-														icon: 5
-												});
+													time: 2000,
+													icon: 5
+											});
 						return false
 					}
 					http.requestJson(table + '/update', 'post', data, function(res) {

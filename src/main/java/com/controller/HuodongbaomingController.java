@@ -25,10 +25,12 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.annotation.IgnoreAuth;
 
 import com.entity.HuodongbaomingEntity;
+import com.entity.ShetuanhuodongEntity;
 import com.entity.view.HuodongbaomingView;
 
 import com.service.HuodongbaomingService;
 import com.service.TokenService;
+import com.service.ShetuanhuodongService;
 import com.utils.PageUtils;
 import com.utils.R;
 import com.utils.MD5Util;
@@ -48,6 +50,8 @@ import com.utils.CommonUtil;
 public class HuodongbaomingController {
     @Autowired
     private HuodongbaomingService huodongbaomingService;
+    @Autowired
+    private ShetuanhuodongService shetuanhuodongService;
     
 
 
@@ -130,6 +134,24 @@ public class HuodongbaomingController {
     public R save(@RequestBody HuodongbaomingEntity huodongbaoming, HttpServletRequest request){
     	huodongbaoming.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(huodongbaoming);
+        
+        // 检查活动名额是否已满
+        String biaoti = huodongbaoming.getBiaoti();
+        if(StringUtils.isNotBlank(biaoti)) {
+            // 查询活动信息
+            ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectOne(new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti));
+            if(shetuanhuodong != null) {
+                Integer huodongrenshu = shetuanhuodong.getHuodongrenshu();
+                if(huodongrenshu != null && huodongrenshu > 0) {
+                    // 统计已报名人数
+                    int count = huodongbaomingService.selectCount(new EntityWrapper<HuodongbaomingEntity>().eq("biaoti", biaoti));
+                    if(count >= huodongrenshu) {
+                        return R.error("活动名额已满，无法报名");
+                    }
+                }
+            }
+        }
+        
         huodongbaomingService.insert(huodongbaoming);
         return R.ok();
     }
@@ -141,6 +163,24 @@ public class HuodongbaomingController {
     public R add(@RequestBody HuodongbaomingEntity huodongbaoming, HttpServletRequest request){
     	huodongbaoming.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(huodongbaoming);
+        
+        // 检查活动名额是否已满
+        String biaoti = huodongbaoming.getBiaoti();
+        if(StringUtils.isNotBlank(biaoti)) {
+            // 查询活动信息
+            ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectOne(new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti));
+            if(shetuanhuodong != null) {
+                Integer huodongrenshu = shetuanhuodong.getHuodongrenshu();
+                if(huodongrenshu != null && huodongrenshu > 0) {
+                    // 统计已报名人数
+                    int count = huodongbaomingService.selectCount(new EntityWrapper<HuodongbaomingEntity>().eq("biaoti", biaoti));
+                    if(count >= huodongrenshu) {
+                        return R.error("活动名额已满，无法报名");
+                    }
+                }
+            }
+        }
+        
         huodongbaomingService.insert(huodongbaoming);
         return R.ok();
     }

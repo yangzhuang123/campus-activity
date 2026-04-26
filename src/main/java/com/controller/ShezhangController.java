@@ -25,10 +25,14 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.annotation.IgnoreAuth;
 
 import com.entity.ShezhangEntity;
+import com.entity.HuodongbaomingEntity;
+import com.entity.ShetuanhuodongEntity;
 import com.entity.view.ShezhangView;
 
 import com.service.ShezhangService;
 import com.service.TokenService;
+import com.service.HuodongbaomingService;
+import com.service.ShetuanhuodongService;
 import com.utils.PageUtils;
 import com.utils.R;
 import com.utils.MD5Util;
@@ -51,6 +55,12 @@ public class ShezhangController {
     
 	@Autowired
 	private TokenService tokenService;
+    
+    @Autowired
+    private HuodongbaomingService huodongbaomingService;
+    
+    @Autowired
+    private ShetuanhuodongService shetuanhuodongService;
 	
 	/**
 	 * 登录
@@ -241,7 +251,7 @@ public class ShezhangController {
      */
 	@RequestMapping("/remind/{columnName}/{type}")
 	public R remindCount(@PathVariable("columnName") String columnName, HttpServletRequest request, 
-						 @PathVariable("type") String type,@RequestParam Map<String, Object> map) {
+			 @PathVariable("type") String type,@RequestParam Map<String, Object> map) {
 		map.put("column", columnName);
 		map.put("type", type);
 		
@@ -278,7 +288,43 @@ public class ShezhangController {
 		int count = shezhangService.selectCount(wrapper);
 		return R.ok().put("count", count);
 	}
-	
+    
+    /**
+     * 获取活动报名统计信息
+     */
+    @IgnoreAuth
+    @RequestMapping("/getHuodongStats")
+    public R getHuodongStats(@RequestParam Long huodongId) {
+        // 查询活动信息
+        ShetuanhuodongEntity huodong = shetuanhuodongService.selectById(huodongId);
+        if (huodong == null) {
+            return R.error("活动不存在");
+        }
+        
+        // 获取活动总名额
+        Integer totalQuota = huodong.getHuodongrenshu() != null ? huodong.getHuodongrenshu() : 0;
+        
+        // 查询已报名人数（已审核通过）
+        int registeredCount = huodongbaomingService.selectCount(
+            new EntityWrapper<HuodongbaomingEntity>()
+                .eq("biaoti", huodong.getBiaoti())
+                .eq("shetuanmingcheng", huodong.getShetuanmingcheng())
+                .eq("sfsh", "是")
+        );
+        
+        // 计算剩余名额
+        int remainingQuota = totalQuota - registeredCount;
+        remainingQuota = Math.max(remainingQuota, 0); // 确保剩余名额不为负数
+        
+        // 构建返回数据
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalQuota", totalQuota);
+        stats.put("registeredCount", registeredCount);
+        stats.put("remainingQuota", remainingQuota);
+        stats.put("activityName", huodong.getBiaoti());
+        
+        return R.ok().put("data", stats);
+    }
 
 
 }

@@ -15,8 +15,7 @@
 		}
 		#iframe {
 			width: 100%;
-			margin-top: 100px;
-			padding-top: 65px;
+			margin-top: 60px;
 		}
 		#header {
 			height: auto;
@@ -26,58 +25,8 @@
 			top: 0;
 			left: 0;
 			width: 100%;
-		}
-
-		#header .nav-top {
-			display: flex;
-			align-items: center;
-			padding: 0 20px;
-			font-size: 16px;
-			color: #2a8a15;
-			box-sizing: border-box;
-			height: 100px;
-			background-color: rgba(255, 255, 255, 1);
-			box-shadow: 0px 2px 0px rgba(255, 153, 14, 1);
-			justify-content: center;
-			position: relative;
-		}
-
-		#header .nav-top-img {
-			width: 80px;
-			height: 80px;
-			padding: 0;
-			margin: 1%;
-			border-radius: 6px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			box-shadow: 0 0 0px rgba(0,0,0,.3);
-		}
-
-		#header .nav-top-title {
-			line-height: 60px;
-			font-size: 30px;
-			color: rgba(255, 153, 14, 1);
-			padding: 0;
-			margin: 0;
-			border-radius: 6px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			box-shadow: 0 0 0px rgba(0,0,0,.3);
-		}
-
-		#header .nav-top-tel {
-			line-height: 60px;
-			font-size: 30px;
-			color: rgba(0, 0, 0, 1);
-			padding: 0 10px;
-			margin: 0 5%;
-			border-radius: 6px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			box-shadow: 0 0 0px rgba(0,0,0,.3);
+			z-index: 1000;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 		}
 
 		#header .navs {
@@ -85,9 +34,8 @@
 			padding: 0 20px;
 			align-items: center;
 			box-sizing: border-box;
-			height: 65px;
-			background-color: rgba(215, 215, 215, 1);
-			box-shadow: 0 1px 6px rgba(0,0,0,0);
+			height: 60px;
+			background-color: #fff;
 			justify-content: center;
 		}
 		#header .navs .title {
@@ -97,78 +45,311 @@
 			color: #333;
 			padding: 0 10px;
 			margin: 0 5px;
-			border-radius: 6px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			box-shadow: 0 0 6px rgba(0,0,0,0);
 		}
 		#header .navs li {
 			display: inline-block;
-			width: 150px;
-			line-height: 63px;
-			padding: 0 0px;
-			margin: 0 0px;
-			color: rgba(79, 79, 79, 1);
-			font-size: 20px;
-			border-radius: 6px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(255, 255, 255, 0.3);
-			background-color: rgba(255, 255, 255, 0);
-			box-shadow: 0 0 0px rgba(0,0,0,.1);
-      text-align: center;
+			line-height: 60px;
+			padding: 0 20px;
+			margin: 0;
+			color: #666;
+			font-size: 15px;
+			text-align: center;
+			transition: all 0.3s ease;
 		}
 		#header .navs li a{
 			color: inherit;
+			text-decoration: none;
+			display: block;
 		}
 		#header .navs li.current a{
-			color: inherit;
+			color: #ff9900;
 		}
 		#header .navs li a:hover{
-			color: inherit;
+			color: #ff9900;
 		}
 		#header .navs li.current {
-			color: rgba(255, 153, 0, 1);
-			font-size: 20px;
-			border-radius: 0px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			background-color: rgba(255, 255, 255, 0);
-			box-shadow: 0 0 0px rgba(255,0,0,.8);
+			color: #ff9900;
+			font-size: 15px;
+			background: none;
 		}
 		#header .navs li:hover {
-			color: rgba(255, 153, 0, 1);
-			font-size: 20px;
-			border-radius: 0px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			background-color: rgba(255, 255, 255, 0);
-			box-shadow: 0 0 0px rgba(0,0,0,.3);
+			color: #ff9900;
+		}
+
+		#tabbar {
+			padding: 30px 0;
+			background-color: #2c2c2c;
+			color: #999;
+			text-align: center;
+		 font-size: 14px;
+		}
+		#tabbar .company {
+			margin-bottom: 10px;
+			color: #fff;
+			font-size: 16px;
+		}
+		#tabbar .record {
+			margin-bottom: 15px;
+		}
+		#tabbar .desc {
+			color: #666;
+			font-size: 12px;
+		}
+		/* 右侧用户区域 */
+		.user-area {
+			position: absolute;
+			right: 20px;
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+		/* 消息通知图标 */
+		.message-icon {
+			position: relative;
+			cursor: pointer;
+			padding: 8px;
+			font-size: 18px;
+			color: #666;
+			transition: color 0.3s;
+		}
+		.message-icon:hover {
+			color: #ff9900;
+		}
+		.message-icon .badge {
+			position: absolute;
+			top: 2px;
+			right: 0;
+			background: #ff4d4f;
+			color: #fff;
+			font-size: 10px;
+			padding: 1px 5px;
+			border-radius: 10px;
+			min-width: 16px;
+			text-align: center;
+		}
+		/* 通知面板 */
+		.notify-panel {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			width: 320px;
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+			opacity: 0;
+			transform: translateY(-10px);
+			transition: all 0.3s ease;
+			z-index: 1001;
+			overflow: hidden;
+		}
+		.notify-panel .panel-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 12px 15px;
+			border-bottom: 1px solid #eee;
+		}
+		.notify-panel .panel-header .title {
+			font-size: 14px;
+			font-weight: 600;
+			color: #333;
+		}
+		.notify-panel .panel-header .mark-read {
+			font-size: 12px;
+			color: #ff9900;
+		}
+		.notify-panel .panel-header .mark-read:hover {
+			text-decoration: underline;
+		}
+		.notify-panel .panel-body {
+			max-height: 300px;
+			overflow-y: auto;
+		}
+		.notify-panel .empty-msg {
+			padding: 40px 15px;
+			text-align: center;
+			color: #999;
+			font-size: 14px;
+		}
+		.notify-panel .notify-item {
+			padding: 12px 15px;
+			border-bottom: 1px solid #f5f5f5;
+			cursor: pointer;
+			transition: background 0.2s;
+		}
+		.notify-panel .notify-item:hover {
+			background: #fafafa;
+		}
+		.notify-panel .notify-item.unread {
+			background: #fff9f0;
+		}
+		.notify-panel .notify-item.unread::before {
+			content: '';
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			background: #ff4d4f;
+			border-radius: 50%;
+			margin-right: 8px;
+		}
+		.notify-panel .notify-content {
+			font-size: 13px;
+			color: #333;
+			margin-bottom: 4px;
+			line-height: 1.4;
+		}
+		.notify-panel .notify-time {
+			font-size: 11px;
+			color: #999;
+		}
+		.notify-panel .panel-footer {
+			padding: 10px 15px;
+			text-align: center;
+			border-top: 1px solid #eee;
+		}
+		.notify-panel .panel-footer a {
+			font-size: 13px;
+			color: #ff9900;
+		}
+		.notify-panel .panel-footer a:hover {
+			text-decoration: underline;
+		}
+		/* 用户菜单 */
+		.user-menu {
+			position: relative;
+			cursor: pointer;
+		}
+		.user-menu .user-info {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 5px 10px;
+			border-radius: 20px;
+			transition: background 0.2s;
+		}
+		.user-menu .user-info:hover {
+			background: #f5f5f5;
+		}
+		.user-menu .avatar {
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+		.user-menu .username {
+			font-size: 14px;
+			color: #333;
+			max-width: 80px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.user-menu .user-info .layui-icon-down {
+			font-size: 12px;
+			color: #999;
+		}
+		/* 用户下拉菜单 */
+		.user-dropdown {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			width: 160px;
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+			opacity: 0;
+			transform: translateY(-10px);
+			transition: all 0.3s ease;
+			z-index: 1001;
+			overflow: hidden;
+		}
+		.user-dropdown .dropdown-item {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 12px 15px;
+			font-size: 14px;
+			color: #333;
+			transition: background 0.2s;
+		}
+		.user-dropdown .dropdown-item:hover {
+			background: #f5f5f5;
+		}
+		.user-dropdown .dropdown-item.logout {
+			color: #ff4d4f;
+		}
+		.user-dropdown .dropdown-item i {
+			font-size: 16px;
+		}
+		.user-dropdown .dropdown-divider {
+			height: 1px;
+			background: #eee;
+			margin: 4px 0;
 		}
 	</style>
 	<body>
 		<!-- start 顶部导航栏 -->
 		<div id="header">
-			<div v-if='true' class="nav-top">
-			  <img v-if='false' class="nav-top-img" src='http://codegen.caihongy.cn/20210223/d9a5a35349e6402b8fad0b898e527db0.png'>
-			  <div v-if="true" class="nav-top-title">{{projectName}}</div>
-			  <div class="nav-top-tel"></div>
-			</div>
 		    <div class="navs">
-		    	<!-- <div class="logo" style="font-size: 20px;top: 32px;color: #fff;font-weight: bold;margin-left: -200px;width: 240px;" v-text="projectName"></div> -->
 				<div class="title" v-if="false" v-text="projectName"></div>
 				<div class="list">
 					<ul>
 						<li class='current'><a href="javascript:navPage('./pages/home/home.html')" class="menumain"><i v-if="false" class="layui-icon layui-icon-home"></i>首页</a></li>
 						<li v-for="(item,index) in indexNav" v-bind:key="index"><a :href="'javascript:navPage(\''+item.url+'\')'" class="menumain" style="cursor: pointer;"><i v-if="false" class="layui-icon" :class="iconArr[index]"></i>{{item.name}}</a></li>
 						<li><a href="javascript:centerPage();" class="menumain"><i v-if="false" class="layui-icon layui-icon-username"></i>个人中心</a></li>
-						<li><a :href="adminurl" target="_blank" class="menumain" style="cursor: pointer;"><i v-if="false" class="layui-icon layui-icon-link"></i>后台管理</a></li>
+						<li v-if="getUserTable() !== 'xuesheng'"><a href="javascript:navPage('../admin/index.html')" class="menumain">后台管理</a></li>
 						<li v-if="cartFlag"><a href="javascript:navPage('./pages/shop-cart/list.html')" class="menumain"><i v-if="false" class="layui-icon">&#xe657;</i>购物车</a></li>
 						<li v-if="chatFlag"><a href="javascript:chatTap()" class="menumain"><i v-if="false" class="layui-icon">&#xe677;</i>客服</a></li>
 					</ul>
+				</div>
+				<!-- 右侧用户区域 -->
+				<div class="user-area">
+					<!-- 消息通知 -->
+					<div class="message-icon" @mouseenter="showNotifyPanel = true" @mouseleave="hideNotifyPanel">
+						<i class="layui-icon layui-icon-notice"></i>
+						<span v-if="unreadCount > 0" class="badge">{{unreadCount > 99 ? '99+' : unreadCount}}</span>
+						<!-- 通知面板 -->
+						<div v-if="showNotifyPanel" class="notify-panel" :style="{opacity: 1, transform: 'translateY(0)'}">
+							<div class="panel-header">
+								<span class="title">通知消息</span>
+								<a href="javascript:;" class="mark-read" @click="markAllRead">全部标为已读</a>
+							</div>
+							<div class="panel-body">
+								<div v-if="notifyList.length === 0" class="empty-msg">暂无通知</div>
+								<div v-for="(item, index) in notifyList" :key="index" class="notify-item" :class="{'unread': item.isRead === 0}" @click="readNotify(item, index)">
+									<div class="notify-content">{{item.content}}</div>
+									<div class="notify-time">{{item.time}}</div>
+								</div>
+							</div>
+							<div class="panel-footer">
+								<a href="javascript:;" @click="viewAllNotify">查看全部</a>
+							</div>
+						</div>
+					</div>
+					<!-- 用户菜单 -->
+					<div class="user-menu" @mouseenter="showUserMenu = true" @mouseleave="hideUserMenu">
+						<div class="user-info">
+							<img v-if="userAvatar" :src="userAvatar" class="avatar" alt="avatar">
+							<img v-else src="./img/avator.png" class="avatar" alt="avatar">
+							<span class="username">{{userName || '未登录'}}</span>
+							<i class="layui-icon layui-icon-down"></i>
+						</div>
+						<div v-if="showUserMenu" class="user-dropdown" :style="{opacity: 1, transform: 'translateY(0)'}">
+							<a href="javascript:;" @click="goToCenter" class="dropdown-item">
+								<i class="layui-icon layui-icon-user"></i>
+								<span>个人信息</span>
+							</a>
+							<a href="javascript:;" @click="goToPassword" class="dropdown-item">
+								<i class="layui-icon layui-icon-password"></i>
+								<span>修改密码</span>
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="javascript:;" @click="logoutConfirm" class="dropdown-item logout">
+								<i class="layui-icon layui-icon-logout"></i>
+								<span>退出登录</span>
+							</a>
+						</div>
+					</div>
 				</div>
 		    </div>
 		</div>
@@ -176,57 +357,149 @@
 
 		<iframe src="./pages/home/home.html" id="iframe" frameborder="0" scrolling="no" width="100%" onload="changeFrameHeight"></iframe>
 
-    <div id="tabbar" v-if="true" class="tabbar" :style='{"padding":"10px 0px","boxShadow":"0 00px rgba(255,0,0,.8)","margin":"20px 0 0 0","borderColor":"rgba(255, 255, 255, 0.3)","backgroundColor":"rgba(255, 153, 14, 1)","borderRadius":"0","borderWidth":"0","borderStyle":"solid"}' style="position: relative;z-index: 999;">
-      <img v-if='false' :style='{"boxShadow":"0 0 0px rgba(10, 20, 129, 0.3)","margin":"0 auto","borderColor":"rgba(0,0,0,.3)","borderRadius":"0","borderWidth":"0px","width":"144px","borderStyle":"solid","height":"45px"}' style='display: block;' src='http://codegen.caihongy.cn/20210121/45c12638994c41ccb884df4d84390b79.jpg' />
-      <div :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"10px auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 1)","color":"rgba(47, 44, 44, 1)","textAlign":"center","borderRadius":"0","borderWidth":"0","width":"100%","lineHeight":"32px","fontSize":"14px","borderStyle":"solid"}' class="company"></div>
-      <div :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"10px auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 1)","color":"rgba(47, 44, 44, 1)","textAlign":"center","borderRadius":"0","borderWidth":"0","width":"100%","lineHeight":"32px","fontSize":"14px","borderStyle":"solid"}' class="record"></div>
-      <div :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"10px auto 30px auto","borderColor":"rgba(255,255,255,1)","backgroundColor":"rgba(255, 153, 14, 1)","color":"rgba(255, 255, 255, 1)","textAlign":"center","borderRadius":"0","borderWidth":"1px 0","width":"40%","lineHeight":"32px","fontSize":"16px","borderStyle":"solid"}' class="desc"></div>
+    <div id="tabbar" v-if="true" class="tabbar">
+      <div class="company">校园活动管理系统</div>
+      <div class="record">© 2024 All Rights Reserved</div>
     </div>
 
 		<script src="./xznstatic/js/jquery-1.11.3.min.js"></script>
 		<script src="./layui/layui.js"></script>
 		<script src="./js/vue.js"></script>
 		<script src="./js/config.js"></script>
+		<script src="./modules/config.js"></script>
+		<script src="./js/utils.js"></script>
 
 		<script>
       var vue1 = new Vue({el: '#tabbar'})
 
-			var vue = new Vue({
-				el: '#header',
-				data: {
-					iconArr: ['layui-icon-gift','layui-icon-email','layui-icon-logout','layui-icon-transfer','layui-icon-slider','layui-icon-print','layui-icon-cols','layui-icon-snowflake','layui-icon-note','layui-icon-flag','layui-icon-theme','layui-icon-website','layui-icon-console','layui-icon-face-surprised','layui-icon-template-1','layui-icon-app','layui-icon-read','layui-icon-component','layui-icon-file-b','layui-icon-unlink','layui-icon-tabs','layui-icon-form','layui-icon-chat'],
-					indexNav: indexNav,
-					cartFlag: cartFlag,
-					adminurl: adminurl,
-					chatFlag: chatFlag,
-					projectName: projectName,
+		var vue = new Vue({
+			el: '#header',
+			data: {
+				isLoggedIn: false,
+				iconArr: ['layui-icon-gift','layui-icon-email','layui-icon-logout','layui-icon-transfer','layui-icon-slider','layui-icon-print','layui-icon-cols','layui-icon-snowflake','layui-icon-note','layui-icon-flag','layui-icon-theme','layui-icon-website','layui-icon-console','layui-icon-face-surprised','layui-icon-template-1','layui-icon-app','layui-icon-read','layui-icon-component','layui-icon-file-b','layui-icon-unlink','layui-icon-tabs','layui-icon-form','layui-icon-chat'],
+				indexNav: indexNav,
+				cartFlag: cartFlag,
+				adminurl: adminurl,
+				chatFlag: chatFlag,
+				projectName: projectName,
+				showNotifyPanel: false,
+				notifyList: [],
+				unreadCount: 0,
+				showUserMenu: false,
+				userName: '',
+				userAvatar: '',
+			},
+			mounted: function() {
+				this.bindClickOnLi();
+			},
+			created() {
+				this.iconArr.sort(()=>{
+				  return (0.5-Math.random())
+				})
+			},
+			methods: {
+				jump(url) {
+					jump(url)
 				},
-				mounted: function() {
-					this.bindClickOnLi();
+				getUserTable() {
+					return localStorage.getItem('userTable') || '';
 				},
-				created() {
-					this.iconArr.sort(()=>{
-					  return (0.5-Math.random())
-					})
-				},
-				methods: {
-					jump(url) {
-						jump(url)
-					},
-					bindClickOnLi() {
-						let list = document.getElementsByTagName("li");
-						for(var i = 0;i<list.length;i++){
-							list[i].onclick = function(){
-								$(this).addClass("current").siblings().removeClass("current");
-							}
+				bindClickOnLi() {
+					let list = document.getElementsByTagName("li");
+					for(var i = 0;i<list.length;i++){
+						list[i].onclick = function(){
+							$(this).addClass("current").siblings().removeClass("current");
 						}
 					}
+				},
+				loadUserInfo() {
+					var userTable = localStorage.getItem('userTable');
+					if (userTable) {
+						layui.http.request(userTable + '/session', 'get', {}, (res) => {
+							if (res.code === 0) {
+								this.isLoggedIn = true;
+								this.userName = res.data.xueshengxingming || res.data.shezhangxingming || res.data.username || '用户';
+								this.userAvatar = res.data.touxiang || '';
+							}
+						});
+					}
+				},
+				loadNotifyList() {
+					var userTable = localStorage.getItem('userTable');
+					if (!userTable) {
+						this.notifyList = [];
+						this.unreadCount = 0;
+						return;
+					}
+					this.notifyList = [
+						{content: '您有一个新的活动报名审核结果', time: '2024-01-15 10:30', isRead: 0},
+						{content: '您关注的社团发布了新活动', time: '2024-01-14 15:20', isRead: 0},
+						{content: '系统消息：明天有新的活动上线', time: '2024-01-13 09:00', isRead: 1}
+					];
+					this.unreadCount = this.notifyList.filter(item => item.isRead === 0).length;
+				},
+				hideNotifyPanel() {
+					setTimeout(() => {
+						this.showNotifyPanel = false;
+					}, 200);
+				},
+				markAllRead() {
+					this.notifyList.forEach(item => {
+						item.isRead = 1;
+					});
+					this.unreadCount = 0;
+					layui.layer.msg('已全部标为已读', {icon: 6});
+				},
+				readNotify(item, index) {
+					item.isRead = 1;
+					this.unreadCount = this.notifyList.filter(item => item.isRead === 0).length;
+				},
+				viewAllNotify() {
+					this.showNotifyPanel = false;
+					layui.layer.msg('功能开发中', {icon: 0});
+				},
+				hideUserMenu() {
+					setTimeout(() => {
+						this.showUserMenu = false;
+					}, 200);
+				},
+				goToCenter() {
+					this.showUserMenu = false;
+					centerPage();
+				},
+				goToPassword() {
+					this.showUserMenu = false;
+					navPage('./pages/users/password.html');
+				},
+				logoutConfirm() {
+					this.showUserMenu = false;
+					layui.layer.confirm('确定要退出登录吗？', {
+						icon: 3,
+						title: '提示',
+						btn: ['确定', '取消']
+					}, () => {
+						this.doLogout();
+					});
+				},
+				doLogout() {
+					localStorage.removeItem('Token');
+					localStorage.removeItem('role');
+					localStorage.removeItem('sessionTable');
+					localStorage.removeItem('adminName');
+					localStorage.removeItem('userid');
+					localStorage.removeItem('userTable');
+					localStorage.removeItem('iframeUrl');
+					window.location.href = './pages/login/login.html';
 				}
-			});
+			}
+		});
 
-			layui.use(['element','layer'], function() {
+			layui.use(['element','layer','http'], function() {
 				var element = layui.element;
 				var layer = layui.layer;
+				var http = layui.http;
+				vue.loadUserInfo();
+				vue.loadNotifyList();
 			});
 
 			function chatTap(){
@@ -247,21 +520,77 @@
 			function navPage(url) {
 				localStorage.setItem('iframeUrl', url);
 				document.getElementById('iframe').src = url;
+				// 更新URL哈希，保持地址同步
+				window.location.hash = 'page=' + encodeURIComponent(url);
+				// 更新导航栏选中状态
+				updateNavState();
 			}
 
-			// 跳转到个人中心也
+			// 跳转到个人中心
 			function centerPage() {
 				var userTable = localStorage.getItem('userTable');
 				if (userTable) {
-					localStorage.setItem('iframeUrl', './pages/' + userTable + '/center.html');
-					document.getElementById('iframe').src = './pages/' + userTable + '/center.html';
+					var url = './pages/' + userTable + '/center.html';
+					localStorage.setItem('iframeUrl', url);
+					document.getElementById('iframe').src = url;
+					// 更新URL哈希，保持地址同步
+					window.location.hash = 'page=' + encodeURIComponent(url);
+					// 更新导航栏选中状态
+					updateNavState();
 				} else {
 					window.location.href = './pages/login/login.html'
 				}
 			}
 
-			var iframeUrl = localStorage.getItem('iframeUrl');
+			// 更新导航栏选中状态
+			function updateNavState() {
+				var iframe = document.getElementById('iframe');
+				var currentSrc = iframe ? iframe.src : '';
+				var navItems = document.querySelectorAll('.navs li');
+				
+				navItems.forEach(function(item) {
+					item.classList.remove('current');
+				});
+				
+				// 根据当前iframe的src判断选中状态
+				if (currentSrc.indexOf('home/home.html') !== -1 || currentSrc === '') {
+					// 首页
+					navItems[0] && navItems[0].classList.add('current');
+				} else if (currentSrc.indexOf('shetuanhuodong/list.html') !== -1 || currentSrc.indexOf('shetuanhuodong/detail.html') !== -1) {
+					// 校园活动（列表或详情页）
+					navItems.forEach(function(item) {
+						if (item.textContent.indexOf('校园活动') !== -1) {
+							item.classList.add('current');
+						}
+					});
+				} else if (currentSrc.indexOf('/center.html') !== -1) {
+					// 个人中心
+					navItems.forEach(function(item) {
+						if (item.textContent.indexOf('个人中心') !== -1) {
+							item.classList.add('current');
+						}
+					});
+				} else {
+					// 其他页面，保留首页选中状态
+					navItems[0] && navItems[0].classList.add('current');
+				}
+			}
+
+			// 检查URL哈希，优先使用哈希中的页面
+			var hash = window.location.hash;
+			var iframeUrl;
+			if (hash && hash.startsWith('#page=')) {
+				iframeUrl = decodeURIComponent(hash.substring(6));
+				localStorage.setItem('iframeUrl', iframeUrl);
+			} else {
+				iframeUrl = localStorage.getItem('iframeUrl');
+			}
 			document.getElementById('iframe').src = iframeUrl  || './pages/home/home.html';
+
+			// 页面加载完成后更新导航栏选中状态
+			window.onload = function() {
+				setTimeout(updateNavState, 100);
+			};
 
       // var i = 0;
       setInterval(function(){
@@ -277,6 +606,184 @@
               var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
               if (iframeWin.document.body) {
                   iframe.height = iframeWin.document.body.scrollHeight;
+                  
+                  // 为活动管理页面注入样式，使其与首页风格一致
+                  if (iframe.src.includes('admin/index.html')) {
+                      try {
+                          var style = iframeWin.document.createElement('style');
+                          style.textContent = `
+                              /* 全局样式 */
+                              body {
+                                  background-color: #f8f9fa !important;
+                                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+                              }
+                              
+                              /* 顶部标题栏 */
+                              .el-header {
+                                  background-color: #fff !important;
+                                  box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+                                  padding: 0 20px !important;
+                                  height: 60px !important;
+                              }
+                              
+                              .el-header .el-menu {
+                                  background-color: transparent !important;
+                                  border-bottom: none !important;
+                              }
+                              
+                              .el-header .el-menu-item {
+                                  color: #666 !important;
+                                  font-size: 15px !important;
+                                  height: 60px !important;
+                                  line-height: 60px !important;
+                                  margin: 0 10px !important;
+                              }
+                              
+                              .el-header .el-menu-item.is-active {
+                                  color: #ff9900 !important;
+                                  background-color: transparent !important;
+                                  border-bottom: 2px solid #ff9900 !important;
+                              }
+                              
+                              /* 侧边栏 */
+                              .el-aside {
+                                  background-color: #fff !important;
+                                  box-shadow: 1px 0 10px rgba(0,0,0,0.05) !important;
+                              }
+                              
+                              .el-menu {
+                                  background-color: #fff !important;
+                                  border-right: none !important;
+                              }
+                              
+                              .el-menu-item {
+                                  color: #666 !important;
+                                  font-size: 14px !important;
+                                  height: 45px !important;
+                                  line-height: 45px !important;
+                                  margin: 0 !important;
+                                  border-left: 3px solid transparent !important;
+                              }
+                              
+                              .el-menu-item.is-active {
+                                  color: #ff9900 !important;
+                                  background-color: #fff9f0 !important;
+                                  border-left-color: #ff9900 !important;
+                              }
+                              
+                              .el-submenu__title {
+                                  color: #666 !important;
+                                  font-size: 14px !important;
+                                  height: 45px !important;
+                                  line-height: 45px !important;
+                              }
+                              
+                              .el-submenu__title:hover {
+                                  background-color: #f8f9fa !important;
+                              }
+                              
+                              /* 主内容区 */
+                              .el-main {
+                                  padding: 20px !important;
+                              }
+                              
+                              /* 卡片样式 */
+                              .el-card {
+                                  border-radius: 12px !important;
+                                  box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
+                                  border: none !important;
+                                  margin-bottom: 20px !important;
+                              }
+                              
+                              /* 按钮样式 */
+                              .el-button--primary {
+                                  background-color: #ff9900 !important;
+                                  border-color: #ff9900 !important;
+                                  border-radius: 4px !important;
+                              }
+                              
+                              .el-button--primary:hover {
+                                  background-color: #ff8800 !important;
+                                  border-color: #ff8800 !important;
+                              }
+                              
+                              /* 表格样式 */
+                              .el-table {
+                                  border-radius: 8px !important;
+                                  overflow: hidden !important;
+                                  margin-top: 15px !important;
+                              }
+                              
+                              .el-table th {
+                                  background-color: #f8f9fa !important;
+                                  font-weight: 600 !important;
+                                  color: #333 !important;
+                              }
+                              
+                              .el-table tr:hover {
+                                  background-color: #f8f9fa !important;
+                              }
+                              
+                              /* 输入框样式 */
+                              .el-input__inner {
+                                  border-radius: 4px !important;
+                                  border-color: #ddd !important;
+                              }
+                              
+                              .el-input__inner:focus {
+                                  border-color: #ff9900 !important;
+                                  box-shadow: 0 0 0 2px rgba(255,153,0,0.1) !important;
+                              }
+                              
+                              /* 标签样式 */
+                              .el-tag {
+                                  border-radius: 4px !important;
+                              }
+                              
+                              /* 分页样式 */
+                              .el-pagination {
+                                  margin-top: 20px !important;
+                                  text-align: center !important;
+                              }
+                              
+                              /* 表单样式 */
+                              .el-form-item__label {
+                                  font-weight: 500 !important;
+                                  color: #333 !important;
+                              }
+                              
+                              /* 对话框样式 */
+                              .el-dialog {
+                                  border-radius: 12px !important;
+                                  overflow: hidden !important;
+                              }
+                              
+                              .el-dialog__header {
+                                  background-color: #f8f9fa !important;
+                                  padding: 20px !important;
+                                  border-bottom: 1px solid #eee !important;
+                              }
+                              
+                              .el-dialog__title {
+                                  font-size: 16px !important;
+                                  font-weight: 600 !important;
+                                  color: #333 !important;
+                              }
+                              
+                              /* 面包屑 */
+                              .el-breadcrumb {
+                                  margin-bottom: 15px !important;
+                              }
+                              
+                              .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+                                  color: #ff9900 !important;
+                              }
+                          `;
+                          iframeWin.document.head.appendChild(style);
+                      } catch (e) {
+                          // 跨域安全限制，忽略
+                      }
+                  }
               }
           }
       };

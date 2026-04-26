@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.beanutils.BeanUtils;
 
 import com.utils.ValidatorUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,10 +26,12 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.annotation.IgnoreAuth;
 
 import com.entity.ShetuanhuodongEntity;
+import com.entity.HuodongbaomingEntity;
 import com.entity.view.ShetuanhuodongView;
 
 import com.service.ShetuanhuodongService;
 import com.service.TokenService;
+import com.service.HuodongbaomingService;
 import com.utils.PageUtils;
 import com.utils.R;
 import com.utils.MD5Util;
@@ -48,6 +51,8 @@ import com.utils.CommonUtil;
 public class ShetuanhuodongController {
     @Autowired
     private ShetuanhuodongService shetuanhuodongService;
+    @Autowired
+    private HuodongbaomingService huodongbaomingService;
     
 
 
@@ -62,6 +67,31 @@ public class ShetuanhuodongController {
 			shetuanhuodong.setZhanghao((String)request.getSession().getAttribute("username"));
 		}
         EntityWrapper<ShetuanhuodongEntity> ew = new EntityWrapper<ShetuanhuodongEntity>();
+        // 添加软删除过滤
+        ew.eq("is_deleted", 0);
+        // 高级搜索
+        if(params.get("keyword") != null && !params.get("keyword").toString().isEmpty()) {
+            String keyword = params.get("keyword").toString();
+            ew.andNew()
+                .like("biaoti", keyword)
+                .or()
+                .like("shetuanmingcheng", keyword)
+                .or()
+                .like("huodongxiangqing", keyword)
+                .or()
+                .like("huodongdidian", keyword);
+        }
+        // 分类筛选
+        if(params.get("huodongzhuangtai") != null && !params.get("huodongzhuangtai").toString().isEmpty()) {
+            ew.eq("huodongzhuangtai", params.get("huodongzhuangtai"));
+        }
+        // 时间范围筛选
+        if(params.get("startDate") != null && !params.get("startDate").toString().isEmpty()) {
+            ew.ge("kaishishijian", params.get("startDate"));
+        }
+        if(params.get("endDate") != null && !params.get("endDate").toString().isEmpty()) {
+            ew.le("jieshushijian", params.get("endDate"));
+        }
 		PageUtils page = shetuanhuodongService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, shetuanhuodong), params), params));
 
         return R.ok().put("data", page);
@@ -75,6 +105,31 @@ public class ShetuanhuodongController {
     public R list(@RequestParam Map<String, Object> params,ShetuanhuodongEntity shetuanhuodong, 
 		HttpServletRequest request){
         EntityWrapper<ShetuanhuodongEntity> ew = new EntityWrapper<ShetuanhuodongEntity>();
+        // 添加软删除过滤
+        ew.eq("is_deleted", 0);
+        // 高级搜索
+        if(params.get("keyword") != null && !params.get("keyword").toString().isEmpty()) {
+            String keyword = params.get("keyword").toString();
+            ew.andNew()
+                .like("biaoti", keyword)
+                .or()
+                .like("shetuanmingcheng", keyword)
+                .or()
+                .like("huodongxiangqing", keyword)
+                .or()
+                .like("huodongdidian", keyword);
+        }
+        // 分类筛选
+        if(params.get("huodongzhuangtai") != null && !params.get("huodongzhuangtai").toString().isEmpty()) {
+            ew.eq("huodongzhuangtai", params.get("huodongzhuangtai"));
+        }
+        // 时间范围筛选
+        if(params.get("startDate") != null && !params.get("startDate").toString().isEmpty()) {
+            ew.ge("kaishishijian", params.get("startDate"));
+        }
+        if(params.get("endDate") != null && !params.get("endDate").toString().isEmpty()) {
+            ew.le("jieshushijian", params.get("endDate"));
+        }
 		PageUtils page = shetuanhuodongService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, shetuanhuodong), params), params));
         return R.ok().put("data", page);
     }
@@ -116,7 +171,27 @@ public class ShetuanhuodongController {
     @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
         ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectById(id);
-        return R.ok().put("data", shetuanhuodong);
+        
+        // 计算剩余名额
+        Map<String, Object> result = new HashMap<>();
+        if(shetuanhuodong != null) {
+            // 将实体转换为Map
+            try {
+                result = BeanUtils.describe(shetuanhuodong);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            Integer huodongrenshu = shetuanhuodong.getHuodongrenshu();
+            if(huodongrenshu != null && huodongrenshu > 0) {
+                // 统计已报名人数
+                int count = huodongbaomingService.selectCount(new EntityWrapper<HuodongbaomingEntity>().eq("biaoti", shetuanhuodong.getBiaoti()));
+                int shengyu = huodongrenshu - count;
+                result.put("shengyuming'e", shengyu > 0 ? shengyu : 0);
+            }
+        }
+        
+        return R.ok().put("data", result);
     }
     
 
@@ -160,7 +235,14 @@ public class ShetuanhuodongController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-        shetuanhuodongService.deleteBatchIds(Arrays.asList(ids));
+        // 软删除
+        for(Long id : ids) {
+            ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectById(id);
+            if(shetuanhuodong != null) {
+                shetuanhuodong.setIsDeleted(1);
+                shetuanhuodongService.updateById(shetuanhuodong);
+            }
+        }
         return R.ok();
     }
     

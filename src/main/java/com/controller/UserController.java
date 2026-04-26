@@ -65,10 +65,22 @@ public class UserController{
 	@IgnoreAuth
 	@PostMapping(value = "/register")
 	public R register(@RequestBody UserEntity user){
-//    	ValidatorUtils.validateEntity(user);
-    	if(userService.selectOne(new EntityWrapper<UserEntity>().eq("username", user.getUsername())) !=null) {
-    		return R.error("用户已存在");
-    	}
+//		ValidatorUtils.validateEntity(user);
+		if(userService.selectOne(new EntityWrapper<UserEntity>().eq("username", user.getUsername())) !=null) {
+			return R.error("用户已存在");
+		}
+		// 检查邮箱是否已存在
+		if(user.getEmail() != null && !user.getEmail().isEmpty()) {
+			if(userService.selectOne(new EntityWrapper<UserEntity>().eq("email", user.getEmail())) !=null) {
+				return R.error("邮箱已被注册");
+			}
+		}
+		// 检查手机号是否已存在
+		if(user.getPhone() != null && !user.getPhone().isEmpty()) {
+			if(userService.selectOne(new EntityWrapper<UserEntity>().eq("phone", user.getPhone())) !=null) {
+				return R.error("手机号已被注册");
+			}
+		}
         userService.insert(user);
         return R.ok();
     }
@@ -83,37 +95,37 @@ public class UserController{
 	}
 	
 	/**
-     * 密码重置
-     */
-    @IgnoreAuth
+	 * 密码重置
+	 */
+	@IgnoreAuth
 	@RequestMapping(value = "/resetPass")
     public R resetPass(String username, HttpServletRequest request){
-    	UserEntity user = userService.selectOne(new EntityWrapper<UserEntity>().eq("username", username));
-    	if(user==null) {
-    		return R.error("账号不存在");
-    	}
-    	user.setPassword("123456");
+		UserEntity user = userService.selectOne(new EntityWrapper<UserEntity>().eq("username", username));
+		if(user==null) {
+			return R.error("账号不存在");
+		}
+		user.setPassword("123456");
         userService.update(user,null);
         return R.ok("密码已重置为：123456");
     }
 	
 	/**
-     * 列表
-     */
+	 * 列表
+	 */
     @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,UserEntity user){
         EntityWrapper<UserEntity> ew = new EntityWrapper<UserEntity>();
-    	PageUtils page = userService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.allLike(ew, user), params), params));
+		PageUtils page = userService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.allLike(ew, user), params), params));
         return R.ok().put("data", page);
     }
 
 	/**
-     * 列表
-     */
+	 * 列表
+	 */
     @RequestMapping("/list")
     public R list( UserEntity user){
-       	EntityWrapper<UserEntity> ew = new EntityWrapper<UserEntity>();
-      	ew.allEq(MPUtil.allEQMapPre( user, "user")); 
+        	EntityWrapper<UserEntity> ew = new EntityWrapper<UserEntity>();
+       	ew.allEq(MPUtil.allEQMapPre( user, "user")); 
         return R.ok().put("data", userService.selectListView(ew));
     }
 
@@ -131,7 +143,7 @@ public class UserController{
      */
     @RequestMapping("/session")
     public R getCurrUser(HttpServletRequest request){
-    	Long id = (Long)request.getSession().getAttribute("userId");
+		Long id = (Long)request.getSession().getAttribute("userId");
         UserEntity user = userService.selectById(id);
         return R.ok().put("data", user);
     }
@@ -141,10 +153,22 @@ public class UserController{
      */
     @PostMapping("/save")
     public R save(@RequestBody UserEntity user){
-//    	ValidatorUtils.validateEntity(user);
-    	if(userService.selectOne(new EntityWrapper<UserEntity>().eq("username", user.getUsername())) !=null) {
-    		return R.error("用户已存在");
-    	}
+//		ValidatorUtils.validateEntity(user);
+		if(userService.selectOne(new EntityWrapper<UserEntity>().eq("username", user.getUsername())) !=null) {
+			return R.error("用户已存在");
+		}
+		// 检查邮箱是否已存在
+		if(user.getEmail() != null && !user.getEmail().isEmpty()) {
+			if(userService.selectOne(new EntityWrapper<UserEntity>().eq("email", user.getEmail())) !=null) {
+				return R.error("邮箱已被注册");
+			}
+		}
+		// 检查手机号是否已存在
+		if(user.getPhone() != null && !user.getPhone().isEmpty()) {
+			if(userService.selectOne(new EntityWrapper<UserEntity>().eq("phone", user.getPhone())) !=null) {
+				return R.error("手机号已被注册");
+			}
+		}
         userService.insert(user);
         return R.ok();
     }
@@ -155,12 +179,66 @@ public class UserController{
     @RequestMapping("/update")
     public R update(@RequestBody UserEntity user){
 //        ValidatorUtils.validateEntity(user);
-    	UserEntity u = userService.selectOne(new EntityWrapper<UserEntity>().eq("username", user.getUsername()));
-    	if(u!=null && u.getId()!=user.getId() && u.getUsername().equals(user.getUsername())) {
-    		return R.error("用户名已存在。");
-    	}
+		UserEntity u = userService.selectOne(new EntityWrapper<UserEntity>().eq("username", user.getUsername()));
+		if(u!=null && u.getId()!=user.getId() && u.getUsername().equals(user.getUsername())) {
+			return R.error("用户名已存在。");
+		}
+		// 检查邮箱是否已被其他用户使用
+		if(user.getEmail() != null && !user.getEmail().isEmpty()) {
+			UserEntity emailUser = userService.selectOne(new EntityWrapper<UserEntity>().eq("email", user.getEmail()));
+			if(emailUser != null && emailUser.getId() != user.getId()) {
+				return R.error("邮箱已被其他用户使用");
+			}
+		}
+		// 检查手机号是否已被其他用户使用
+		if(user.getPhone() != null && !user.getPhone().isEmpty()) {
+			UserEntity phoneUser = userService.selectOne(new EntityWrapper<UserEntity>().eq("phone", user.getPhone()));
+			if(phoneUser != null && phoneUser.getId() != user.getId()) {
+				return R.error("手机号已被其他用户使用");
+			}
+		}
         userService.updateById(user);//全部更新
         return R.ok();
+    }
+
+    /**
+     * 更新个人信息
+     */
+    @RequestMapping("/updateProfile")
+    public R updateProfile(@RequestBody UserEntity user, HttpServletRequest request){
+		Long userId = (Long)request.getSession().getAttribute("userId");
+		user.setId(userId);
+		// 检查邮箱是否已被其他用户使用
+		if(user.getEmail() != null && !user.getEmail().isEmpty()) {
+			UserEntity emailUser = userService.selectOne(new EntityWrapper<UserEntity>().eq("email", user.getEmail()));
+			if(emailUser != null && emailUser.getId() != userId) {
+				return R.error("邮箱已被其他用户使用");
+			}
+		}
+		// 检查手机号是否已被其他用户使用
+		if(user.getPhone() != null && !user.getPhone().isEmpty()) {
+			UserEntity phoneUser = userService.selectOne(new EntityWrapper<UserEntity>().eq("phone", user.getPhone()));
+			if(phoneUser != null && phoneUser.getId() != userId) {
+				return R.error("手机号已被其他用户使用");
+			}
+		}
+        userService.updateById(user);
+        return R.ok("个人信息更新成功");
+    }
+
+    /**
+     * 更新用户偏好设置
+     */
+    @RequestMapping("/updateSettings")
+    public R updateSettings(@RequestBody Map<String, String> settings, HttpServletRequest request){
+		Long userId = (Long)request.getSession().getAttribute("userId");
+		UserEntity user = userService.selectById(userId);
+		if(user == null) {
+			return R.error("用户不存在");
+		}
+		user.setNotificationSettings(settings.get("notificationSettings"));
+        userService.updateById(user);
+        return R.ok("偏好设置更新成功");
     }
 
     /**

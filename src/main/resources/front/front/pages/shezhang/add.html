@@ -53,11 +53,11 @@
 			background-color: rgba(255, 153, 0, 1);
 			box-shadow: 0 0 0px rgba(255,0,0,.8);
 		}
-		
+
 		button, button:focus {
 			outline: none;
 		}
-		
+
 		.data-add-container .add .layui-select-title .layui-unselect {
 			padding: 0 12px;
 			height: 40px;
@@ -117,7 +117,7 @@
 			<div class="data-add-container" :style='{"padding":"20px","boxShadow":"1px 1px 6px rgba(213, 213, 213, 0.3)","margin":"30px auto","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"10px","borderWidth":"1px","borderStyle":"solid"}'>
 
 				<form class="layui-form layui-form-pane add" lay-filter="myForm">
-					
+
                     <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
 						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">账号：</label>
 						<div class="layui-input-block">
@@ -175,6 +175,12 @@
 							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.shouji" type="text" :readonly="ro.shouji" name="shouji" id="shouji" autocomplete="off" class="layui-input">
 						</div>
 					</div>
+                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
+						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">单位名称：</label>
+						<div class="layui-input-block">
+							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.danweimingcheng" type="text" :readonly="ro.danweimingcheng" name="danweimingcheng" id="danweimingcheng" autocomplete="off" class="layui-input">
+						</div>
+					</div>
 
 
 					<div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item">
@@ -205,7 +211,7 @@
 
 		<script>
 			var jquery = $;
-			
+
 			var vue = new Vue({
 				el: '#app',
 				data: {
@@ -223,6 +229,7 @@
 				        xueyuan : false,
 				        banji : false,
 				        shouji : false,
+				        danweimingcheng : false,
               				},
                     detail: {
                         zhanghao: '',
@@ -233,6 +240,7 @@
                         xueyuan: '',
                         banji: '',
                         shouji: '',
+                        danweimingcheng: '',
                     },
 					xingbie: [],
 					centerMenu: centerMenu
@@ -289,16 +297,8 @@
 						  	interval: '3000',
 						  	indicator: 'inside'
 						  });
-						
+
 						})
-						// carousel.render({
-						// 	elem: '#swiper',
-						// 	width: swiper.width,height:swiper.height,
-						// 	arrow: swiper.arrow,
-						// 	anim: swiper.anim,
-						// 	interval: swiper.interval,
-						// 	indicator: "none"
-						// });
 					}
 				});
 
@@ -350,7 +350,7 @@
 						})
 					}
 				});
-				
+
                 // session独取
 				let table = localStorage.getItem("userTable");
 				http.request(`${table}/session`, 'get', {}, function(data) {
@@ -405,14 +405,19 @@
 						vue.ro.shouji = true;
 						continue;
                                         }
+					if(o=='danweimingcheng'){
+          	                                vue.detail[o] = obj[o];
+						vue.ro.danweimingcheng = true;
+						continue;
+                                        }
                                         }
 				}
-				
+
 
 				// 提交
 				form.on('submit(*)', function(data) {
 					data = data.field;
-					
+
                     // 数据校验
                     if(!data.zhanghao){
                         layer.msg('账号不能为空', {
@@ -437,9 +442,9 @@
                     }
 
 					// 跨表计算
-					
+
                     // 比较大小
-					
+
 					// 提交数据
 					http.requestJson('shezhang' + '/add', 'post', data, function(res) {
 					 	layer.msg('提交成功', {

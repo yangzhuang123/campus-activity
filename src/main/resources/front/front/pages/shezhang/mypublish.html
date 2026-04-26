@@ -1,0 +1,240 @@
+<!-- 我的发布 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>我的发布</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css">
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/theme.css" />
+		<link rel="stylesheet" href="../../css/common.css" />
+	</head>
+	<style>
+		#swiper {
+			overflow: hidden;
+		}
+		#swiper .layui-carousel-ind li {
+			width: 20px;
+			height: 20px;
+			border-width: 0;
+			border-style: solid;
+			border-color: rgba(255, 255, 255, 0.3);
+			border-radius: 10px;
+			background-color: rgba(255, 255, 255, 1);
+			box-shadow: 0 0 0px rgba(255,0,0,.8);
+		}
+		#swiper .layui-carousel-ind li.layui-this {
+			width: 20px;
+			height: 20px;
+			border-width: 0;
+			border-style: solid;
+			border-color: rgba(0,0,0,.3);
+			border-radius: 10;
+			background-color: rgba(255, 153, 0, 1);
+			box-shadow: 0 0 0px rgba(255,0,0,.8);
+		}
+
+		.index-title {
+		    text-align: center;
+		    box-sizing: border-box;
+		    width: 980px;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    flex-direction: column;
+		}
+
+		.layui-laypage .layui-laypage-count {
+		  padding: 0 10px;
+		}
+		.layui-laypage .layui-laypage-skip {
+		  padding-left: 10px;
+		}
+		.tab-container {
+			margin: 20px auto;
+			width: 90%;
+		}
+		.data-item {
+			background: #fff;
+			padding: 15px;
+			margin-bottom: 15px;
+			border-radius: 4px;
+			box-shadow: 0 0 6px rgba(181,181,181,1);
+			cursor: pointer;
+		}
+		.data-item:hover {
+			box-shadow: 0 0 10px rgba(255,153,0,0.5);
+		}
+		.data-item .item-title {
+			font-size: 16px;
+			font-weight: bold;
+			color: #333;
+			margin-bottom: 10px;
+		}
+		.data-item .item-info {
+			font-size: 14px;
+			color: #999;
+		}
+		.data-item .item-image {
+			width: 100%;
+			max-height: 200px;
+			object-fit: cover;
+			border-radius: 4px;
+			margin-bottom: 10px;
+		}
+		.empty-tip {
+			text-align: center;
+			padding: 50px;
+			color: #999;
+			font-size: 14px;
+		}
+	</style>
+	<body>
+
+		<div id="app">
+			<div class="layui-carousel" id="swiper" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(255, 255, 255, 0.3)","borderRadius":"0px","borderWidth":"0","width":"90%","borderStyle":"solid"}'>
+			  <div carousel-item id="swiper-item">
+				<div v-for="(item,index) in swiperList" :key="index">
+					<img style="width: 100%;height: 100%;object-fit:cover;" :src="item.img" />
+				</div>
+			  </div>
+			</div>
+
+			<div class="index-title" :style='{"padding":"10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"20px auto","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(245, 245, 245, 1)","color":"#333","borderRadius":"0px","borderWidth":"0","fontSize":"25px","borderStyle":"solid","height":"auto"}'>
+			  <span>USER / MYPUBLISH</span><span>我的发布</span>
+			</div>
+
+			<div class="tab-container">
+				<div class="layui-tab" lay-filter="publishTab">
+					<ul class="layui-tab-title">
+						<li class="layui-this" lay-id="shetuanxinxi">社团信息</li>
+						<li lay-id="shetuanhuodong">校园活动</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<div v-if="shetuanxinxiList.length === 0" class="empty-tip">暂无发布的社团信息</div>
+							<div v-else>
+								<div v-for="(item,index) in shetuanxinxiList" :key="index" class="data-item" @click="jump('../shetuanxinxi/detail.html?id='+item.id)">
+									<img v-if="item.tupian" class="item-image" :src="item.tupian">
+									<div class="item-title">{{item.shetuanmingcheng}}</div>
+									<div class="item-info">
+										<span>社团分类：{{item.shetuanfenlei}}</span> |
+										<span>创建时间：{{item.chuangjianshijian}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="layui-tab-item">
+							<div v-if="shetuanhuodongList.length === 0" class="empty-tip">暂无发布的校园活动</div>
+							<div v-else>
+								<div v-for="(item,index) in shetuanhuodongList" :key="index" class="data-item" @click="jump('../shetuanhuodong/detail.html?id='+item.id)">
+									<img v-if="item.huodongtupian" class="item-image" :src="item.huodongtupian">
+									<div class="item-title">{{item.biaoti}}</div>
+									<div class="item-info">
+										<span>社团名称：{{item.shetuanmingcheng}}</span> |
+										<span>开始时间：{{item.kaishishijian}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../layui/layui.js"></script>
+		<script src="../../js/vue.js"></script>
+		<script src="../../js/config.js"></script>
+		<script src="../../modules/config.js"></script>
+		<script src="../../js/utils.js"></script>
+		<script>
+			var vue = new Vue({
+				el: '#app',
+				data: {
+					swiperList: [{
+						img: '../../img/banner.jpg'
+					}],
+					shetuanxinxiList: [],
+					shetuanhuodongList: []
+				},
+				methods: {
+					jump(url) {
+						jump(url)
+					}
+				}
+			})
+
+			layui.use(['layer', 'element', 'carousel', 'http', 'jquery'], function() {
+				var layer = layui.layer;
+				var element = layui.element;
+				var carousel = layui.carousel;
+				var http = layui.http;
+				var jquery = layui.jquery;
+
+				http.request('config/list', 'get', {
+					page: 1,
+					limit: 5
+				}, function(res) {
+					if (res.data.list.length > 0) {
+						var swiperItemHtml = '';
+						for (let item of res.data.list) {
+							if (item.name.indexOf('picture') >= 0 && item.value && item.value != "" && item.value != null) {
+								swiperItemHtml +=
+									'<div>' +
+									'<img class="swiper-item" style="width: 100%;height: 100%;object-fit:cover;" src="' + item.value + '">' +
+									'</div>';
+							}
+						}
+						jquery('#swiper-item').html(swiperItemHtml);
+						vue.$nextTick(() => {
+						  carousel.render({
+						  	elem: '#swiper',
+							width: '90%',
+						  	height: '500px',
+						  	arrow: 'hover',
+						  	anim: 'default',
+						  	autoplay: 'true',
+						  	interval: '3000',
+						  	indicator: 'inside'
+						  });
+						})
+					}
+				});
+
+				var userid = localStorage.getItem('userid');
+				var table = localStorage.getItem('userTable');
+				if(!table || !userid){
+					layer.msg('请先登录', {
+						time: 2000,
+						icon: 5
+					}, function() {
+						window.parent.location.href = '../login/login.html';
+					});
+					return;
+				}
+
+				http.request(table + '/session', 'get', {}, function(data) {
+					var zhanghao = data.data.zhanghao;
+					if(zhanghao) {
+						http.request('shetuanxinxi/list', 'get', {
+							page: 1,
+							limit: 100,
+							zhanghao: zhanghao
+						}, function(res) {
+							vue.shetuanxinxiList = res.data.list || [];
+						});
+
+						http.request('shetuanhuodong/list', 'get', {
+							page: 1,
+							limit: 100,
+							zhanghao: zhanghao
+						}, function(res) {
+							vue.shetuanhuodongList = res.data.list || [];
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

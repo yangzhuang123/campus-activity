@@ -24,8 +24,8 @@ import com.baomidou.mybatisplus.enums.IdType;
 /**
  * 社长
  * 数据库通用操作实体类（普通增删改查）
- * @author 
- * @email 
+ * @author
+ * @email
  * @date 2021-05-08 09:49:50
  */
 @TableName("shezhang")
@@ -34,9 +34,9 @@ public class ShezhangEntity<T> implements Serializable {
 
 
 	public ShezhangEntity() {
-		
+
 	}
-	
+
 	public ShezhangEntity(T t) {
 		try {
 			BeanUtils.copyProperties(this, t);
@@ -45,7 +45,7 @@ public class ShezhangEntity<T> implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 主键id
 	 */
@@ -54,52 +54,58 @@ public class ShezhangEntity<T> implements Serializable {
 	/**
 	 * 账号
 	 */
-					
+
 	private String zhanghao;
-	
+
 	/**
 	 * 密码
 	 */
-					
+
 	private String mima;
-	
+
 	/**
 	 * 社长姓名
 	 */
-					
+
 	private String shezhangxingming;
-	
+
 	/**
 	 * 性别
 	 */
-					
+
 	private String xingbie;
-	
+
 	/**
 	 * 头像
 	 */
-					
+
 	private String touxiang;
-	
+
 	/**
 	 * 学院
 	 */
-					
+
 	private String xueyuan;
-	
+
 	/**
 	 * 班级
 	 */
-					
+
 	private String banji;
-	
+
 	/**
 	 * 手机
 	 */
-					
+
 	private String shouji;
-	
-	
+
+	/**
+	 * 单位名称
+	 */
+
+	private String danweimingcheng;
+
+
 	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat
 	private Date addtime;
@@ -213,6 +219,18 @@ public class ShezhangEntity<T> implements Serializable {
 	 */
 	public String getShouji() {
 		return shouji;
+	}
+	/**
+	 * 设置：单位名称
+	 */
+	public void setDanweimingcheng(String danweimingcheng) {
+		this.danweimingcheng = danweimingcheng;
+	}
+	/**
+	 * 获取：单位名称
+	 */
+	public String getDanweimingcheng() {
+		return danweimingcheng;
 	}
 
 }

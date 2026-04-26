@@ -65,6 +65,7 @@
 
 .data-detail {
 padding-bottom: 20px;
+margin-top: 0;
 }
 
 .data-detail .layui-breadcrumb a.first {
@@ -76,7 +77,7 @@ color: rgba(52, 52, 52, 1) !important;
 	<div id="app">
 
 		<div class="data-detail">
-			<div class="data-detail-breadcrumb" :style='{"padding":"0 10px","boxShadow":"0 00px rgba(255,0,0,.3)","margin":"20px auto","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 1)","borderRadius":"4px","borderWidth":"0","borderStyle":"solid","height":"54px"}'>
+			<div class="data-detail-breadcrumb" :style='{"padding":"0 10px","boxShadow":"0 00px rgba(255,0,0,.3)","margin":"10px auto","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 1)","borderRadius":"4px","borderWidth":"0","borderStyle":"solid","height":"54px"}'>
 				<span class="layui-breadcrumb">
 					<a class="first" :style='{"padding":"8px 10px","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 5px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"0","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' href="../home/home.html">首页</a>
 					<a><cite :style='{"padding":"8px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 15px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"4px","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}'>{{title}}</cite></a>
@@ -85,26 +86,10 @@ color: rgba(52, 52, 52, 1) !important;
 				
 			</div>
 			<div class="layui-row" style="display: flex">
-				<div class="layui-col-md5" style="width:450px">
-					<!-- <div class="layui-carousel" id="swiper">
-						<div carousel-item id="swiper-item">
-							<div v-for="(item,index) in swiperList" v-bind:key="index">
-								<img class="swiper-item" :src="item.img">
-							</div>
-						</div>
-					</div> -->
-					<div class="layui-carousel" id="swiper" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(0,0,0,.3)","borderRadius":"0px","borderWidth":"0","width":"450px","borderStyle":"solid","height":"400px"}'>
-					  <div carousel-item>
-						<div v-if="swiperList.length" v-for="(item,index) in swiperList" :key="index">
-							<img style="width: 100%;height: 100%;object-fit:cover;" :src="item" />
-						</div>
-					  </div>
-					</div>
-
-					
-		
-				</div>
-				<div class="layui-col-md7" style="padding-left: 20px;flex: 1;" :style='{"padding":"0","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 0 0 20px","borderColor":"rgba(247, 247, 247, 1)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"0","borderWidth":"10px","borderStyle":"solid"}'>
+			<div v-if="swiperList.length" class="layui-col-md5" style="width:450px">
+				<img style="width: 100%;height: 400px;object-fit:cover;" :src="swiperList[0]" />
+			</div>
+			<div class="layui-col-md7" style="padding-left: 20px;flex: 1;" :style='{"padding":"0","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 0 0 20px","borderColor":"rgba(247, 247, 247, 1)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"0","borderWidth":"10px","borderStyle":"solid"}'>
 					<h1 style="position: relative;" :style='{"padding":"10px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"rgba(0, 0, 0, 1)","borderRadius":"0","textAlign":"left","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' class="title">{{title}}</h1>
 					
 
@@ -113,37 +98,49 @@ color: rgba(52, 52, 52, 1) !important;
 					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
 						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>标题：</span>
 						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.biaoti}}
+							{{detail.biaoti || '暂无'}}
 						</span>
 					</div>
 					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
 						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>开始时间：</span>
 						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.kaishishijian}}
+							{{detail.kaishishijian || '暂无'}}
 						</span>
 					</div>
 					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
 						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>结束时间：</span>
 						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.jieshushijian}}
+							{{detail.jieshushijian || '暂无'}}
 						</span>
 					</div>
 					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
 						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动人数：</span>
 						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.huodongrenshu}}
+							{{detail.huodongrenshu || '暂无'}}
+						</span>
+					</div>
+					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>已报名人数：</span>
+						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
+							{{stats.registeredCount || 0}}
+						</span>
+					</div>
+					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>剩余名额：</span>
+						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
+							{{stats.remainingQuota || 0}}
 						</span>
 					</div>
 					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
 						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动地点：</span>
 						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.huodongdidian}}
+							{{detail.huodongdidian || '暂无'}}
 						</span>
 					</div>
 					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>账号：</span>
+						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>主办方：</span>
 						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.zhanghao}}
+							{{detail.shetuanmingcheng || '暂无'}}
 						</span>
 					</div>
 					
@@ -157,6 +154,9 @@ color: rgba(52, 52, 52, 1) !important;
 						
 						<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' v-if="isAuth('shetuanhuodong','报名')" @click="onAcrossTap('huodongbaoming')" type="button" class="layui-btn">
 							报名
+						</button>
+						<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":isCollected?"#999":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' @click="toggleCollect" type="button" class="layui-btn">
+							{{isCollected?'已收藏':'收藏'}}
 						</button>
 						
 
@@ -223,6 +223,10 @@ color: rgba(52, 52, 52, 1) !important;
 				detail: {
 					id: 0
 				},
+				// 收藏状态
+				isCollected: false,
+				// 收藏ID
+				collectId: null,
 				// 商品标题
 				title: '',
 				// 倒计时
@@ -234,7 +238,9 @@ color: rgba(52, 52, 52, 1) !important;
 				// 评价列表
 				dataList: [],
 				// 选座座位列表
-				numberList: []
+				numberList: [],
+				// 统计数据
+				stats: {}
 			},
 			// 倒计时效果
 			computed: {
@@ -306,6 +312,76 @@ color: rgba(52, 52, 52, 1) !important;
 				isAuth(tablename, button) {
 					return isFrontAuth(tablename, button)
 				},
+				// 检查收藏状态
+				checkCollect() {
+					let userTable = localStorage.getItem('userTable');
+					if (!userTable) {
+						this.isCollected = false;
+						return;
+					}
+					let userid = localStorage.getItem('userid');
+					if (!userid || userid == 'null') {
+						this.isCollected = false;
+						return;
+					}
+					layui.http.request('storeup/list', 'get', {
+								page: 1,
+								limit: 1,
+								userid: userid,
+								tablename: 'shetuanhuodong',
+								refid: this.detail.id
+							}, function(res) {
+								if (res.data && res.data.list && res.data.list.length > 0) {
+									vue.isCollected = true;
+									vue.collectId = res.data.list[0].id;
+								} else {
+									vue.isCollected = false;
+									vue.collectId = null;
+								}
+							}, function(error) {
+								console.log('检查收藏状态失败:', error);
+								vue.isCollected = false;
+							});
+				},
+				// 切换收藏状态
+				toggleCollect() {
+					let userTable = localStorage.getItem('userTable');
+					if (!userTable) {
+						window.location.href = '../login/login.html';
+						return;
+					}
+					let userid = localStorage.getItem('userid');
+					if (!userid || userid == 'null') {
+						window.location.href = '../login/login.html';
+						return;
+					}
+					if (this.isCollected) {
+								if (!this.collectId) return;
+								layui.http.requestJson('storeup/delete', 'post', {
+									ids: [this.collectId]
+								}, function(res) {
+									vue.isCollected = false;
+									vue.collectId = null;
+									layer.msg('已取消收藏', {icon: 6});
+								}, function(error) {
+									console.log('取消收藏失败:', error);
+								});
+							} else {
+								layui.http.requestJson('storeup/save', 'post', {
+									userid: userid,
+									tablename: 'shetuanhuodong',
+									refid: this.detail.id,
+									name: this.detail.biaoti,
+									picture: this.detail.huodongtupian ? this.detail.huodongtupian.split(',')[0] : ''
+								}, function(res) {
+									vue.isCollected = true;
+									layer.msg('收藏成功', {icon: 6});
+									vue.checkCollect();
+								}, function(error) {
+									console.log('添加收藏失败:', error);
+								});
+							}
+				},
 				// 倒计时初始化
 				countDown() {
 					let reversetime = new Date(this.detail.reversetime).getTime()
@@ -368,43 +444,28 @@ color: rgba(52, 52, 52, 1) !important;
 			// 商品信息
 			http.request(`${vue.detailTable}/detail/` + id, 'get', {}, function(res) {
 				// 详情信息
-				vue.detail = res.data
-				vue.title = vue.detail.shetuanmingcheng;
+				vue.detail = res.data || {}
+				vue.title = vue.detail.biaoti || '活动详情';
 				// 轮播图片
 				vue.swiperList = vue.detail.huodongtupian ? vue.detail.huodongtupian.split(",") : [];
-				// var swiperItemHtml = '';
-				// for (let item of vue.swiperList) {
-				// 	swiperItemHtml +=
-				// 		'<div>' +
-				// 		'<img class="swiper-item" style="width: 100%;height: 100%;object-fit:cover;" src="' + item + '">' +
-				// 		'</div>';
-				// }
-				// jquery('#swiper-item').html(swiperItemHtml);
-				// 轮播图
-				vue.$nextTick(() => {
-				  carousel.render({
-					elem: '#swiper',
-					width: '450px',
-					height: '420px',
-					arrow: 'hover',
-					anim: 'default',
-					autoplay: 'false',
-					interval: '3000',
-					indicator: 'inside'
-				  });
-
-				})
-				// carousel.render({
-				// 	elem: '#swiper',
-				// 	width: swiper.width,height:swiper.height,
-				// 	arrow: swiper.arrow,
-				// 	anim: swiper.anim,
-				// 	interval: swiper.interval,
-				// 	indicator: swiper.indicator
-				// });
-
-
-
+				// 检查收藏状态
+				vue.checkCollect();
+				// 单张图片显示，不再使用轮播图
+				// 计算统计数据
+				vue.stats = {
+					registeredCount: 0, // 默认为0，因为后端数据中没有yibaomingrenshu字段
+					remainingQuota: parseInt(vue.detail.huodongrenshu) || 0
+				};
+			}, function(error) {
+				console.log('获取活动详情失败:', error);
+				// 错误处理，确保页面不崩溃
+				vue.detail = {};
+				vue.title = '活动详情';
+				vue.swiperList = [];
+				vue.stats = {
+					registeredCount: 0,
+					remainingQuota: 0
+				};
 			});
 
 

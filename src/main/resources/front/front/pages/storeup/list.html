@@ -1,197 +1,220 @@
-<!-- 收藏 -->
+<!-- 我的收藏 -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>收藏</title>
+		<title>我的收藏</title>
 		<link rel="stylesheet" href="../../layui/css/layui.css">
-		<!-- 样式 -->
 		<link rel="stylesheet" href="../../css/style.css" />
-		<!-- 主题（主要颜色设置） -->
 		<link rel="stylesheet" href="../../css/theme.css" />
-		<!-- 通用的css -->
 		<link rel="stylesheet" href="../../css/common.css" />
 	</head>
 	<style>
-		#swiper {
+		html::after {
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			content: '';
+			display: block;
+			background: #f5f5f5;
+			z-index: -1;
+		}
+		.center-wrapper {
+			max-width: 1000px;
+			margin: 30px auto;
+			display: flex;
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 			overflow: hidden;
 		}
-		#swiper .layui-carousel-ind li {
-			width: 20px;
-			height: 20px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(255, 255, 255, 0.3);
-			border-radius: 10px;
-			background-color: rgba(255, 255, 255, 1);
-			box-shadow: 0 0 0px rgba(255,0,0,.8);
+		.left-menu {
+			width: 180px;
+			background: #fff;
+			border-right: 1px solid #eee;
+			flex-shrink: 0;
 		}
-		#swiper .layui-carousel-ind li.layui-this {
-			width: 20px;
-			height: 20px;
-			border-width: 0;
-			border-style: solid;
-			border-color: rgba(0,0,0,.3);
-			border-radius: 10;
-			background-color: rgba(255, 153, 0, 1);
-			box-shadow: 0 0 0px rgba(255,0,0,.8);
+		.left-menu .layui-nav-tree {
+			width: 100%;
 		}
-		
-		.index-title {
-		    text-align: center;
-		    box-sizing: border-box;
-		    width: 980px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    flex-direction: column;
+		.left-menu .layui-nav {
+			position: relative;
+			background: transparent;
 		}
-		
-		.layui-laypage .layui-laypage-count {
-		  padding: 0 10px;
+		.left-menu .layui-nav-item {
+			height: 48px;
+			line-height: 48px;
+			font-size: 14px;
+			color: #333;
 		}
-		.layui-laypage .layui-laypage-skip {
-		  padding-left: 10px;
+		.left-menu .layui-nav-item a {
+			color: #333;
+			padding: 0 20px;
+		}
+		.left-menu .layui-nav-item.layui-this,
+		.left-menu .layui-nav-item:hover {
+			background: #ff6600;
+			color: #fff;
+		}
+		.left-menu .layui-nav-item.layui-this a,
+		.left-menu .layui-nav-item:hover a {
+			color: #fff;
+		}
+		.right-content {
+			flex: 1;
+			padding: 30px 40px;
+			min-height: 500px;
+		}
+		.page-title {
+			font-size: 18px;
+			font-weight: 600;
+			color: #333;
+			margin-bottom: 25px;
+			padding-bottom: 15px;
+			border-bottom: 2px solid #ff6600;
+		}
+		.collection-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 20px;
+		}
+		.collection-item {
+			background: #fff;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+		.collection-item:hover {
+			box-shadow: 0 4px 16px rgba(255,102,0,0.2);
+			transform: translateY(-2px);
+		}
+		.collection-item img {
+			width: 100%;
+			height: 140px;
+			object-fit: cover;
+		}
+		.collection-item .info {
+			padding: 15px;
+		}
+		.collection-item .info .name {
+			font-size: 14px;
+			color: #333;
+			margin-bottom: 8px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.collection-item .info .time {
+			font-size: 12px;
+			color: #999;
+			margin-bottom: 12px;
+		}
+		.collection-item .delete-btn {
+			width: 100%;
+			padding: 8px;
+			background: #fff;
+			color: #ff6600;
+			border: 1px solid #ff6600;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 13px;
+			transition: all 0.3s;
+		}
+		.collection-item .delete-btn:hover {
+			background: #ff6600;
+			color: #fff;
+		}
+		.empty-tip {
+			text-align: center;
+			padding: 80px 0;
+			color: #999;
+			font-size: 14px;
+		}
+		.empty-tip .layui-icon {
+			font-size: 48px;
+			color: #ddd;
+			margin-bottom: 15px;
+		}
+		.pager {
+			text-align: center;
+			padding: 30px 0 10px;
 		}
 	</style>
 	<body>
-
 		<div id="app">
-			<!-- 轮播图 -->
-			<div class="layui-carousel" id="swiper" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(255, 255, 255, 0.3)","borderRadius":"0px","borderWidth":"0","width":"90%","borderStyle":"solid"}'>
-			  <div carousel-item id="swiper-item">
-				<div v-for="(item,index) in swiperList" :key="index">
-					<img style="width: 100%;height: 100%;object-fit:cover;" :src="item.img" />
+			<div class="center-wrapper">
+				<div class="left-menu">
+					<ul class="layui-nav layui-nav-tree">
+						<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==1?'layui-this':''">
+							<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
+						</li>
+					</ul>
 				</div>
-			  </div>
-			</div>
-			<!-- 轮播图 -->
-			
-			<!-- 标题 -->
-			<div class="index-title" :style='{"padding":"10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"20px auto","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(245, 245, 245, 1)","color":"#333","borderRadius":"0px","borderWidth":"0","fontSize":"25px","borderStyle":"solid","height":"auto"}'>
-			  <span>USER / STOREUP</span><span>我的收藏</span>
-			</div>
-			<!-- 标题 -->
-
-			<!-- 图文列表 -->
-			<div class="data-container layui-row">
-				<fieldset class="search-container">
-					<form class="layui-form">
-						<div class="layui-inline" style="margin-bottom: 10px;">
-							<label class="layui-form-label">名称</label>
-							<div class="layui-input-inline">
-								<input type="text" name="name" id="name" placeholder="名称" autocomplete="off" class="layui-input">
+				<div class="right-content">
+					<div class="page-title">我的收藏</div>
+					<div v-if="dataList.length === 0" class="empty-tip">
+						<div class="layui-icon">&#xe67c;</div>
+						<p>暂无收藏内容</p>
+					</div>
+					<div v-else class="collection-list">
+						<div v-for="(item,index) in dataList" :key="index" @click="jump('../'+item.tablename+'/detail.html?id='+item.refid)" class="collection-item">
+							<img :src="item.picture || '../../img/avator.png'">
+							<div class="info">
+								<div class="name">{{item.name}}</div>
+								<div class="time">收藏时间：{{item.addtime}}</div>
+								<button @click.stop="deleteStoreup(item.id)" class="delete-btn">删除</button>
 							</div>
 						</div>
-						<div class="layui-inline" style="margin-left: 30px;margin-bottom: 10px;">
-							<button id="btn-search" type="button" class="layui-btn">
-								<i class="layui-icon layui-icon-search"></i> 搜索
-							</button>
-						</div>
-					</form>
-				</fieldset>
-				<div class="data-list layui-col-md8 layui-col-md-offset2">
-					<div @click="jump('../'+item.tablename+'/detail.html?id='+item.refid)" v-for="(item,index) in dataList" v-bind:key="index"
-					 class="data-item layui-col-md3">
-						<img class="cover" :src="item.picture">
-						<h3 class="title">{{item.name}}</h3>
 					</div>
+					<div class="pager" id="pager"></div>
 				</div>
-				<div class="pager" id="pager" :style="{textAlign:2==1?'left':2==2?'center':'right'}"></div>
 			</div>
-			<!-- 图文列表 -->
 		</div>
 
-
-		<!-- layui -->
 		<script src="../../layui/layui.js"></script>
-		<!-- vue -->
 		<script src="../../js/vue.js"></script>
-		<!-- 组件配置信息 -->
 		<script src="../../js/config.js"></script>
-		<!-- 扩展插件配置信息 -->
 		<script src="../../modules/config.js"></script>
-		<!-- 工具方法 -->
 		<script src="../../js/utils.js"></script>
+
 		<script>
 			var vue = new Vue({
 				el: '#app',
 				data: {
-					// 轮播图
-					swiperList: [{
-						img: '../../img/banner.jpg'
-					}],
-					dataList: []
-				},
-				filters: {
-					newsDesc: function(val) {
-						if (val) {
-							if (val.length > 200) {
-								return val.substring(0, 200).replace(/<[^>]*>/g).replace(/undefined/g, '');
-							} else {
-								return val.replace(/<[^>]*>/g).replace(/undefined/g, '');
-							}
-						}
-						return '';
-					}
+					dataList: [],
+					centerMenu: centerMenu()
 				},
 				methods: {
 					jump(url) {
 						jump(url)
+					},
+					deleteStoreup(id) {
+						var _this = this;
+						layui.layer.confirm('确定删除该收藏吗？', function(index) {
+							layui.http.requestJson('storeup/delete', 'post', JSON.stringify([id]), function(res) {
+								layui.layer.msg('删除成功', { icon: 6 });
+								pageList();
+							});
+							layui.layer.close(index);
+						});
 					}
 				}
-			})
+			});
 
-			layui.use(['layer', 'element', 'carousel', 'laypage', 'http', 'jquery'], function() {
+			layui.use(['layer', 'http', 'jquery', 'laypage'], function() {
 				var layer = layui.layer;
-				var element = layui.element;
-				var carousel = layui.carousel;
-				var laypage = layui.laypage;
 				var http = layui.http;
 				var jquery = layui.jquery;
+				var laypage = layui.laypage;
 
-				var limit = 8;
+				var limit = 9;
 
-				// 获取轮播图 数据
-				http.request('config/list', 'get', {
-					page: 1,
-					limit: 5
-				}, function(res) {
-					if (res.data.list.length > 0) {
-						var swiperItemHtml = '';
-						for (let item of res.data.list) {
-							if (item.name.indexOf('picture') >= 0 && item.value && item.value != "" && item.value != null) {
-								swiperItemHtml +=
-									'<div>' +
-									'<img class="swiper-item" style="width: 100%;height: 100%;object-fit:cover;" src="' + item.value + '">' +
-									'</div>';
-							}
-						}
-						jquery('#swiper-item').html(swiperItemHtml);
-						// 轮播图
-						vue.$nextTick(() => {
-						  carousel.render({
-						  	elem: '#swiper',
-							width: '90%',
-						  	height: '500px',
-						  	arrow: 'hover',
-						  	anim: 'default',
-						  	autoplay: 'true',
-						  	interval: '3000',
-						  	indicator: 'inside'
-						  });
-						
-						})
-					}
-				});
-				// 分页列表
 				pageList();
-
-				// 搜索按钮
-				jquery('#btn-search').click(function(e) {
-					pageList();
-				});
 
 				function pageList() {
 					var param = {
@@ -199,25 +222,20 @@
 						limit: limit,
 						userid: localStorage.getItem('userid')
 					}
-					if (jquery('#name').val()) {
-						param['name'] = jquery('#name').val() ? '%' + jquery('#name').val() + '%' : '';
-					}
-					// 获取列表数据
 					http.request('storeup/list', 'get', param, function(res) {
-						vue.dataList = res.data.list
-						// 分页
+						vue.dataList = res.data.list || [];
 						laypage.render({
 							elem: 'pager',
-							count: res.data.total,
+							count: res.data.total || 0,
 							limit: limit,
 							groups: 5,
-							layout: ["prev","page","next"],
+							layout: ["prev", "page", "next"],
 							theme: '#FF9900',
 							jump: function(obj, first) {
-								//首次不执行
 								if (!first) {
+									param.page = obj.curr;
 									http.request('storeup/list', 'get', param, function(res) {
-										vue.dataList = res.data.list
+										vue.dataList = res.data.list || [];
 									})
 								}
 							}

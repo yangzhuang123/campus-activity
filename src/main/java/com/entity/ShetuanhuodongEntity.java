@@ -121,7 +121,18 @@ public class ShetuanhuodongEntity<T> implements Serializable {
 					
 	private String shhf;
 	
+	/**
+	 * 活动状态
+	 */
+				
+	private String huodongzhuangtai;
 	
+	/**
+	 * 是否删除
+	 */
+	private Integer isDeleted;
+
+
 	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat
 	private Date addtime;
@@ -271,6 +282,32 @@ public class ShetuanhuodongEntity<T> implements Serializable {
 	 */
 	public String getShhf() {
 		return shhf;
+	}
+	/**
+	 * 设置：活动状态
+	 */
+	public void setHuodongzhuangtai(String huodongzhuangtai) {
+		this.huodongzhuangtai = huodongzhuangtai;
+	}
+	/**
+	 * 获取：活动状态
+	 */
+	public String getHuodongzhuangtai() {
+		return huodongzhuangtai;
+	}
+
+	/**
+	 * 设置：是否删除
+	 */
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	/**
+	 * 获取：是否删除
+	 */
+	public Integer getIsDeleted() {
+		return isDeleted;
 	}
 
 }

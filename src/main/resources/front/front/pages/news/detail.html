@@ -76,13 +76,7 @@
 	<body style="padding-bottom: 10px;">
 
 		<div id="app">
-			<div class="layui-carousel" id="swiper" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(255, 255, 255, 0.3)","borderRadius":"0px","borderWidth":"0","width":"90%","borderStyle":"solid"}'>
-			  <div carousel-item id="swiper-item">
-				<div v-for="(item,index) in swiperList" :key="index">
-					<img style="width: 100%;height: 100%;object-fit:cover;" :src="item.img" />
-				</div>
-			  </div>
-			</div>
+			<!-- 新闻详情页不需要轮播图 -->
 			<div class="index-title" :style='{"padding":"10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"20px auto","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(245, 245, 245, 1)","color":"#333","borderRadius":"0px","borderWidth":"0","fontSize":"25px","borderStyle":"solid","height":"auto"}'>
 			  <span>NEWS / INFORMATION</span><span>社团新闻</span>
 			</div>
@@ -152,38 +146,7 @@
 
 				var id = http.getParam('id');
 
-				// 获取轮播图 数据
-				http.request('config/list', 'get', {
-					page: 1,
-					limit: 5
-				}, function(res) {
-					if (res.data.list.length > 0) {
-						var swiperItemHtml = '';
-						for (let item of res.data.list) {
-							if (item.name.indexOf('picture') >= 0 && item.value && item.value != "" && item.value != null) {
-								swiperItemHtml +=
-									'<div>' +
-									'<img style="width: 100%;height: 100%;object-fit:cover;" class="swiper-item" src="' + item.value + '">' +
-									'</div>';
-							}
-						}
-						jquery('#swiper-item').html(swiperItemHtml);
-						// 轮播图
-						vue.$nextTick(() => {
-						  carousel.render({
-						  	elem: '#swiper',
-							width: '90%',
-						  	height: '500px',
-						  	arrow: 'hover',
-						  	anim: 'default',
-						  	autoplay: 'true',
-						  	interval: '3000',
-						  	indicator: 'inside'
-						  });
-						
-						})
-					}
-				});
+				// 新闻详情页不需要轮播图
 
 				// 详情信息
 				http.request('news/detail/' + id, 'get', {}, function(res) {
