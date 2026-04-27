@@ -1,17 +1,12 @@
-
-<!-- 首页 -->
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>首页</title>
+	<title>活动详情</title>
 	<link rel="stylesheet" href="../../layui/css/layui.css">
-	<!-- 样式 -->
 	<link rel="stylesheet" href="../../css/style.css" />
-	<!-- 主题（主要颜色设置） -->
 	<link rel="stylesheet" href="../../css/theme.css" />
-	<!-- 通用的css -->
 	<link rel="stylesheet" href="../../css/common.css" />
 </head>
 <style>
@@ -23,288 +18,313 @@
 		bottom: 0;
 		content: '';
 		display: block;
-		background-attachment: fixed;
-		background-size: cover;
-		background-position: center;
+		background: #f5f5f5;
 		z-index: -1;
 	}
-	#swiper {
+	.center-wrapper {
+		max-width: 1000px;
+		margin: 30px auto;
+		display: flex;
+		background: #fff;
+		border-radius: 8px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 		overflow: hidden;
 	}
-	#swiper .layui-carousel-ind li {
-		width: 10px;
-		height: 10px;
-		border-width: 0;
-		border-style: solid;
-		border-color: rgba(0,0,0,.3);
-		border-radius: 6px;
-		background-color: #f7f7f7;
-		box-shadow: 0 0 0px rgba(255,0,0,.8);
+	.left-menu {
+		width: 180px;
+		background: #fff;
+		border-right: 1px solid #eee;
+		flex-shrink: 0;
 	}
-	#swiper .layui-carousel-ind li.layui-this {
-		width: 10px;
-		height: 10px;
-		border-width: 0;
-		border-style: solid;
-		border-color: rgba(0,0,0,.3);
-		border-radius: 0;
-		background-color: rgba(255, 255, 255, 1);
-		box-shadow: 0 0 0px rgba(255,0,0,.8);
+	.left-menu .layui-nav-tree {
+		width: 100%;
 	}
-
-	input#buynumber::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; }
-	input#buynumber[type="number"]{ -moz-appearance: textfield; }
-
-	.message-container {width: 100%}
-
-	.detail-tab .layui-tab-card>.layui-tab-title .layui-this {
-		background-color: rgba(255, 153, 0, 1);
-		color: #fff;
+	.left-menu .layui-nav {
+		position: relative;
+		background: transparent;
+	}
+	.left-menu .layui-nav-item {
+		height: 48px;
+		line-height: 48px;
 		font-size: 14px;
+		color: #333;
 	}
-
-.data-detail {
-padding-bottom: 20px;
-margin-top: 0;
-}
-
-.data-detail .layui-breadcrumb a.first {
-color: rgba(52, 52, 52, 1) !important;
-}
+	.left-menu .layui-nav-item a {
+		color: #333;
+		padding: 0 20px;
+	}
+	.left-menu .layui-nav-item.layui-this,
+	.left-menu .layui-nav-item:hover {
+		background: #ff6600;
+		color: #fff;
+	}
+	.left-menu .layui-nav-item.layui-this a,
+	.left-menu .layui-nav-item:hover a {
+		color: #fff;
+	}
+	.right-content {
+		flex: 1;
+		padding: 30px 40px;
+		min-height: 500px;
+	}
+	.page-title {
+		font-size: 18px;
+		font-weight: 600;
+		color: #333;
+		margin-bottom: 25px;
+		padding-bottom: 15px;
+		border-bottom: 2px solid #ff6600;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.back-btn {
+		background-color: #ff6600;
+		color: #fff;
+		border: none;
+		padding: 8px 16px;
+		border-radius: 4px;
+		font-size: 14px;
+		cursor: pointer;
+	}
+	.back-btn:hover {
+		background-color: #ff8533;
+	}
+	.detail-content {
+		padding: 20px;
+		background: #fff;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+	.detail-image {
+		width: 100%;
+		height: 250px;
+		object-fit: cover;
+		border-radius: 8px;
+		margin-bottom: 20px;
+	}
+	.detail-item {
+		display: flex;
+		padding: 12px 0;
+		border-bottom: 1px solid #f5f5f5;
+	}
+	.detail-item:last-child {
+		border-bottom: none;
+	}
+	.detail-label {
+		min-width: 100px;
+		font-weight: 600;
+		color: #333;
+	}
+	.detail-value {
+		flex: 1;
+		color: #666;
+		word-break: break-all;
+	}
+	.action-buttons {
+		display: flex;
+		gap: 10px;
+		margin-top: 20px;
+		justify-content: center;
+	}
+	.action-btn {
+		padding: 10px 24px;
+		border-radius: 4px;
+		font-size: 14px;
+		cursor: pointer;
+		border: none;
+	}
+	.action-btn.primary {
+		background-color: #ff6600;
+		color: #fff;
+	}
+	.action-btn.primary:hover {
+		background-color: #ff8533;
+	}
+	.action-btn.secondary {
+		background-color: #fff;
+		color: #ff6600;
+		border: 1px solid #ff6600;
+	}
+	.action-btn.secondary:hover {
+		background-color: #ff6600;
+		color: #fff;
+	}
+	.action-btn.disabled {
+		background-color: #ccc;
+		color: #fff;
+		border-color: #ccc;
+		cursor: not-allowed;
+	}
+	.empty-tip {
+				text-align: center;
+				padding: 80px 0;
+				color: #999;
+				font-size: 14px;
+			}
+			.center-wrapper.no-menu {
+				flex-direction: column;
+			}
+			.right-content.full-width {
+				width: 100%;
+				flex: none;
+			}
 </style>
 <body>
-
 	<div id="app">
-
-		<div class="data-detail">
-			<div class="data-detail-breadcrumb" :style='{"padding":"0 10px","boxShadow":"0 00px rgba(255,0,0,.3)","margin":"10px auto","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 1)","borderRadius":"4px","borderWidth":"0","borderStyle":"solid","height":"54px"}'>
+		<div v-if="embedded" class="center-wrapper" :class="{'no-menu': noMenu}">
+					<div v-if="!noMenu" class="left-menu">
+						<ul class="layui-nav layui-nav-tree">
+							<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item">
+								<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
+							</li>
+						</ul>
+					</div>
+					<div class="right-content" :class="{'full-width': noMenu}">
+				<div class="page-title">
+					<span>活动详情</span>
+					<button class="back-btn" @click="goBack">返回列表</button>
+				</div>
+				<div v-if="!loading && detail.id" class="detail-content">
+					<img v-if="swiperList.length" class="detail-image" :src="swiperList[0]" />
+					<div class="detail-item">
+						<span class="detail-label">标题：</span>
+						<span class="detail-value">{{detail.biaoti || '暂无'}}</span>
+					</div>
+					<div class="detail-item">
+							<span class="detail-label">开始时间：</span>
+							<span class="detail-value">{{formatDate(detail.kaishishijian)}}</span>
+						</div>
+						<div class="detail-item">
+							<span class="detail-label">结束时间：</span>
+							<span class="detail-value">{{formatDate(detail.jieshushijian)}}</span>
+						</div>
+					<div class="detail-item">
+						<span class="detail-label">活动人数：</span>
+						<span class="detail-value">{{detail.huodongrenshu || '暂无'}}</span>
+					</div>
+					<div class="detail-item">
+						<span class="detail-label">已报名人数：</span>
+						<span class="detail-value">{{stats.yibaomingrenshu || 0}}</span>
+					</div>
+					<div class="detail-item">
+						<span class="detail-label">剩余名额：</span>
+						<span class="detail-value">{{stats.shengyuminge || 0}}</span>
+					</div>
+					<div class="detail-item">
+						<span class="detail-label">活动地点：</span>
+						<span class="detail-value">{{detail.huodongdidian || '暂无'}}</span>
+					</div>
+					<div class="detail-item">
+						<span class="detail-label">主办方：</span>
+						<span class="detail-value">{{detail.shetuanmingcheng || '暂无'}}</span>
+					</div>
+					<div class="detail-item">
+						<span class="detail-label">活动详情：</span>
+						<div class="detail-value" v-html="detail.huodongxiangqing"></div>
+					</div>
+					<div class="action-buttons">
+						<button v-if="isAuth('shetuanhuodong','报名')" class="action-btn primary" @click="onAcrossTap('huodongbaoming')">报名</button>
+						<button class="action-btn secondary" :class="{'disabled': isCollected}" @click="toggleCollect">{{isCollected?'已收藏':'收藏'}}</button>
+					</div>
+				</div>
+				<div v-else-if="loading" class="empty-tip">
+					<p>加载中...</p>
+				</div>
+				<div v-else class="empty-tip">
+					<p>活动信息不存在</p>
+				</div>
+			</div>
+		</div>
+		<div v-else class="data-detail">
+			<button v-if="isEmbed" class="embed-back-btn" @click="goBack">← 返回列表</button>
+			<div class="data-detail-breadcrumb" :style='{"padding":"0 10px","boxShadow":"0 00px rgba(255,0,0,.3)","margin":"10px auto","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 1)","borderRadius":"4px","borderWidth":"0","borderStyle":"solid","height":"54px"}' :class="{'embed-mode': isEmbed}">
 				<span class="layui-breadcrumb">
 					<a class="first" :style='{"padding":"8px 10px","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 5px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"0","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' href="../home/home.html">首页</a>
 					<a><cite :style='{"padding":"8px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 15px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"4px","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}'>{{title}}</cite></a>
 				</span>
-				
-				
 			</div>
 			<div class="layui-row" style="display: flex">
 			<div v-if="swiperList.length" class="layui-col-md5" style="width:450px">
 				<img style="width: 100%;height: 400px;object-fit:cover;" :src="swiperList[0]" />
 			</div>
 			<div class="layui-col-md7" style="padding-left: 20px;flex: 1;" :style='{"padding":"0","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 0 0 20px","borderColor":"rgba(247, 247, 247, 1)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"0","borderWidth":"10px","borderStyle":"solid"}'>
-					<h1 style="position: relative;" :style='{"padding":"10px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"rgba(0, 0, 0, 1)","borderRadius":"0","textAlign":"left","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' class="title">{{title}}</h1>
-					
-
-
-					
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>标题：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.biaoti || '暂无'}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>开始时间：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.kaishishijian || '暂无'}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>结束时间：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.jieshushijian || '暂无'}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动人数：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.huodongrenshu || '暂无'}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>已报名人数：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{stats.registeredCount || 0}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>剩余名额：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{stats.remainingQuota || 0}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动地点：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.huodongdidian || '暂无'}}
-						</span>
-					</div>
-					<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-						<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>主办方：</span>
-						<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">
-							{{detail.shetuanmingcheng || '暂无'}}
-						</span>
-					</div>
-					
-
-					
-					
-
-					<div class="detail-item" :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' style="text-align: right;">
-
-
-						
-						<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' v-if="isAuth('shetuanhuodong','报名')" @click="onAcrossTap('huodongbaoming')" type="button" class="layui-btn">
-							报名
-						</button>
-						<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":isCollected?"#999":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' @click="toggleCollect" type="button" class="layui-btn">
-							{{isCollected?'已收藏':'收藏'}}
-						</button>
-						
-
-					</div>
+				<h1 style="position: relative;" :style='{"padding":"10px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"rgba(0, 0, 0, 1)","borderRadius":"0","textAlign":"left","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' class="title">{{title}}</h1>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>标题：</span>
+					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.biaoti || '暂无'}}</span>
+				</div>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+							<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>开始时间：</span>
+							<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{formatDate(detail.kaishishijian)}}</span>
+						</div>
+						<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+							<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>结束时间：</span>
+							<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{formatDate(detail.jieshushijian)}}</span>
+						</div>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动人数：</span>
+					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.huodongrenshu || '暂无'}}</span>
+				</div>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>已报名人数：</span>
+					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{stats.yibaomingrenshu || 0}}</span>
+				</div>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>剩余名额：</span>
+					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{stats.shengyuminge || 0}}</span>
+				</div>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动地点：</span>
+					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.huodongdidian || '暂无'}}</span>
+				</div>
+				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
+					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>主办方：</span>
+					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.shetuanmingcheng || '暂无'}}</span>
+				</div>
+				<div class="detail-item" :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' style="text-align: right;">
+					<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' v-if="isAuth('shetuanhuodong','报名')" @click="onAcrossTap('huodongbaoming')" type="button" class="layui-btn">报名</button>
+					<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":isCollected?"#999":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' @click="toggleCollect" type="button" class="layui-btn">{{isCollected?'已收藏':'收藏'}}</button>
 				</div>
 			</div>
-
-			
-			
-
+			</div>
 			<div class="layui-row detail-tab">
 				<div class="layui-tab layui-tab-card" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(255, 255, 255, 0.3)","backgroundColor":"rgba(255, 255, 255, 1)","borderRadius":"0px","borderStyle":"solid","borderWidth":"10px"}' style="overflow: hidden;">
-
 					<ul class="layui-tab-title" :style='{"color":"rgba(113, 113, 113, 1)","backgroundColor":"#f2f2f2","fontSize":"14px"}'>
-						
 						<li class="layui-this">活动详情</li>
-						
-
-						
-						
-
-						
-						
-
 					</ul>
-
 					<div class="layui-tab-content">
-						
 						<div class="layui-tab-item layui-show">
 							<div v-html="detail.huodongxiangqing"></div>
 						</div>
-						
-
-						
-						
-
-						
-						
-
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
-
 
 	<script src="../../layui/layui.js"></script>
 	<script src="../../js/vue.js"></script>
-	<!-- 组件配置信息 -->
 	<script src="../../js/config.js"></script>
-	<!-- 扩展插件配置信息 -->
 	<script src="../../modules/config.js"></script>
-	<!-- 工具方法 -->
 	<script src="../../js/utils.js"></script>
 
 	<script>
 		var vue = new Vue({
 			el: '#app',
 			data: {
-				// 轮播图
-				swiperList: [],
-				// 数据详情
-				detail: {
-					id: 0
+					embedded: false,
+					noMenu: false,
+					loading: true,
+					swiperList: [],
+					detail: {},
+					isCollected: false,
+					collectId: null,
+					title: '',
+					detailTable: 'shetuanhuodong',
+					stats: {},
+					centerMenu: centerMenu()
 				},
-				// 收藏状态
-				isCollected: false,
-				// 收藏ID
-				collectId: null,
-				// 商品标题
-				title: '',
-				// 倒计时
-				count: 0,
-				// 加入购物车数量
-				buynumber: 1,
-				// 当前详情页表
-				detailTable: 'shetuanhuodong',
-				// 评价列表
-				dataList: [],
-				// 选座座位列表
-				numberList: [],
-				// 统计数据
-				stats: {}
-			},
-			// 倒计时效果
-			computed: {
-				SecondToDate: function() {
-					var time = this.count;
-					if (null != time && "" != time) {
-						if (time > 60 && time < 60 * 60) {
-							time =
-								parseInt(time / 60.0) +
-								"分钟" +
-								parseInt((parseFloat(time / 60.0) - parseInt(time / 60.0)) * 60) +
-								"秒";
-						} else if (time >= 60 * 60 && time < 60 * 60 * 24) {
-							time =
-								parseInt(time / 3600.0) +
-								"小时" +
-								parseInt(
-									(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-								) +
-								"分钟" +
-								parseInt(
-									(parseFloat(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										) -
-										parseInt(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										)) *
-									60
-								) +
-								"秒";
-						} else if (time >= 60 * 60 * 24) {
-							time =
-								parseInt(time / 3600.0 / 24) +
-								"天" +
-								parseInt(
-									(parseFloat(time / 3600.0 / 24) - parseInt(time / 3600.0 / 24)) *
-									24
-								) +
-								"小时" +
-								parseInt(
-									(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-								) +
-								"分钟" +
-								parseInt(
-									(parseFloat(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										) -
-										parseInt(
-											(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60
-										)) *
-									60
-								) +
-								"秒";
-						} else {
-							time = parseInt(time) + "秒";
-						}
-					}
-					return time;
-				}
-			},
-			//  清除定时器
-			destroyed: function() {
-				window.clearInterval(this.inter);
-			},
 			methods: {
 				jump(url) {
 					jump(url)
@@ -312,7 +332,9 @@ color: rgba(52, 52, 52, 1) !important;
 				isAuth(tablename, button) {
 					return isFrontAuth(tablename, button)
 				},
-				// 检查收藏状态
+				goBack() {
+					history.back();
+				},
 				checkCollect() {
 					let userTable = localStorage.getItem('userTable');
 					if (!userTable) {
@@ -325,25 +347,24 @@ color: rgba(52, 52, 52, 1) !important;
 						return;
 					}
 					layui.http.request('storeup/list', 'get', {
-								page: 1,
-								limit: 1,
-								userid: userid,
-								tablename: 'shetuanhuodong',
-								refid: this.detail.id
-							}, function(res) {
-								if (res.data && res.data.list && res.data.list.length > 0) {
-									vue.isCollected = true;
-									vue.collectId = res.data.list[0].id;
-								} else {
-									vue.isCollected = false;
-									vue.collectId = null;
-								}
-							}, function(error) {
-								console.log('检查收藏状态失败:', error);
-								vue.isCollected = false;
-							});
+						page: 1,
+						limit: 1,
+						userid: userid,
+						tablename: 'shetuanhuodong',
+						refid: this.detail.id
+					}, function(res) {
+						if (res.data && res.data.list && res.data.list.length > 0) {
+							vue.isCollected = true;
+							vue.collectId = res.data.list[0].id;
+						} else {
+							vue.isCollected = false;
+							vue.collectId = null;
+						}
+					}, function(error) {
+						console.log('检查收藏状态失败:', error);
+						vue.isCollected = false;
+					});
 				},
-				// 切换收藏状态
 				toggleCollect() {
 					let userTable = localStorage.getItem('userTable');
 					if (!userTable) {
@@ -356,75 +377,71 @@ color: rgba(52, 52, 52, 1) !important;
 						return;
 					}
 					if (this.isCollected) {
-								if (!this.collectId) return;
-								layui.http.requestJson('storeup/delete', 'post', {
-									ids: [this.collectId]
-								}, function(res) {
-									vue.isCollected = false;
-									vue.collectId = null;
-									layer.msg('已取消收藏', {icon: 6});
-								}, function(error) {
-									console.log('取消收藏失败:', error);
-								});
-							} else {
-								layui.http.requestJson('storeup/save', 'post', {
-									userid: userid,
-									tablename: 'shetuanhuodong',
-									refid: this.detail.id,
-									name: this.detail.biaoti,
-									picture: this.detail.huodongtupian ? this.detail.huodongtupian.split(',')[0] : ''
-								}, function(res) {
-									vue.isCollected = true;
-									layer.msg('收藏成功', {icon: 6});
-									vue.checkCollect();
-								}, function(error) {
-									console.log('添加收藏失败:', error);
-								});
-							}
-				},
-				// 倒计时初始化
-				countDown() {
-					let reversetime = new Date(this.detail.reversetime).getTime()
-					let now = new Date().getTime();
-					let count = reversetime - now;
-					if (count > 0) {
-						this.count = count / 1000
-						var _this = this;
-						this.inter = window.setInterval(function() {
-							_this.count = _this.count - 1;
-							if (_this.count < 0) {
-								window.clearInterval(_this.inter);
-								layer.msg("活动已结束", {
-									time: 2000,
-									icon: 5
-								})
-							}
-						}, 1000);
+						if (!this.collectId) return;
+						layui.http.requestJson('storeup/delete', 'post', JSON.stringify([this.collectId]), function(res) {
+							vue.isCollected = false;
+							vue.collectId = null;
+							layer.msg('已取消收藏', {icon: 6});
+						}, function(error) {
+							console.log('取消收藏失败:', error);
+						});
+					} else {
+						layui.http.requestJson('storeup/save', 'post', {
+							userid: userid,
+							tablename: 'shetuanhuodong',
+							refid: this.detail.id,
+							name: this.detail.biaoti,
+							picture: this.detail.huodongtupian ? this.detail.huodongtupian.split(',')[0] : ''
+						}, function(res) {
+							vue.isCollected = true;
+							layer.msg('收藏成功', {icon: 6});
+							vue.checkCollect();
+						}, function(error) {
+							console.log('添加收藏失败:', error);
+						});
 					}
 				},
-				
-				// 下载文件
-				downFile(url) {
-					var download = $("#download");
-					download.append(
-						"<a id=\"down\" href=\"aaaa.txt\" target=\"_blank\" download=\"aaaa.txt\" style=\"display:none\">下载该文件</a>");
-					console.log(download);
-					$("#down")[0].click();
-				},
-				// 跨表
 				onAcrossTap(acrossTable){
-					localStorage.setItem('crossTable',`shetuanhuodong`);
-					localStorage.setItem('crossObj', JSON.stringify(this.detail));
-					jump(`../${acrossTable}/add.html?corss=true`);
-				},
-
-
-
-
-
-
+							localStorage.setItem('crossTable','shetuanhuodong');
+							localStorage.setItem('crossObj', JSON.stringify(this.detail));
+							jump(`../${acrossTable}/add.html?corss=true`);
+						},
+						formatDate(dateStr) {
+							if (!dateStr) return '暂无';
+							// 尝试不同的时间格式解析
+							let date;
+							if (dateStr instanceof Date) {
+								date = dateStr;
+							} else if (typeof dateStr === 'string') {
+								// 处理不同格式的时间字符串
+								dateStr = dateStr.trim();
+								if (dateStr.includes('T')) {
+									// ISO格式：2023-12-01T12:00:00
+									date = new Date(dateStr);
+								} else if (dateStr.includes('-')) {
+									// 普通格式：2023-12-01 12:00:00
+									date = new Date(dateStr);
+								} else {
+									// 其他格式
+									date = new Date(dateStr);
+								}
+							}
+							
+							if (isNaN(date.getTime())) {
+								return '暂无';
+							}
+							
+							// 格式化日期
+							const year = date.getFullYear();
+							const month = String(date.getMonth() + 1).padStart(2, '0');
+							const day = String(date.getDate()).padStart(2, '0');
+							const hours = String(date.getHours()).padStart(2, '0');
+							const minutes = String(date.getMinutes()).padStart(2, '0');
+							
+							return `${year}-${month}-${day} ${hours}:${minutes}`;
+						}
 			}
-		})
+		});
 
 		layui.use(['layer', 'form', 'element', 'carousel', 'http', 'jquery', 'laypage'], function() {
 			var layer = layui.layer;
@@ -435,41 +452,56 @@ color: rgba(52, 52, 52, 1) !important;
 			var jquery = layui.jquery;
 			var laypage = layui.laypage;
 
-			var limit = 10;
-
-			// 数据ID
 			var id = http.getParam('id');
-			vue.detail.id = id;
+					var embedded = http.getParam('embedded');
+					var embed = http.getParam('embed');
+					var noMenu = http.getParam('noMenu');
 
-			// 商品信息
-			http.request(`${vue.detailTable}/detail/` + id, 'get', {}, function(res) {
-				// 详情信息
-				vue.detail = res.data || {}
-				vue.title = vue.detail.biaoti || '活动详情';
-				// 轮播图片
-				vue.swiperList = vue.detail.huodongtupian ? vue.detail.huodongtupian.split(",") : [];
-				// 检查收藏状态
-				vue.checkCollect();
-				// 单张图片显示，不再使用轮播图
-				// 计算统计数据
-				vue.stats = {
-					registeredCount: 0, // 默认为0，因为后端数据中没有yibaomingrenshu字段
-					remainingQuota: parseInt(vue.detail.huodongrenshu) || 0
-				};
+					if (embedded === 'true' || embedded === '1' || embed === 'true' || embed === '1') {
+						vue.embedded = true;
+						if (noMenu === 'true' || noMenu === '1') {
+							vue.noMenu = true;
+						}
+					}
+
+			vue.detail.id = id;
+			vue.loading = true;
+
+			http.request(vue.detailTable + '/detail/' + id, 'get', {}, function(res) {
+					vue.loading = false;
+					if (res && res.code === 0) {
+						vue.detail = res.data || {};
+						vue.title = vue.detail.biaoti || '活动详情';
+						vue.swiperList = vue.detail.huodongtupian ? vue.detail.huodongtupian.split(",").map(img => {
+							// 检查是否已经是完整URL
+							if (img.startsWith('http://') || img.startsWith('https://')) {
+								return img;
+							} else if (img.startsWith('/')) {
+								return img;
+							} else {
+								return '/springbootnp4n3/upload/' + img;
+							}
+						}) : [];
+					vue.stats = {
+						yibaomingrenshu: res.data.yibaomingrenshu || 0,
+						shengyuminge: res.data.shengyuminge || (vue.detail.huodongrenshu ? vue.detail.huodongrenshu - (res.data.yibaomingrenshu || 0) : 0)
+					};
+					vue.checkCollect();
+				} else {
+					vue.detail = {};
+					vue.title = '活动详情';
+					vue.swiperList = [];
+					vue.stats = {yibaomingrenshu: 0, shengyuminge: 0};
+				}
 			}, function(error) {
 				console.log('获取活动详情失败:', error);
-				// 错误处理，确保页面不崩溃
+				vue.loading = false;
 				vue.detail = {};
 				vue.title = '活动详情';
 				vue.swiperList = [];
-				vue.stats = {
-					registeredCount: 0,
-					remainingQuota: 0
-				};
+				vue.stats = {yibaomingrenshu: 0, shengyuminge: 0};
 			});
-
-
-			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
 </html>

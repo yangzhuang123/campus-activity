@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>我的发布</title>
+    <title>消息通知</title>
     <link rel="stylesheet" href="../../layui/css/layui.css">
     <style>
         .center-wrapper {
@@ -34,7 +34,7 @@
         }
         .left-menu .layui-nav-item.layui-this,
         .left-menu .layui-nav-item:hover {
-            background: #ff6600;
+            background: #36b468;
             color: #fff;
         }
         .left-menu .layui-nav-item.layui-this a,
@@ -52,71 +52,72 @@
             color: #333;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #ff6600;
+            border-bottom: 2px solid #36b468;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .activity-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .activity-item {
+        .notify-list {
             background: #fff;
             border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
         }
-        .activity-item:hover {
-            box-shadow: 0 4px 16px rgba(54,176,104,0.2);
-            transform: translateY(-2px);
+        .notify-item {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
         }
-        .activity-item img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
+        .notify-item:hover {
+            background: #f5f5f5;
         }
-        .activity-item .info {
-            padding: 15px;
+        .notify-item.unread {
+            background: #f0f9ff;
         }
-        .activity-item .info .title {
-            font-size: 14px;
+        .notify-item .notify-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .notify-item .notify-title {
+            font-size: 16px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
-        .activity-item .info .meta {
+        .notify-item .notify-time {
             font-size: 12px;
             color: #999;
-            margin-bottom: 6px;
         }
-        .activity-item .info .stats {
-            font-size: 12px;
+        .notify-item .notify-content {
+            font-size: 14px;
             color: #666;
-            margin-top: 8px;
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
-        .activity-item .actions {
-            margin-top: 10px;
+        .notify-item .notify-footer {
             display: flex;
-            gap: 8px;
+            justify-content: flex-end;
         }
-        .activity-item .actions .btn {
-            flex: 1;
-            padding: 6px 0;
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            border: 1px solid #36b468;
             border-radius: 4px;
             font-size: 12px;
+            background: #36b468;
+            color: #fff;
             cursor: pointer;
-            border: 1px solid #36b468;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #47c07a;
+        }
+        .btn-outline {
             background: #fff;
             color: #36b468;
-            text-align: center;
         }
-        .activity-item .actions .btn:hover {
+        .btn-outline:hover {
             background: #36b468;
             color: #fff;
         }
@@ -142,39 +143,28 @@
         <div class="center-wrapper">
             <div class="left-menu">
                 <ul class="layui-nav layui-nav-tree">
-                    <li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==2?'layui-this':''">
+                    <li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="item.name=='消息通知'?'layui-this':''">
                         <a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
                     </li>
                 </ul>
             </div>
             <div class="right-content">
                 <div class="page-title">
-                    <span>我的发布</span>
+                    <span>消息通知</span>
                 </div>
                 <div v-if="dataList.length === 0" class="empty-tip">
                     <div class="layui-icon">&#xe6c6;</div>
-                    <p>暂无发布的活动</p>
+                    <p>暂无消息通知</p>
                 </div>
-                <div v-else class="activity-list">
-                    <div v-for="(item,index) in dataList" :key="index" class="activity-item">
-                        <img :src="item.huodongtupian || '../../img/avator.png'">
-                        <div class="info">
-                            <div class="title">{{item.biaoti}}</div>
-                            <div class="meta">
-                                <span>时间：{{item.huodongshijian}}</span>
-                            </div>
-                            <div class="meta">
-                                <span>地点：{{item.huodongdidian}}</span>
-                            </div>
-                            <div class="meta">
-                                <span>人数：{{item.huodongrenshu}}人</span>
-                            </div>
-                            <div class="stats">
-                                <span>发布时间：{{formatDate(item.addtime)}}</span>
-                            </div>
-                            <div class="actions">
-                                <a :href="'../huodongbaoming/baomingreview.html?activityId=' + item.id" class="btn">查看报名</a>
-                            </div>
+                <div v-else class="notify-list">
+                    <div v-for="(item,index) in dataList" :key="index" class="notify-item" :class="{'unread': item.yuedu === 0}">
+                        <div class="notify-header">
+                            <div class="notify-title">{{item.xiaoxibiaoti}}</div>
+                            <div class="notify-time">{{formatDate(item.fabushijian)}}</div>
+                        </div>
+                        <div class="notify-content">{{item.xiaoxineirong}}</div>
+                        <div class="notify-footer">
+                            <button v-if="item.yuedu === 0" class="btn btn-outline" @click="markAsRead(item.id)">标记已读</button>
                         </div>
                     </div>
                 </div>
@@ -200,18 +190,39 @@
                 jump(url) {
                     jump(url)
                 },
+                markAsRead(id) {
+                    layui.http.request('xiaoxi/update', 'post', {
+                        id: id,
+                        yuedu: 1
+                    }, function(res) {
+                        if (res.code === 0) {
+                            pageList();
+                        } else {
+                            layui.layer.msg('操作失败: ' + (res.msg || '未知错误'), {icon: 5});
+                        }
+                    }, function(error) {
+                        layui.layer.msg('操作失败', {icon: 5});
+                    });
+                },
                 formatDate(date) {
-                    if (!date) return '暂无';
-                    var d = new Date(date);
-                    var year = d.getFullYear();
-                    var month = (d.getMonth() + 1).toString().padStart(2, '0');
-                    var day = d.getDate().toString().padStart(2, '0');
-                    var hours = d.getHours().toString().padStart(2, '0');
-                    var minutes = d.getMinutes().toString().padStart(2, '0');
-                    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+                    try {
+                        if (!date) return '暂无';
+                        var d = new Date(date);
+                        if (isNaN(d.getTime())) return '暂无';
+                        var year = d.getFullYear();
+                        var month = (d.getMonth() + 1).toString().padStart(2, '0');
+                        var day = d.getDate().toString().padStart(2, '0');
+                        var hours = d.getHours().toString().padStart(2, '0');
+                        var minutes = d.getMinutes().toString().padStart(2, '0');
+                        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+                    } catch (e) {
+                        return '暂无';
+                    }
                 }
             }
         });
+
+        var pageList;
 
         layui.use(['layer', 'http', 'jquery', 'laypage'], function() {
             var layer = layui.layer;
@@ -219,21 +230,15 @@
             var jquery = layui.jquery;
             var laypage = layui.laypage;
 
-            var limit = 9;
+            var limit = 10;
 
-            function pageList() {
+            pageList = function() {
                 var userTable = localStorage.getItem('userTable');
                 var userid = localStorage.getItem('userid');
                 var username = localStorage.getItem('adminName');
 
-                if (!userTable || userTable !== 'shezhang') {
-                    layer.msg('请先登录社长账号', {icon: 5});
-                    window.location.href = '../login/login.html';
-                    return;
-                }
-
-                if (!userid) {
-                    layer.msg('登录信息异常，请重新登录', {icon: 5});
+                if (!userTable || !userid || !username) {
+                    layer.msg('请先登录', {icon: 5});
                     window.location.href = '../login/login.html';
                     return;
                 }
@@ -241,12 +246,13 @@
                 var param = {
                     page: 1,
                     limit: limit,
-                    sort: 'addtime',
+                    sort: 'fabushijian',
                     order: 'desc',
-                    zhanghao: username
+                    yonghu: username,
+                    yonghutable: userTable
                 };
 
-                http.request('shetuanhuodong/lists', 'get', param, function(res) {
+                http.request('xiaoxi/list', 'get', param, function(res) {
                     if (res.code === 0) {
                         vue.dataList = res.data.list || [];
                         laypage.render({
@@ -259,7 +265,7 @@
                             jump: function(obj, first) {
                                 if (!first) {
                                     param.page = obj.curr;
-                                    http.request('shetuanhuodong/lists', 'get', param, function(res) {
+                                    http.request('xiaoxi/list', 'get', param, function(res) {
                                         if (res.code === 0) {
                                             vue.dataList = res.data.list || [];
                                         } else {
@@ -277,7 +283,7 @@
                 }, function(error) {
                     layer.msg('网络错误，请稍后重试', {icon: 5});
                 });
-            }
+            };
 
             pageList();
         });

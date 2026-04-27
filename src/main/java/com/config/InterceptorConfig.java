@@ -18,7 +18,10 @@ public class InterceptorConfig extends WebMvcConfigurationSupport{
 	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getAuthorizationInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**");
+        // 只拦截API请求，不拦截静态资源
+        registry.addInterceptor(getAuthorizationInterceptor())
+                .addPathPatterns("/api/**", "/shezhang/**", "/xuesheng/**", "/users/**", "/file/**")
+                .excludePathPatterns("/static/**", "/admin/**", "/front/**", "/upload/**");
         super.addInterceptors(registry);
 	}
 	
@@ -27,12 +30,12 @@ public class InterceptorConfig extends WebMvcConfigurationSupport{
 	 */
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**")
-        .addResourceLocations("classpath:/resources/")
-        .addResourceLocations("classpath:/static/")
-        .addResourceLocations("classpath:/admin/")
-        .addResourceLocations("classpath:/front/")
-        .addResourceLocations("classpath:/public/");
+        registry.addResourceHandler("/admin/**")
+        .addResourceLocations("classpath:/admin/");
+        registry.addResourceHandler("/front/**")
+        .addResourceLocations("classpath:/front/front/");
+        registry.addResourceHandler("/upload/**")
+        .addResourceLocations("classpath:/static/upload/");
 		super.addResourceHandlers(registry);
     }
 }

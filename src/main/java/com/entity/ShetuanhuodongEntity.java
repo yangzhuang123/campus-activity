@@ -21,117 +21,59 @@ import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.enums.IdType;
 
 
-/**
- * 社团活动
- * 数据库通用操作实体类（普通增删改查）
- * @author 
- * @email 
- * @date 2021-05-08 09:49:51
- */
 @TableName("shetuanhuodong")
 public class ShetuanhuodongEntity<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
 	public ShetuanhuodongEntity() {
-		
+
 	}
-	
+
 	public ShetuanhuodongEntity(T t) {
 		try {
 			BeanUtils.copyProperties(this, t);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * 主键id
-	 */
+
 	@TableId
 	private Long id;
-	/**
-	 * 标题
-	 */
-					
-	private String biaoti;
-	
-	/**
-	 * 社团名称
-	 */
-					
-	private String shetuanmingcheng;
-	
-	/**
-	 * 活动图片
-	 */
-					
-	private String huodongtupian;
-	
-	/**
-	 * 开始时间
-	 */
-				
-	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
-	@DateTimeFormat 		
-	private Date kaishishijian;
-	
-	/**
-	 * 结束时间
-	 */
-				
-	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
-	@DateTimeFormat 		
-	private Date jieshushijian;
-	
-	/**
-	 * 活动人数
-	 */
-					
-	private Integer huodongrenshu;
-	
-	/**
-	 * 活动地点
-	 */
-					
-	private String huodongdidian;
-	
-	/**
-	 * 账号
-	 */
-					
-	private String zhanghao;
-	
-	/**
-	 * 活动详情
-	 */
-					
-	private String huodongxiangqing;
-	
-	/**
-	 * 是否审核
-	 */
-					
-	private String sfsh;
-	
-	/**
-	 * 审核回复
-	 */
-					
-	private String shhf;
-	
-	/**
-	 * 活动状态
-	 */
-				
-	private String huodongzhuangtai;
-	
-	/**
-	 * 是否删除
-	 */
-	private Integer isDeleted;
 
+	private String biaoti;
+
+	private String shetuanmingcheng;
+
+	private String huodongtupian;
+
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
+	@DateTimeFormat
+	private Date kaishishijian;
+
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
+	@DateTimeFormat
+	private Date jieshushijian;
+
+	private Integer huodongrenshu;
+
+	private String huodongdidian;
+
+	private String zhanghao;
+
+	private String huodongxiangqing;
+
+	private String sfsh;
+
+	private String shhf;
+
+	private String huodongzhuangtai;
+
+	private String isPublish;
+
+	private String baomingzhuangtai;
+
+	private Integer isDeleted;
 
 	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat
@@ -151,161 +93,123 @@ public class ShetuanhuodongEntity<T> implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	/**
-	 * 设置：标题
-	 */
+
 	public void setBiaoti(String biaoti) {
 		this.biaoti = biaoti;
 	}
-	/**
-	 * 获取：标题
-	 */
+
 	public String getBiaoti() {
 		return biaoti;
 	}
-	/**
-	 * 设置：社团名称
-	 */
+
 	public void setShetuanmingcheng(String shetuanmingcheng) {
 		this.shetuanmingcheng = shetuanmingcheng;
 	}
-	/**
-	 * 获取：社团名称
-	 */
+
 	public String getShetuanmingcheng() {
 		return shetuanmingcheng;
 	}
-	/**
-	 * 设置：活动图片
-	 */
+
 	public void setHuodongtupian(String huodongtupian) {
 		this.huodongtupian = huodongtupian;
 	}
-	/**
-	 * 获取：活动图片
-	 */
+
 	public String getHuodongtupian() {
 		return huodongtupian;
 	}
-	/**
-	 * 设置：开始时间
-	 */
+
 	public void setKaishishijian(Date kaishishijian) {
 		this.kaishishijian = kaishishijian;
 	}
-	/**
-	 * 获取：开始时间
-	 */
+
 	public Date getKaishishijian() {
 		return kaishishijian;
 	}
-	/**
-	 * 设置：结束时间
-	 */
+
 	public void setJieshushijian(Date jieshushijian) {
 		this.jieshushijian = jieshushijian;
 	}
-	/**
-	 * 获取：结束时间
-	 */
+
 	public Date getJieshushijian() {
 		return jieshushijian;
 	}
-	/**
-	 * 设置：活动人数
-	 */
+
 	public void setHuodongrenshu(Integer huodongrenshu) {
 		this.huodongrenshu = huodongrenshu;
 	}
-	/**
-	 * 获取：活动人数
-	 */
+
 	public Integer getHuodongrenshu() {
 		return huodongrenshu;
 	}
-	/**
-	 * 设置：活动地点
-	 */
+
 	public void setHuodongdidian(String huodongdidian) {
 		this.huodongdidian = huodongdidian;
 	}
-	/**
-	 * 获取：活动地点
-	 */
+
 	public String getHuodongdidian() {
 		return huodongdidian;
 	}
-	/**
-	 * 设置：账号
-	 */
+
 	public void setZhanghao(String zhanghao) {
 		this.zhanghao = zhanghao;
 	}
-	/**
-	 * 获取：账号
-	 */
+
 	public String getZhanghao() {
 		return zhanghao;
 	}
-	/**
-	 * 设置：活动详情
-	 */
+
 	public void setHuodongxiangqing(String huodongxiangqing) {
 		this.huodongxiangqing = huodongxiangqing;
 	}
-	/**
-	 * 获取：活动详情
-	 */
+
 	public String getHuodongxiangqing() {
 		return huodongxiangqing;
 	}
-	/**
-	 * 设置：是否审核
-	 */
+
 	public void setSfsh(String sfsh) {
 		this.sfsh = sfsh;
 	}
-	/**
-	 * 获取：是否审核
-	 */
+
 	public String getSfsh() {
 		return sfsh;
 	}
-	/**
-	 * 设置：审核回复
-	 */
+
 	public void setShhf(String shhf) {
 		this.shhf = shhf;
 	}
-	/**
-	 * 获取：审核回复
-	 */
+
 	public String getShhf() {
 		return shhf;
 	}
-	/**
-	 * 设置：活动状态
-	 */
+
 	public void setHuodongzhuangtai(String huodongzhuangtai) {
 		this.huodongzhuangtai = huodongzhuangtai;
 	}
-	/**
-	 * 获取：活动状态
-	 */
+
 	public String getHuodongzhuangtai() {
 		return huodongzhuangtai;
 	}
 
-	/**
-	 * 设置：是否删除
-	 */
+	public void setIsPublish(String isPublish) {
+		this.isPublish = isPublish;
+	}
+
+	public String getIsPublish() {
+		return isPublish;
+	}
+
+	public void setBaomingzhuangtai(String baomingzhuangtai) {
+		this.baomingzhuangtai = baomingzhuangtai;
+	}
+
+	public String getBaomingzhuangtai() {
+		return baomingzhuangtai;
+	}
+
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
-	/**
-	 * 获取：是否删除
-	 */
+
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}

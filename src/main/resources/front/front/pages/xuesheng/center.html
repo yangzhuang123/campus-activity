@@ -1,441 +1,387 @@
-
-<!-- 个人中心 -->
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<title>个人中心</title>
-		<link rel="stylesheet" href="../../layui/css/layui.css">
-		<!-- 样式 -->
-		<link rel="stylesheet" href="../../css/style.css" />
-		<!-- 主题（主要颜色设置） -->
-		<link rel="stylesheet" href="../../css/theme.css" />
-		<!-- 通用的css -->
-		<link rel="stylesheet" href="../../css/common.css" />
-	</head>
-	<style>
-		html::after {
-			position: fixed;
-			top: 0;
-			right: 0;
-			left: 0;
-			bottom: 0;
-			content: '';
-			display: block;
-			background: #f5f5f5;
-			z-index: -1;
-		}
-		.center-wrapper {
-			max-width: 1000px;
-			margin: 30px auto;
-			display: flex;
-			background: #fff;
-			border-radius: 8px;
-			box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-			overflow: hidden;
-		}
-		.left-menu {
-			width: 180px;
-			background: #fff;
-			border-right: 1px solid #eee;
-			flex-shrink: 0;
-		}
-		.left-menu .layui-nav-tree {
-			width: 100%;
-		}
-		.left-menu .layui-nav {
-			position: relative;
-			background: transparent;
-		}
-		.left-menu .layui-nav-item {
-			height: 48px;
-			line-height: 48px;
-			font-size: 14px;
-			color: #333;
-		}
-		.left-menu .layui-nav-item a {
-			color: #333;
-			padding: 0 20px;
-		}
-		.left-menu .layui-nav-item.layui-this,
-		.left-menu .layui-nav-item:hover {
-			background: #ff6600;
-			color: #fff;
-		}
-		.left-menu .layui-nav-item.layui-this a,
-		.left-menu .layui-nav-item:hover a {
-			color: #fff;
-		}
-		.right-content {
-			flex: 1;
-			padding: 30px 40px;
-			min-height: 500px;
-		}
-		.page-title {
-			font-size: 18px;
-			font-weight: 600;
-			color: #333;
-			margin-bottom: 25px;
-			padding-bottom: 15px;
-			border-bottom: 2px solid #ff6600;
-		}
-		.form-item {
-			margin-bottom: 18px;
-			display: flex;
-			align-items: center;
-		}
-		.form-item label {
-			width: 90px;
-			font-size: 14px;
-			color: #666;
-			text-align: right;
-			padding-right: 15px;
-		}
-		.form-item .input {
-			flex: 1;
-		}
-		.form-item input,
-		.form-item select {
-			width: 100%;
-			height: 38px;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			padding: 0 12px;
-			font-size: 14px;
-		}
-		.form-item input:focus,
-		.form-item select:focus {
-			border-color: #ff6600;
-			outline: none;
-		}
-		.btn-group {
-			display: flex;
-			gap: 15px;
-			margin-top: 30px;
-			padding-top: 20px;
-			border-top: 1px solid #eee;
-		}
-		.btn {
-			padding: 0 30px;
-			height: 40px;
-			line-height: 40px;
-			border-radius: 4px;
-			font-size: 14px;
-			cursor: pointer;
-			border: none;
-		}
-		.btn-primary {
-			background: #ff6600;
-			color: #fff;
-		}
-		.btn-primary:hover {
-			background: #ff8533;
-		}
-		.btn-default {
-			background: #fff;
-			color: #ff6600;
-			border: 1px solid #ff6600;
-		}
-		.btn-default:hover {
-			background: #fff5ee;
-		}
-	</style>
-	<body>
-
-		<div id="app">
-			<!-- 轮播图 -->
-			<!-- <div class="layui-carousel" id="swiper">
-				<div carousel-item id="swiper-item">
-					<div v-for="(item,index) in swiperList" v-bind:key="index">
-						<img class="swiper-item" :src="item.img">
-					</div>
-				</div>
-			</div> -->
-
-			<!-- 轮播图 -->
-
-			
-
-			<div class="center-wrapper">
-			<div class="left-menu">
-				<ul class="layui-nav layui-nav-tree">
-					<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==0?'layui-this':''">
-						<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
-					</li>
-				</ul>
-			</div>
-			<div class="right-content">
-				<div class="page-title">个人信息</div>
-				<form class="layui-form" lay-filter="myForm">
-					<input type="hidden" name="id" id="id" />
-					<div class="form-item">
-						<label>学号</label>
-						<div class="input">
-							<input type="text" readonly name="xuehao" id="xuehao" class="layui-input">
-						</div>
-					</div>
-					<div class="form-item">
-						<label>密码</label>
-						<div class="input">
-							<input type="password" name="mima" id="mima" class="layui-input">
-						</div>
-					</div>
-					<div class="form-item">
-						<label>姓名</label>
-						<div class="input">
-							<input type="text" name="xueshengxingming" id="xueshengxingming" class="layui-input">
-						</div>
-					</div>
-					<div class="form-item">
-						<label>性别</label>
-						<div class="input">
-							<select name="xingbie" id="xingbie" class="layui-input">
-								<option value="">请选择</option>
-								<option v-for="(item,index) in xingbie" v-bind:key="index" :value="item">{{item}}</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-item">
-						<label>头像</label>
-						<div class="input">
-							<img id="touxiangImg" src="../../img/avator.png" style="width:80px;height:80px;border-radius:50%;border:2px solid #eee;">
-							<input type="hidden" id="touxiang" name="touxiang" />
-						</div>
-					</div>
-					<div class="form-item">
-						<label></label>
-						<div class="input">
-							<button type="button" class="layui-btn" id="touxiangUpload"><i class="layui-icon">&#xe67c;</i>上传图片</button>
-						</div>
-					</div>
-					<div class="form-item">
-						<label>学院</label>
-						<div class="input">
-							<input type="text" name="xueyuan" id="xueyuan" class="layui-input">
-						</div>
-					</div>
-					<div class="form-item">
-						<label>班级</label>
-						<div class="input">
-							<input type="text" name="banji" id="banji" class="layui-input">
-						</div>
-					</div>
-					<div class="form-item">
-						<label>手机</label>
-						<div class="input">
-							<input type="text" name="shouji" id="shouji" class="layui-input">
-						</div>
-					</div>
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary" lay-submit lay-filter="*">更新信息</button>
-						<button type="button" class="btn btn-default" @click="logout">退出登录</button>
-					</div>
-				</form>
-			</div>
-		</div>
-
-		</div>
-
-		<!-- layui -->
-		<script src="../../layui/layui.js"></script>
-		<!-- vue -->
-		<script src="../../js/vue.js"></script>
-		<!-- 组件配置信息 -->
-		<script src="../../js/config.js"></script>
-		<!-- 扩展插件配置信息 -->
-		<script src="../../modules/config.js"></script>
-		<!-- 工具方法 -->
-		<script src="../../js/utils.js"></script>
-		<!-- 校验格式工具类 -->
-		<script src="../../js/validate.js"></script>
-
-		<script>
-			var vue = new Vue({
-				el: '#app',
-				data: {
-					// 轮播图
-					swiperList: [],
-					xingbie: [],
-					centerMenu: centerMenu()
-				},
-                updated: function() {
-					layui.form.render(null, 'myForm');
-				},
-				methods: {
-					jump(url) {
-						jump(url)
-					},
-					logout(){
-						localStorage.removeItem('Token');
-						localStorage.removeItem('role');
-						localStorage.removeItem('sessionTable');
-						localStorage.removeItem('adminName');
-						localStorage.removeItem('userid');
-						localStorage.removeItem('userTable');
-						localStorage.removeItem('iframeUrl');
-						window.parent.location.href = '../login/login.html';
-					}
-				}
-			})
-
-			layui.use(['layer', 'element', 'carousel', 'http', 'jquery', 'form', 'upload'], function() {
-				var layer = layui.layer;
-				var element = layui.element;
-				var carousel = layui.carousel;
-				var http = layui.http;
-				var jquery = layui.jquery;
-				var form = layui.form;
-				var upload = layui.upload;
-
-      // 获取轮播图 数据
-      http.request('config/list', 'get', {
-        page: 1,
-        limit: 5
-      }, function(res) {
-        if (res.data.list.length > 0) {
-          let swiperList = [];
-          res.data.list.forEach(element => {
-            if (element.value != null) {
-              swiperList.push({
-                img: element.value
-              });
-            }
-          });
-                  vue.swiperList = swiperList;
-                  vue.$nextTick(() => {
-                    carousel.render({
-                        elem: '#test1',
-                                width: '90%',
-                        height: '500px',
-                        arrow: 'hover',
-                        anim: 'default',
-                        autoplay: 'true',
-                        interval: '3000',
-                        indicator: 'inside'
-                    });
-                  })
-          // vue.$nextTick(()=>{
-          //   window.xznSlide();
-          // });
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <style>
+        .center-wrapper {
+            display: flex;
+            min-height: 500px;
         }
-      });
-				// 充值
-				jquery('#btn-recharge').click(function(e) {
-					layer.open({
-						type: 2,
-						title: '用户充值',
-						area: ['900px', '600px'],
-						content: '../shop-recharge/recharge.html'
-					});
-				});
+        .left-menu {
+            width: 180px;
+            background: #f5f5f5;
+            border-right: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        .left-menu .layui-nav-tree {
+            width: 100%;
+        }
+        .left-menu .layui-nav {
+            position: relative;
+            background: transparent;
+        }
+        .left-menu .layui-nav-item {
+            height: 48px;
+            line-height: 48px;
+            font-size: 14px;
+            color: #333;
+        }
+        .left-menu .layui-nav-item a {
+            color: #333;
+            padding: 0 20px;
+        }
+        .left-menu .layui-nav-item.layui-this,
+        .left-menu .layui-nav-item:hover {
+            background: #36b468;
+            color: #fff;
+        }
+        .left-menu .layui-nav-item.layui-this a,
+        .left-menu .layui-nav-item:hover a {
+            color: #fff;
+        }
+        .right-content {
+            flex: 1;
+            padding: 30px 40px;
+            min-height: 500px;
+        }
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #36b468;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notify-icon {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .notify-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            min-width: 16px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            border-radius: 8px;
+            background: #ff6600;
+            color: #fff;
+            font-size: 12px;
+            padding: 0 6px;
+        }
+        .notify-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            width: 300px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notify-dropdown .notify-item {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        .notify-dropdown .notify-item:hover {
+            background: #f5f5f5;
+        }
+        .notify-dropdown .notify-item.unread {
+            background: #f0f9ff;
+        }
+        .notify-dropdown .notify-item .notify-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .notify-dropdown .notify-item .notify-content {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        .notify-dropdown .notify-item .notify-time {
+            font-size: 11px;
+            color: #999;
+        }
+        .notify-dropdown .notify-empty {
+            padding: 30px;
+            text-align: center;
+            color: #999;
+        }
+        .notify-dropdown .notify-footer {
+            padding: 10px 15px;
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+        }
+        .notify-dropdown .notify-footer a {
+            color: #36b468;
+            font-size: 14px;
+        }
+        .user-info {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        .user-info .info-item {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .user-info .info-label {
+            width: 100px;
+            font-size: 14px;
+            color: #666;
+        }
+        .user-info .info-value {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+        }
+        .user-info .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .user-info .username {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .user-info .user-type {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid #36b468;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #36b468;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #47c07a;
+        }
+        .btn-outline {
+            background: #fff;
+            color: #36b468;
+        }
+        .btn-outline:hover {
+            background: #36b468;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="center-wrapper">
+            <div class="left-menu">
+                <ul class="layui-nav layui-nav-tree">
+                    <li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==0?'layui-this':''">
+                        <a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-content">
+                <div class="page-title">
+                    <span>个人中心</span>
+                    <div class="notify-icon" @click="toggleNotify">
+                        <i class="layui-icon layui-icon-notice"></i>
+                        <span v-if="unreadCount > 0" class="notify-badge">{{unreadCount}}</span>
+                        <div v-if="showNotify" class="notify-dropdown">
+                            <div v-if="notifyList.length === 0" class="notify-empty">
+                                暂无消息通知
+                            </div>
+                            <div v-else v-for="item in notifyList" :key="item.id" class="notify-item" :class="{'unread': item.yuedu === 0}" @click="markAsRead(item.id)">
+                                <div class="notify-title">{{item.xiaoxibiaoti}}</div>
+                                <div class="notify-content">{{item.xiaoxineirong}}</div>
+                                <div class="notify-time">{{formatDate(item.fabushijian)}}</div>
+                            </div>
+                            <div class="notify-footer">
+                                <a href="../xiaoxi/list.html">查看全部</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div style="text-align: center;">
+                        <img :src="userInfo.avatar || '../../img/avator.png'" class="avatar">
+                        <div class="username">{{userInfo.username}}</div>
+                        <div class="user-type">{{userInfo.type === 'shezhang' ? '社长' : '学生'}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">账号：</div>
+                        <div class="info-value">{{userInfo.username}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">姓名：</div>
+                        <div class="info-value">{{userInfo.name || '暂无'}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">手机：</div>
+                        <div class="info-value">{{userInfo.phone || '暂无'}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">邮箱：</div>
+                        <div class="info-value">{{userInfo.email || '暂无'}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">注册时间：</div>
+                        <div class="info-value">{{formatDate(userInfo.regTime)}}</div>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <a href="../users/password.html" class="btn btn-outline">修改密码</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../modules/config.js"></script>
+    <script src="../../js/utils.js"></script>
 
-
-				vue.xingbie = '男,女'.split(',')
-				// 上传图片
-				var touxiangUpload = upload.render({
-					//绑定元素
-					elem: '#touxiangUpload',
-					//上传接口
-					url: http.baseurl + 'file/upload',
-					// 请求头
-					headers: {
-						Token: localStorage.getItem('Token')
-					},
-					// 允许上传时校验的文件类型
-					accept: 'images',
-					before: function() {
-						//loading层
-						var index = layer.load(1, {
-							shade: [0.1, '#fff'] //0.1透明度的白色背景
-						});
-					},
-					// 上传成功
-					done: function(res) {
-						console.log(res);
-						layer.closeAll();
-						if (res.code == 0) {
-							layer.msg("上传成功", {
-								time: 2000,
-								icon: 6
-							})
-							var url = http.baseurl + 'upload/' + res.file;
-							jquery('#touxiang').val(url);
-							jquery('#touxiangImg').attr('src', url)
-						} else {
-							layer.msg(res.msg, {
-								time: 2000,
-								icon: 5
-							})
-						}
-					},
-					//请求异常回调
-					error: function() {
-						layer.closeAll();
-						layer.msg("请求接口异常", {
-							time: 2000,
-							icon: 5
-						})
-					}
-				});
-
-				// 查询用户信息
-				let table = localStorage.getItem("userTable");
-
-				if(!table){
-					layer.msg('请先登录', {
-						time: 2000,
-						icon: 5
-					}, function() {
-						window.parent.location.href = '../login/login.html';
-					});
-				}
-
-
-				http.request(`${table}/session`, 'get', {}, function(data) {
-					// 表单赋值
-					form.val("myForm", data.data);
-					// 图片赋值
-					jquery("#touxiangImg").attr("src", data.data.touxiang);
-				});
-
-				// 提交表单
-				form.on('submit(*)', function(data) {
-					data = data.field;
-					if(!data.xuehao){
-						layer.msg('学号不能为空', {
-														time: 2000,
-														icon: 5
-												});
-						return false
-					}
-					if(!data.mima){
-						layer.msg('密码不能为空', {
-														time: 2000,
-														icon: 5
-												});
-						return false
-					}
-					if(!isMobile(data.shouji)){
-						layer.msg('手机应输入手机格式', {
-														time: 2000,
-														icon: 5
-												});
-						return false
-					}
-					http.requestJson(table + '/update', 'post', data, function(res) {
-						layer.msg('修改成功', {
-							time: 2000,
-							icon: 6
-						}, function() {
-							window.location.reload();
-						});
-					});
-					return false
-				});
-
-			});
-		</script>
-	</body>
+    <script>
+        var vue;
+        layui.use(['layer', 'http'], function() {
+            var http = layui.http;
+            
+            vue = new Vue({
+                el: '#app',
+                data: {
+                    userInfo: {
+                        username: '',
+                        name: '',
+                        phone: '',
+                        email: '',
+                        regTime: '',
+                        avatar: '',
+                        type: ''
+                    },
+                    centerMenu: centerMenu(),
+                    notifyList: [],
+                    unreadCount: 0,
+                    showNotify: false
+                },
+                methods: {
+                    jump(url) {
+                        jump(url)
+                    },
+                    loadUserInfo() {
+                        var userTable = localStorage.getItem('userTable');
+                        var username = localStorage.getItem('adminName');
+                        
+                        if (userTable === 'shezhang') {
+                            http.request('shezhang/info', 'get', {
+                                zhanghao: username
+                            }, function(res) {
+                                if (res.code === 0) {
+                                    vue.userInfo = {
+                                        username: res.data.zhanghao,
+                                        name: res.data.xingming,
+                                        phone: res.data.shouji,
+                                        email: res.data.email,
+                                        regTime: res.data.addtime,
+                                        avatar: res.data.touxiang,
+                                        type: 'shezhang'
+                                    };
+                                }
+                            });
+                        } else if (userTable === 'xuesheng') {
+                            http.request('xuesheng/info', 'get', {
+                                xuehao: username
+                            }, function(res) {
+                                if (res.code === 0) {
+                                    vue.userInfo = {
+                                        username: res.data.xuehao,
+                                        name: res.data.xingming,
+                                        phone: res.data.shouji,
+                                        email: res.data.email,
+                                        regTime: res.data.addtime,
+                                        avatar: res.data.touxiang,
+                                        type: 'xuesheng'
+                                    };
+                                }
+                            });
+                        }
+                    },
+                    loadNotify() {
+                        var userTable = localStorage.getItem('userTable');
+                        var username = localStorage.getItem('adminName');
+                        
+                        if (userTable && username) {
+                            http.request('xiaoxi/list', 'get', {
+                                yonghu: username,
+                                yonghutable: userTable,
+                                limit: 5
+                            }, function(res) {
+                                if (res.code === 0) {
+                                    vue.notifyList = res.data.list || [];
+                                    vue.unreadCount = vue.notifyList.filter(item => item.yuedu === 0).length;
+                                }
+                            });
+                        }
+                    },
+                    toggleNotify() {
+                        vue.showNotify = !vue.showNotify;
+                        if (vue.showNotify) {
+                            vue.loadNotify();
+                        }
+                    },
+                    markAsRead(id) {
+                        http.request('xiaoxi/update', 'post', {
+                            id: id,
+                            yuedu: 1
+                        }, function(res) {
+                            if (res.code === 0) {
+                                vue.loadNotify();
+                            }
+                        });
+                    },
+                    formatDate(date) {
+                        if (!date) return '暂无';
+                        var d = new Date(date);
+                        var year = d.getFullYear();
+                        var month = (d.getMonth() + 1).toString().padStart(2, '0');
+                        var day = d.getDate().toString().padStart(2, '0');
+                        var hours = d.getHours().toString().padStart(2, '0');
+                        var minutes = d.getMinutes().toString().padStart(2, '0');
+                        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+                    }
+                },
+                mounted() {
+                    this.loadUserInfo();
+                    this.loadNotify();
+                }
+            });
+        });
+    </script>
+</body>
 </html>

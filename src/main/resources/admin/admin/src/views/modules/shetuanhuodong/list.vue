@@ -1,6 +1,5 @@
 <template>
   <div class="main-content">
-    <!-- 列表页 -->
     <div v-if="showFlag">
       <el-form :inline="true" :model="searchForm" class="form-content">
         <el-row :gutter="20" class="slt" :style="{justifyContent:contents.searchBoxPosition=='1'?'flex-start':contents.searchBoxPosition=='2'?'center':'flex-end'}">
@@ -57,8 +56,6 @@
               type="danger"
               @click="deleteHandler()"
             >{{ contents.btnAdAllFont == 1?'删除':'' }}</el-button>
-
-
           </el-form-item>
         </el-row>
       </el-form>
@@ -134,19 +131,19 @@
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
-                    prop="registeredCount"
+                    prop="yibaomingrenshu"
                     header-align="center"
 		    label="已报名人数">
 		     <template slot-scope="scope">
-                       {{scope.row.stats ? scope.row.stats.registeredCount : 0}}
+                       {{scope.row.yibaomingrenshu || 0}}
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
-                    prop="remainingQuota"
+                    prop="shengyuminge"
                     header-align="center"
 		    label="剩余名额">
 		     <template slot-scope="scope">
-                       {{scope.row.stats ? scope.row.stats.remainingQuota : 0}}
+                       {{scope.row.shengyuminge || 0}}
                      </template>
                 </el-table-column>
                 <el-table-column  :sortable="contents.tableSortable" :align="contents.tableAlign"
@@ -179,11 +176,19 @@
                   </template>
               </el-table-column>
               <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"
-                  prop="huodongzhuangtai"
+                  prop="isPublish"
                   header-align="center"
-                  label="活动状态">
+                  label="发布状态">
                   <template slot-scope="scope">
-                    <span style="margin-right:10px">{{scope.row.huodongzhuangtai || '进行中'}}</span>
+                    <span style="margin-right:10px">{{scope.row.isPublish || '草稿'}}</span>
+                  </template>
+              </el-table-column>
+              <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"
+                  prop="baomingzhuangtai"
+                  header-align="center"
+                  label="报名状态">
+                  <template slot-scope="scope">
+                    <span style="margin-right:10px">{{scope.row.baomingzhuangtai || '开放报名'}}</span>
                   </template>
               </el-table-column>
               <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign"
@@ -208,16 +213,12 @@
                 <el-button v-if="isAuth('shetuanhuodong','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="primary" icon="el-icon-edit" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
                 <el-button v-if="isAuth('shetuanhuodong','修改') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}<i class="el-icon-edit el-icon--right" /></el-button>
                 <el-button v-if="isAuth('shetuanhuodong','修改') && contents.tableBtnIcon == 0" type="primary" size="mini" @click="addOrUpdateHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'修改':'' }}</el-button>
-
-
-
-
                 <el-button v-if="isAuth('shetuanhuodong','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
                 <el-button v-if="isAuth('shetuanhuodong','删除') && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}<i class="el-icon-delete el-icon--right" /></el-button>
                 <el-button v-if="isAuth('shetuanhuodong','删除') && contents.tableBtnIcon == 0" type="danger" size="mini" @click="deleteHandler(scope.row.id)">{{ contents.tableBtnFont == 1?'删除':'' }}</el-button>
-                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.huodongzhuangtai != '已关闭' && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="warning" icon="el-icon-close" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}</el-button>
-                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.huodongzhuangtai != '已关闭' && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="warning" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}<i class="el-icon-close el-icon--right" /></el-button>
-                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.huodongzhuangtai != '已关闭' && contents.tableBtnIcon == 0" type="warning" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}</el-button>
+                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.baomingzhuangtai != '已关闭' && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 1" type="warning" icon="el-icon-close" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}</el-button>
+                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.baomingzhuangtai != '已关闭' && contents.tableBtnIcon == 1 && contents.tableBtnIconPosition == 2" type="warning" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}<i class="el-icon-close el-icon--right" /></el-button>
+                <el-button v-if="isAuth('shetuanhuodong','修改') && scope.row.baomingzhuangtai != '已关闭' && contents.tableBtnIcon == 0" type="warning" size="mini" @click="closeSignUpHandler(scope.row)">{{ contents.tableBtnFont == 1?'关闭报名':'' }}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -237,7 +238,6 @@
         ></el-pagination>
       </div>
     </div>
-    <!-- 添加/修改页面  将父组件的search方法传递给子组件-->
     <add-or-update v-if="addOrUpdateFlag" :parent="this" ref="addOrUpdate"></add-or-update>
 
     <huodongbaoming-cross-add-or-update v-if="huodongbaomingCrossAddOrUpdateFlag" :parent="this" ref="huodongbaomingCrossaddOrUpdate"></huodongbaoming-cross-add-or-update>
@@ -287,10 +287,8 @@ export default {
       chartVisiable: false,
       addOrUpdateFlag:false,
       huodongbaomingCrossAddOrUpdateFlag: false,
-      contents:{"searchBtnFontColor":"rgba(255, 255, 255, 1)","pagePosition":"1","inputFontSize":"14px","inputBorderRadius":"0px","tableBtnDelFontColor":"rgba(0, 150, 136, 1)","tableBtnIconPosition":"1","searchBtnHeight":"40px","inputIconColor":"rgba(0, 150, 136, 1)","searchBtnBorderRadius":"4px","tableStripe":true,"btnAdAllWarnFontColor":"rgba(255, 255, 255, 1)","tableBtnDelBgColor":"rgba(255, 255, 255, 1)","searchBtnIcon":"1","tableSize":"medium","searchBtnBorderStyle":"solid","tableSelection":true,"searchBtnBorderWidth":"0px","tableContentFontSize":"14px","searchBtnBgColor":"rgba(0, 150, 136, 1)","inputTitleSize":"14px","btnAdAllBorderColor":"#DCDFE6","pageJumper":true,"btnAdAllIconPosition":"1","searchBoxPosition":"3","tableBtnDetailFontColor":"rgba(0, 150, 136, 1)","tableBtnHeight":"40px","pagePager":true,"searchBtnBorderColor":"#DCDFE6","tableHeaderFontColor":"rgba(255, 255, 255, 1)","inputTitle":"1","tableBtnBorderRadius":"20px","btnAdAllFont":"0","btnAdAllDelFontColor":"rgba(255, 255, 255, 1)","tableBtnIcon":"1","btnAdAllHeight":"40px","btnAdAllWarnBgColor":"rgba(24, 144, 255, 1)","btnAdAllBorderWidth":"1px","tableStripeFontColor":"#606266","tableBtnBorderStyle":"solid","inputHeight":"40px","btnAdAllBorderRadius":"20px","btnAdAllDelBgColor":"rgba(255, 69, 0, 1)","pagePrevNext":true,"btnAdAllAddBgColor":"rgba(0, 150, 136, 1)","searchBtnFont":"1","tableIndex":true,"btnAdAllIcon":"1","tableSortable":false,"pageSizes":true,"tableFit":true,"pageBtnBG":true,"searchBtnFontSize":"14px","tableBtnEditBgColor":"rgba(255, 255, 255, 1)","inputBorderWidth":"1px","inputFontPosition":"3","inputFontColor":"rgba(0, 0, 0, 1)","pageEachNum":10,"tableHeaderBgColor":"rgba(0, 150, 136, 1)","inputTitleColor":"rgba(0, 150, 136, 1)","btnAdAllBoxPosition":"3","tableBtnDetailBgColor":"rgba(255, 255, 255, 1)","inputIcon":"1","searchBtnIconPosition":"2","btnAdAllFontSize":"10px","inputBorderStyle":"none none solid none","inputBgColor":"#fff","pageStyle":false,"pageTotal":true,"btnAdAllAd[... 415 chars omitted]"},
+      contents:{"searchBtnFontColor":"rgba(255, 255, 255, 1)","pagePosition":"1","inputFontSize":"14px","inputBorderRadius":"0px","tableBtnDelFontColor":"rgba(0, 150, 136, 1)","tableBtnIconPosition":"1","searchBtnHeight":"40px","inputIconColor":"rgba(0, 150, 136, 1)","searchBtnBorderRadius":"4px","tableStripe":true,"btnAdAllWarnFontColor":"rgba(255, 255, 255, 1)","tableBtnDelBgColor":"rgba(255, 255, 255, 1)","searchBtnIcon":"1","tableSize":"medium","searchBtnBorderStyle":"solid","tableSelection":true,"searchBtnBorderWidth":"0px","tableContentFontSize":"14px","searchBtnBgColor":"rgba(0, 150, 136, 1)","inputTitleSize":"14px","btnAdAllBorderColor":"#DCDFE6","pageJumper":true,"btnAdAllIconPosition":"1","searchBoxPosition":"3","tableBtnDetailFontColor":"rgba(0, 150, 136, 1)","tableBtnHeight":"40px","pagePager":true,"searchBtnBorderColor":"#DCDFE6","tableHeaderFontColor":"rgba(255, 255, 255, 1)","inputTitle":"1","tableBtnBorderRadius":"20px","btnAdAllFont":"0","btnAdAllDelFontColor":"rgba(255, 255, 255, 1)","tableBtnIcon":"1","btnAdAllHeight":"40px","btnAdAllWarnBgColor":"rgba(24, 144, 255, 1)","btnAdAllBorderWidth":"1px","tableStripeFontColor":"#606266","tableBtnBorderStyle":"solid","inputHeight":"40px","btnAdAllBorderRadius":"20px","btnAdAllDelBgColor":"rgba(255, 69, 0, 1)","pagePrevNext":true,"btnAdAllAddBgColor":"rgba(0, 150, 136, 1)","searchBtnFont":"1","tableIndex":true,"btnAdAllIcon":"1","tableSortable":false,"pageSizes":true,"tableFit":true,"pageBtnBG":true,"searchBtnFontSize":"14px","tableBtnEditBgColor":"rgba(255, 255, 255, 1)","inputBorderWidth":"1px","inputFontPosition":"3","inputFontColor":"rgba(0, 0, 0, 1)","pageEachNum":10,"tableHeaderBgColor":"rgba(0, 150, 136, 1)","inputTitleColor":"rgba(0, 150, 136, 1)","btnAdAllBoxPosition":"3","tableBtnDetailBgColor":"rgba(255, 255, 255, 1)","inputIcon":"1","searchBtnIconPosition":"2","btnAdAllFontSize":"10px","inputBorderStyle":"none none solid none","inputBgColor":"#fff","pageStyle":false,"pageTotal":true,"btnAdAllAd[... 26 chars omitted...]"},
       layouts: '',
-
-
     };
   },
   created() {
@@ -355,10 +353,8 @@ export default {
             el.style.lineHeight = this.contents.inputHeight
           })
         },10)
-
       })
     },
-    // 搜索按钮
     contentSearchBtnStyleChange() {
       this.$nextTick(()=>{
         document.querySelectorAll('.form-content .slt .el-button--success').forEach(el=>{
@@ -373,7 +369,6 @@ export default {
         })
       })
     },
-    // 新增、批量删除
     contentBtnAdAllStyleChange() {
       this.$nextTick(()=>{
         document.querySelectorAll('.form-content .ad .el-button--success').forEach(el=>{
@@ -408,7 +403,6 @@ export default {
         })
       })
     },
-    // 表格
     rowStyle({ row, rowIndex}) {
       if (rowIndex % 2 == 1) {
         if(this.contents.tableStripe) {
@@ -433,45 +427,8 @@ export default {
     headerCellStyle({ row, rowIndex}){
       return {backgroundColor: this.contents.tableHeaderBgColor}
     },
-    // 表格按钮
     contentTableBtnStyleChange(){
-      // this.$nextTick(()=>{
-      //   setTimeout(()=>{
-      //     document.querySelectorAll('.table-content .tables .el-table__body .el-button--success').forEach(el=>{
-      //       el.style.height = this.contents.tableBtnHeight
-      //       el.style.color = this.contents.tableBtnDetailFontColor
-      //       el.style.fontSize = this.contents.tableBtnFontSize
-      //       el.style.borderWidth = this.contents.tableBtnBorderWidth
-      //       el.style.borderStyle = this.contents.tableBtnBorderStyle
-      //       el.style.borderColor = this.contents.tableBtnBorderColor
-      //       el.style.borderRadius = this.contents.tableBtnBorderRadius
-      //       el.style.backgroundColor = this.contents.tableBtnDetailBgColor
-      //     })
-      //     document.querySelectorAll('.table-content .tables .el-table__body .el-button--primary').forEach(el=>{
-      //       el.style.height = this.contents.tableBtnHeight
-      //       el.style.color = this.contents.tableBtnEditFontColor
-      //       el.style.fontSize = this.contents.tableBtnFontSize
-      //       el.style.borderWidth = this.contents.tableBtnBorderWidth
-      //       el.style.borderStyle = this.contents.tableBtnBorderStyle
-      //       el.style.borderColor = this.contents.tableBtnBorderColor
-      //       el.style.borderRadius = this.contents.tableBtnBorderRadius
-      //       el.style.backgroundColor = this.contents.tableBtnEditBgColor
-      //     })
-      //     document.querySelectorAll('.table-content .tables .el-table__body .el-button--danger').forEach(el=>{
-      //       el.style.height = this.contents.tableBtnHeight
-      //       el.style.color = this.contents.tableBtnDelFontColor
-      //       el.style.fontSize = this.contents.tableBtnFontSize
-      //       el.style.borderWidth = this.contents.tableBtnBorderWidth
-      //       el.style.borderStyle = this.contents.tableBtnBorderStyle
-      //       el.style.borderColor = this.contents.tableBtnBorderColor
-      //       el.style.borderRadius = this.contents.tableBtnBorderRadius
-      //       el.style.backgroundColor = this.contents.tableBtnDelBgColor
-      //     })
-
-      //   }, 50)
-      // })
     },
-    // 分页
     contentPageStyleChange(){
       let arr = []
 
@@ -503,7 +460,6 @@ export default {
       this.pageIndex = 1;
       this.getDataList();
     },
-    // 获取数据列表
     getDataList() {
       this.dataListLoading = true;
       let params = {
@@ -536,32 +492,28 @@ export default {
     getStatsForList() {
       this.dataList.forEach(item => {
         this.$http({
-          url: "shezhang/getHuodongStats",
-          method: "get",
-          params: {huodongId: item.id}
+          url: "shetuanhuodong/detail/" + item.id,
+          method: "get"
         }).then(({ data }) => {
-          if (data && data.code === 0) {
-            this.$set(item, 'stats', data.data);
+          if (data && data.code === 0 && data.data) {
+            this.$set(item, 'yibaomingrenshu', data.data.yibaomingrenshu || 0);
+            this.$set(item, 'shengyuminge', data.data.shengyuminge || 0);
           }
         });
       });
     },
-    // 每页数
     sizeChangeHandle(val) {
       this.pageSize = val;
       this.pageIndex = 1;
       this.getDataList();
     },
-    // 当前页
     currentChangeHandle(val) {
       this.pageIndex = val;
       this.getDataList();
     },
-    // 多选
     selectionChangeHandler(val) {
       this.dataListSelections = val;
     },
-    // 添加/修改
     addOrUpdateHandler(id,type) {
       this.showFlag = false;
       this.addOrUpdateFlag = true;
@@ -573,8 +525,6 @@ export default {
         this.$refs.addOrUpdate.init(id,type);
       });
     },
-    // 查看评论
-    // 审核窗口
     shDialog(row){
       this.sfshVisiable = !this.sfshVisiable;
       if(row){
@@ -594,7 +544,6 @@ export default {
         }
       }
     },
-    // 审核
     shHandler(){
       this.$confirm(`确定操作?`, "提示", {
         confirmButtonText: "确定",
@@ -622,11 +571,9 @@ export default {
         });
       });
     },
-    // 下载
     download(file){
       window.open(`${file}`)
     },
-    // 删除
     deleteHandler(id) {
       var ids = id
         ? [Number(id)]
@@ -658,21 +605,15 @@ export default {
         });
       });
     },
-    // 关闭报名
     closeSignUpHandler(row) {
       this.$confirm(`确定关闭活动[${row.biaoti}]的报名?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        let form = {
-          id: row.id,
-          huodongzhuangtai: "已关闭"
-        };
         this.$http({
-          url: "shetuanhuodong/update",
-          method: "post",
-          data: form
+          url: "shetuanhuodong/closeBaoming/" + row.id,
+          method: "post"
         }).then(({ data }) => {
           if (data && data.code === 0) {
             this.$message({
@@ -690,7 +631,6 @@ export default {
       });
     },
   }
-
 };
 </script>
 <style lang="scss" scoped>

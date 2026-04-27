@@ -11,29 +11,13 @@
 		<link rel="stylesheet" href="../../css/common.css" />
 	</head>
 	<style>
-		html::after {
-			position: fixed;
-			top: 0;
-			right: 0;
-			left: 0;
-			bottom: 0;
-			content: '';
-			display: block;
-			background: #f5f5f5;
-			z-index: -1;
-		}
 		.center-wrapper {
-			max-width: 1000px;
-			margin: 30px auto;
 			display: flex;
-			background: #fff;
-			border-radius: 8px;
-			box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-			overflow: hidden;
+			min-height: 500px;
 		}
 		.left-menu {
 			width: 180px;
-			background: #fff;
+			background: #f5f5f5;
 			border-right: 1px solid #eee;
 			flex-shrink: 0;
 		}
@@ -56,7 +40,7 @@
 		}
 		.left-menu .layui-nav-item.layui-this,
 		.left-menu .layui-nav-item:hover {
-			background: #ff6600;
+			background: #36b468;
 			color: #fff;
 		}
 		.left-menu .layui-nav-item.layui-this a,
@@ -74,7 +58,10 @@
 			color: #333;
 			margin-bottom: 25px;
 			padding-bottom: 15px;
-			border-bottom: 2px solid #ff6600;
+			border-bottom: 2px solid #36b468;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 		}
 		.collection-list {
 			display: grid;
@@ -90,7 +77,7 @@
 			transition: all 0.3s;
 		}
 		.collection-item:hover {
-			box-shadow: 0 4px 16px rgba(255,102,0,0.2);
+			box-shadow: 0 4px 16px rgba(54,176,104,0.2);
 			transform: translateY(-2px);
 		}
 		.collection-item img {
@@ -118,15 +105,15 @@
 			width: 100%;
 			padding: 8px;
 			background: #fff;
-			color: #ff6600;
-			border: 1px solid #ff6600;
+			color: #36b468;
+			border: 1px solid #36b468;
 			border-radius: 4px;
 			cursor: pointer;
 			font-size: 13px;
 			transition: all 0.3s;
 		}
 		.collection-item .delete-btn:hover {
-			background: #ff6600;
+			background: #36b468;
 			color: #fff;
 		}
 		.empty-tip {
@@ -150,7 +137,7 @@
 			<div class="center-wrapper">
 				<div class="left-menu">
 					<ul class="layui-nav layui-nav-tree">
-						<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==1?'layui-this':''">
+						<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="isCurrentMenu(item.url)?'layui-this':''">
 							<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
 						</li>
 					</ul>
@@ -162,7 +149,7 @@
 						<p>暂无收藏内容</p>
 					</div>
 					<div v-else class="collection-list">
-						<div v-for="(item,index) in dataList" :key="index" @click="jump('../'+item.tablename+'/detail.html?id='+item.refid)" class="collection-item">
+						<div v-for="(item,index) in dataList" :key="index" @click="jump('../'+item.tablename+'/detail.html?id='+item.refid+'&embedded=true')" class="collection-item">
 							<img :src="item.picture || '../../img/avator.png'">
 							<div class="info">
 								<div class="name">{{item.name}}</div>
@@ -190,20 +177,25 @@
 					centerMenu: centerMenu()
 				},
 				methods: {
-					jump(url) {
-						jump(url)
-					},
-					deleteStoreup(id) {
-						var _this = this;
-						layui.layer.confirm('确定删除该收藏吗？', function(index) {
-							layui.http.requestJson('storeup/delete', 'post', JSON.stringify([id]), function(res) {
-								layui.layer.msg('删除成功', { icon: 6 });
-								pageList();
-							});
-							layui.layer.close(index);
+				jump(url) {
+					jump(url)
+				},
+				isCurrentMenu(url) {
+					var currentPath = window.location.pathname;
+					var menuPath = url.replace('../', '');
+					return currentPath.includes(menuPath);
+				},
+				deleteStoreup(id) {
+					var _this = this;
+					layui.layer.confirm('确定删除该收藏吗？', function(index) {
+						layui.http.requestJson('storeup/delete', 'post', JSON.stringify([id]), function(res) {
+							layui.layer.msg('删除成功', { icon: 6 });
+							pageList();
 						});
-					}
+						layui.layer.close(index);
+					});
 				}
+			}
 			});
 
 			layui.use(['layer', 'http', 'jquery', 'laypage'], function() {
@@ -230,7 +222,7 @@
 							limit: limit,
 							groups: 5,
 							layout: ["prev", "page", "next"],
-							theme: '#FF9900',
+							theme: '#36b468',
 							jump: function(obj, first) {
 								if (!first) {
 									param.page = obj.curr;

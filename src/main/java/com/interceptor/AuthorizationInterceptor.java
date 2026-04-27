@@ -36,6 +36,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+		// 打印请求路径
+		System.out.println("Request URL: " + request.getRequestURI());
+		System.out.println("Handler type: " + handler.getClass().getName());
+
 		//支持跨域请求
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
@@ -51,7 +55,9 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         IgnoreAuth annotation;
         if (handler instanceof HandlerMethod) {
             annotation = ((HandlerMethod) handler).getMethodAnnotation(IgnoreAuth.class);
+            System.out.println("HandlerMethod: " + ((HandlerMethod) handler).getMethod().getName());
         } else {
+            System.out.println("Not a HandlerMethod, returning true");
             return true;
         }
 
@@ -62,6 +68,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
          * 不需要验证权限的方法直接放过
          */
         if(annotation!=null) {
+        	System.out.println("IgnoreAuth annotation found, returning true");
         	return true;
         }
         
@@ -75,9 +82,11 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         	request.getSession().setAttribute("role", tokenEntity.getRole());
         	request.getSession().setAttribute("tableName", tokenEntity.getTablename());
         	request.getSession().setAttribute("username", tokenEntity.getUsername());
+        	System.out.println("Token found, returning true");
         	return true;
         }
         
+        System.out.println("No token found, returning 401");
 		PrintWriter writer = null;
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=utf-8");
@@ -89,7 +98,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 		        writer.close();
 		    }
 		}
-//				throw new EIException("请先登录", 401);
+//			throw new EIException("请先登录", 401);
 		return false;
     }
 }

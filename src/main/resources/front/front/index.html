@@ -359,7 +359,7 @@
 
     <div id="tabbar" v-if="true" class="tabbar">
       <div class="company">校园活动管理系统</div>
-      <div class="record">© 2024 All Rights Reserved</div>
+      <div class="record">© 2026 All Rights Reserved</div>
     </div>
 
 		<script src="./xznstatic/js/jquery-1.11.3.min.js"></script>
@@ -368,6 +368,22 @@
 		<script src="./js/config.js"></script>
 		<script src="./modules/config.js"></script>
 		<script src="./js/utils.js"></script>
+		<script>
+			// 全局 http 对象
+			var http = null;
+			// 确保 layui 配置已加载
+			layui.use(['http'], function() {
+				http = layui.http;
+				if (http) {
+					console.log('http module loaded successfully');
+					// 加载用户信息
+					vue.loadUserInfo();
+					vue.loadNotifyList();
+				} else {
+					console.log('http module failed to load');
+				}
+			});
+		</script>
 
 		<script>
       var vue1 = new Vue({el: '#tabbar'})
@@ -415,28 +431,60 @@
 				loadUserInfo() {
 					var userTable = localStorage.getItem('userTable');
 					if (userTable) {
-						layui.http.request(userTable + '/session', 'get', {}, (res) => {
+						http.request(userTable + '/session', 'get', {}, (res) => {
 							if (res.code === 0) {
 								this.isLoggedIn = true;
-								this.userName = res.data.xueshengxingming || res.data.shezhangxingming || res.data.username || '用户';
-								this.userAvatar = res.data.touxiang || '';
+								// 优先使用对应的姓名字段
+								if (userTable === 'xuesheng') {
+									this.userName = res.data.xueshengxingming || res.data.xuehao || '学生用户';
+								} else if (userTable === 'shezhang') {
+									this.userName = res.data.shezhangxingming || res.data.zhanghao || '社长用户';
+								} else {
+									this.userName = res.data.username || '用户';
+								}
+								// 处理头像URL，添加token参数
+								if (res.data.touxiang) {
+									var token = localStorage.getItem('Token');
+									if (token) {
+										this.userAvatar = res.data.touxiang + (res.data.touxiang.includes('?') ? '&' : '?') + 'token=' + token;
+									} else {
+										this.userAvatar = res.data.touxiang;
+									}
+								} else {
+									this.userAvatar = '';
+								}
 							}
 						});
 					}
 				},
 				loadNotifyList() {
 					var userTable = localStorage.getItem('userTable');
-					if (!userTable) {
+					var username = localStorage.getItem('adminName');
+					if (!userTable || !username) {
 						this.notifyList = [];
 						this.unreadCount = 0;
 						return;
 					}
-					this.notifyList = [
-						{content: '您有一个新的活动报名审核结果', time: '2024-01-15 10:30', isRead: 0},
-						{content: '您关注的社团发布了新活动', time: '2024-01-14 15:20', isRead: 0},
-						{content: '系统消息：明天有新的活动上线', time: '2024-01-13 09:00', isRead: 1}
-					];
-					this.unreadCount = this.notifyList.filter(item => item.isRead === 0).length;
+					http.request('xiaoxi/list', 'get', {
+						page: 1,
+						limit: 10,
+						yonghu: username,
+						yonghutable: userTable
+					}, (res) => {
+						if (res.data && res.data.list && res.data.list.length > 0) {
+							this.notifyList = res.data.list.map(item => ({
+								content: item.xiaoxineirong || item.xiaoxibiaoti || '您有一条新通知',
+								time: item.fabushijian ? String(item.fabushijian).split(' ')[0] : '',
+								isRead: item.yuedu === 1 ? 1 : 0
+							}));
+						} else {
+							this.notifyList = [];
+						}
+						this.unreadCount = this.notifyList.filter(item => item.isRead === 0).length;
+					}, (err) => {
+						this.notifyList = [];
+						this.unreadCount = 0;
+					});
 				},
 				hideNotifyPanel() {
 					setTimeout(() => {
@@ -494,12 +542,9 @@
 			}
 		});
 
-			layui.use(['element','layer','http'], function() {
+			layui.use(['element','layer'], function() {
 				var element = layui.element;
 				var layer = layui.layer;
-				var http = layui.http;
-				vue.loadUserInfo();
-				vue.loadNotifyList();
 			});
 
 			function chatTap(){

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>发布活动</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+</head>
+<style>
+    html::after {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        content: '';
+        display: block;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+    .data-add-container { padding: 20px; }
+    .data-add-container .add .layui-form-item { margin-bottom: 15px; }
+    .data-add-container .add .layui-form-item .layui-form-label { width: 100px; padding: 9px 10px 9px 0; }
+    .data-add-container .add .layui-input-block { margin-left: 110px; }
+    .btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+    .btn-group .layui-btn { width: 120px; height: 40px; line-height: 40px; }
+</style>
+<body>
+    <div id="app">
+        <div class="data-add-container" :style='{"padding":"20px","boxShadow":"1px 1px 6px rgba(213, 213, 213, 0.3)","margin":"30px auto","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"10px","borderWidth":"1px","borderStyle":"solid"}'>
+            <form class="layui-form layui-form-pane add" lay-filter="myForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input v-model="detail.biaoti" type="text" name="biaoti" id="biaoti" autocomplete="off" class="layui-input" placeholder="请输入活动标题">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">社团名称</label>
+                    <div class="layui-input-block">
+                        <input v-model="detail.shetuanmingcheng" type="text" name="shetuanmingcheng" id="shetuanmingcheng" autocomplete="off" class="layui-input" placeholder="请输入社团名称">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">封面图片</label>
+                    <div class="layui-input-block">
+                        <div v-if="detail.huodongtupian" style="display:inline-block;margin-right:10px;">
+                            <img id="huodongtupianImg" style="width: 100px;height: 100px;border-radius: 4px;border: 1px solid #eee;" :src="detail.huodongtupian">
+                            <input type="hidden" :value="detail.huodongtupian" id="huodongtupian" name="huodongtupian" />
+                        </div>
+                        <button v-if="!ro.huodongtupian" style="display:inline-block;" type="button" class="layui-btn" id="huodongtupianUpload">
+                            <i class="layui-icon">&#xe67c;</i>上传封面图
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-block">
+                        <input v-model="detail.kaishishijian" type="text" name="kaishishijian" id="kaishishijian" autocomplete="off" class="layui-input" placeholder="请选择开始时间">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-block">
+                        <input v-model="detail.jieshushijian" type="text" name="jieshushijian" id="jieshushijian" autocomplete="off" class="layui-input" placeholder="请选择结束时间">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">活动人数</label>
+                    <div class="layui-input-block">
+                        <input v-model="detail.huodongrenshu" type="number" name="huodongrenshu" id="huodongrenshu" autocomplete="off" class="layui-input" placeholder="请输入活动人数">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">活动地点</label>
+                    <div class="layui-input-block">
+                        <input v-model="detail.huodongdidian" type="text" name="huodongdidian" id="huodongdidian" autocomplete="off" class="layui-input" placeholder="请输入活动地点">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">简单介绍</label>
+                    <div class="layui-input-block">
+                        <textarea v-model="detail.huodongxiangqing" name="huodongxiangqing" id="huodongxiangqing" rows="4" class="layui-textarea" placeholder="请输入活动简单介绍"></textarea>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="layui-btn layui-btn-primary" @click="saveDraft">保存草稿</button>
+                    <button type="button" class="layui-btn" style="background-color: rgba(255, 153, 0, 1);" @click="publishNow">立即发布</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../modules/config.js"></script>
+    <script src="../../js/utils.js"></script>
+
+    <script>
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                detail: {
+                    biaoti: '',
+                    shetuanmingcheng: '',
+                    huodongtupian: '',
+                    kaishishijian: '',
+                    jieshushijian: '',
+                    huodongrenshu: '',
+                    huodongdidian: '',
+                    huodongxiangqing: ''
+                },
+                ro: {
+                    huodongtupian: false
+                }
+            },
+            methods: {
+                jump(url) {
+                    jump(url)
+                },
+                saveDraft() {
+                    if(!this.detail.biaoti) {
+                        layer.msg('请输入活动标题', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.shetuanmingcheng) {
+                        layer.msg('请输入社团名称', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.kaishishijian) {
+                        layer.msg('请选择开始时间', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.jieshushijian) {
+                        layer.msg('请选择结束时间', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.huodongrenshu) {
+                        layer.msg('请输入活动人数', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.huodongdidian) {
+                        layer.msg('请输入活动地点', {icon: 5});
+                        return;
+                    }
+                    layui.http.requestJson('shetuanhuodong/saveDraft', 'post', this.detail, function(res) {
+                        layer.msg('草稿保存成功', {icon: 6}, function() {
+                            window.location.href = 'mypublish.html';
+                        });
+                    }, function(error) {
+                        layer.msg('保存失败', {icon: 5});
+                    });
+                },
+                publishNow() {
+                    if(!this.detail.biaoti) {
+                        layer.msg('请输入活动标题', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.shetuanmingcheng) {
+                        layer.msg('请输入社团名称', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.kaishishijian) {
+                        layer.msg('请选择开始时间', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.jieshushijian) {
+                        layer.msg('请选择结束时间', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.huodongrenshu) {
+                        layer.msg('请输入活动人数', {icon: 5});
+                        return;
+                    }
+                    if(!this.detail.huodongdidian) {
+                        layer.msg('请输入活动地点', {icon: 5});
+                        return;
+                    }
+                    layui.http.requestJson('shetuanhuodong/publishNow', 'post', this.detail, function(res) {
+                        layer.msg('发布成功', {icon: 6}, function() {
+                            window.location.href = 'mypublish.html';
+                        });
+                    }, function(error) {
+                        layer.msg('发布失败', {icon: 5});
+                    });
+                }
+            }
+        });
+
+        layui.use(['layer', 'form', 'upload', 'laydate', 'http'], function() {
+            var layer = layui.layer;
+            var form = layui.form;
+            var upload = layui.upload;
+            var laydate = layui.laydate;
+            var http = layui.http;
+
+            laydate.render({
+                elem: '#kaishishijian',
+                type: 'date',
+                done: function(value, date) {
+                    vue.detail.kaishishijian = value;
+                }
+            });
+
+            laydate.render({
+                elem: '#jieshushijian',
+                type: 'date',
+                done: function(value, date) {
+                    vue.detail.jieshushijian = value;
+                }
+            });
+
+            var huodongtupianUpload = upload.render({
+                elem: '#huodongtupianUpload',
+                url: http.baseurl + 'file/upload',
+                headers: {
+                    Token: localStorage.getItem('Token')
+                },
+                accept: 'images',
+                before: function() {
+                    layer.load(1, {shade: [0.1, '#fff']});
+                },
+                done: function(res) {
+                    layer.closeAll();
+                    if (res.code == 0) {
+                        layer.msg("上传成功", {icon: 6});
+                        var url = http.baseurl + 'upload/' + res.file;
+                        vue.detail.huodongtupian = url;
+                        jquery('#huodongtupian').val(url);
+                        jquery('#huodongtupianImg').attr('src', url);
+                    } else {
+                        layer.msg(res.msg, {icon: 5});
+                    }
+                },
+                error: function() {
+                    layer.closeAll();
+                    layer.msg("请求接口异常", {icon: 5});
+                }
+            });
+
+            layui.http.request('shezhang/session', 'get', {}, function(data) {
+                if(data && data.code === 0) {
+                    var json = data.data;
+                    if(json.shetuanmingcheng) {
+                        vue.detail.shetuanmingcheng = json.shetuanmingcheng;
+                    }
+                    if(json.danweimingcheng) {
+                        if(!vue.detail.shetuanmingcheng) {
+                            vue.detail.shetuanmingcheng = json.danweimingcheng;
+                        }
+                    }
+                    if(json.zhanghao) {
+                        vue.detail.zhanghao = json.zhanghao;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

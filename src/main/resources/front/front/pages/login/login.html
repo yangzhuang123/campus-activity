@@ -236,6 +236,10 @@
                             if (sessionRes.code === 0) {
                                 // 用户id
                                 localStorage.setItem('userid', sessionRes.data.id);
+                                // 用户名称 - 兼容各种角色
+                                var userName = sessionRes.data.zhanghao || sessionRes.data.xuehao || sessionRes.data.username || data.username;
+                                localStorage.setItem('username', userName);
+                                localStorage.setItem('adminName', userName);
                                 // 路径访问设置
                                 window.location.href = '../../index.html';
                             } else {

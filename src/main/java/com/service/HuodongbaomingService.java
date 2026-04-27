@@ -22,15 +22,14 @@ public interface HuodongbaomingService extends IService<HuodongbaomingEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
     
-   	List<HuodongbaomingVO> selectListVO(Wrapper<HuodongbaomingEntity> wrapper);
-   	
-   	HuodongbaomingVO selectVO(@Param("ew") Wrapper<HuodongbaomingEntity> wrapper);
-   	
-   	List<HuodongbaomingView> selectListView(Wrapper<HuodongbaomingEntity> wrapper);
-   	
-   	HuodongbaomingView selectView(@Param("ew") Wrapper<HuodongbaomingEntity> wrapper);
-   	
-   	PageUtils queryPage(Map<String, Object> params,Wrapper<HuodongbaomingEntity> wrapper);
-   	
+    List<HuodongbaomingVO> selectListVO(Wrapper<HuodongbaomingEntity> wrapper);
+    
+    HuodongbaomingVO selectVO(@Param("ew") Wrapper<HuodongbaomingEntity> wrapper);
+    
+    PageUtils selectListView(Wrapper<HuodongbaomingEntity> wrapper);
+    
+    HuodongbaomingView selectView(@Param("ew") Wrapper<HuodongbaomingEntity> wrapper);
+    
+    PageUtils queryPage(Map<String, Object> params,Wrapper<HuodongbaomingEntity> wrapper);
+    
 }
-

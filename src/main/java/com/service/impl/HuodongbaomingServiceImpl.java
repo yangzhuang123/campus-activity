@@ -33,25 +33,27 @@ public class HuodongbaomingServiceImpl extends ServiceImpl<HuodongbaomingDao, Hu
     
     @Override
 	public PageUtils queryPage(Map<String, Object> params, Wrapper<HuodongbaomingEntity> wrapper) {
-		  Page<HuodongbaomingView> page =new Query<HuodongbaomingView>(params).getPage();
-	        page.setRecords(baseMapper.selectListView(page,wrapper));
-	    	PageUtils pageUtil = new PageUtils(page);
-	    	return pageUtil;
- 	}
+	      Page<HuodongbaomingView> page =new Query<HuodongbaomingView>(params).getPage();
+        page.setRecords(baseMapper.selectListView(page,wrapper));
+	    PageUtils pageUtil = new PageUtils(page);
+	    return pageUtil;
+	}
     
     @Override
 	public List<HuodongbaomingVO> selectListVO(Wrapper<HuodongbaomingEntity> wrapper) {
- 		return baseMapper.selectListVO(wrapper);
+		return baseMapper.selectListVO(wrapper);
 	}
 	
 	@Override
 	public HuodongbaomingVO selectVO(Wrapper<HuodongbaomingEntity> wrapper) {
- 		return baseMapper.selectVO(wrapper);
+		return baseMapper.selectVO(wrapper);
 	}
 	
 	@Override
-	public List<HuodongbaomingView> selectListView(Wrapper<HuodongbaomingEntity> wrapper) {
-		return baseMapper.selectListView(wrapper);
+	public PageUtils selectListView(Wrapper<HuodongbaomingEntity> wrapper) {
+		Page<HuodongbaomingView> page = new Page<>(1, 1000);
+		page.setRecords(baseMapper.selectListView(wrapper));
+		return new PageUtils(page);
 	}
 
 	@Override

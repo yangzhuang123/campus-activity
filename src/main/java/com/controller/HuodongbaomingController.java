@@ -26,11 +26,13 @@ import com.annotation.IgnoreAuth;
 
 import com.entity.HuodongbaomingEntity;
 import com.entity.ShetuanhuodongEntity;
+import com.entity.XxiaoxiEntity;
 import com.entity.view.HuodongbaomingView;
 
 import com.service.HuodongbaomingService;
 import com.service.TokenService;
 import com.service.ShetuanhuodongService;
+import com.service.XxiaoxiService;
 import com.utils.PageUtils;
 import com.utils.R;
 import com.utils.MD5Util;
@@ -38,13 +40,6 @@ import com.utils.MPUtil;
 import com.utils.CommonUtil;
 
 
-/**
- * 活动报名
- * 后端接口
- * @author 
- * @email 
- * @date 2021-05-08 09:49:51
- */
 @RestController
 @RequestMapping("/huodongbaoming")
 public class HuodongbaomingController {
@@ -52,7 +47,9 @@ public class HuodongbaomingController {
     private HuodongbaomingService huodongbaomingService;
     @Autowired
     private ShetuanhuodongService shetuanhuodongService;
-    
+    @Autowired
+    private XxiaoxiService xiaoxiService;
+
 
 
     /**
@@ -73,12 +70,12 @@ public class HuodongbaomingController {
 
         return R.ok().put("data", page);
     }
-    
+
     /**
      * 前端列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params,HuodongbaomingEntity huodongbaoming, 
+    public R list(@RequestParam Map<String, Object> params,HuodongbaomingEntity huodongbaoming,
 		HttpServletRequest request){
         EntityWrapper<HuodongbaomingEntity> ew = new EntityWrapper<HuodongbaomingEntity>();
 		PageUtils page = huodongbaomingService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, huodongbaoming), params), params));
@@ -89,10 +86,17 @@ public class HuodongbaomingController {
      * 列表
      */
     @RequestMapping("/lists")
-    public R list( HuodongbaomingEntity huodongbaoming){
-       	EntityWrapper<HuodongbaomingEntity> ew = new EntityWrapper<HuodongbaomingEntity>();
-      	ew.allEq(MPUtil.allEQMapPre( huodongbaoming, "huodongbaoming")); 
-        return R.ok().put("data", huodongbaomingService.selectListView(ew));
+    public R list( HuodongbaomingEntity huodongbaoming, @RequestParam Map<String, Object> params){
+        	EntityWrapper<HuodongbaomingEntity> ew = new EntityWrapper<HuodongbaomingEntity>();
+        	String sfsh = params.get("sfsh") != null ? params.get("sfsh").toString() : null;
+        	if ("isNull".equals(sfsh)) {
+        		ew.isNull("sfsh");
+        	} else if (sfsh != null && !sfsh.isEmpty()) {
+        		ew.eq("sfsh", sfsh);
+        	}
+       	ew.allEq(MPUtil.allEQMapPre( huodongbaoming, "huodongbaoming"));
+        PageUtils page = huodongbaomingService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, huodongbaoming), params), params));
+        return R.ok().put("data", page);
     }
 
 	 /**
@@ -101,11 +105,11 @@ public class HuodongbaomingController {
     @RequestMapping("/query")
     public R query(HuodongbaomingEntity huodongbaoming){
         EntityWrapper< HuodongbaomingEntity> ew = new EntityWrapper< HuodongbaomingEntity>();
- 		ew.allEq(MPUtil.allEQMapPre( huodongbaoming, "huodongbaoming")); 
+		ew.allEq(MPUtil.allEQMapPre( huodongbaoming, "huodongbaoming"));
 		HuodongbaomingView huodongbaomingView =  huodongbaomingService.selectView(ew);
 		return R.ok("查询活动报名成功").put("data", huodongbaomingView);
     }
-	
+
     /**
      * 后端详情
      */
@@ -123,7 +127,7 @@ public class HuodongbaomingController {
         HuodongbaomingEntity huodongbaoming = huodongbaomingService.selectById(id);
         return R.ok().put("data", huodongbaoming);
     }
-    
+
 
 
 
@@ -134,28 +138,36 @@ public class HuodongbaomingController {
     public R save(@RequestBody HuodongbaomingEntity huodongbaoming, HttpServletRequest request){
     	huodongbaoming.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(huodongbaoming);
-        
-        // 检查活动名额是否已满
+
         String biaoti = huodongbaoming.getBiaoti();
         if(StringUtils.isNotBlank(biaoti)) {
-            // 查询活动信息
             ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectOne(new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti));
             if(shetuanhuodong != null) {
                 Integer huodongrenshu = shetuanhuodong.getHuodongrenshu();
                 if(huodongrenshu != null && huodongrenshu > 0) {
-                    // 统计已报名人数
                     int count = huodongbaomingService.selectCount(new EntityWrapper<HuodongbaomingEntity>().eq("biaoti", biaoti));
                     if(count >= huodongrenshu) {
                         return R.error("活动名额已满，无法报名");
                     }
+                    if(count + 1 >= huodongrenshu) {
+                        XxiaoxiEntity xiaoxi = new XxiaoxiEntity();
+                        xiaoxi.setYonghu(shetuanhuodong.getZhanghao());
+                        xiaoxi.setYonghutable("shezhang");
+                        xiaoxi.setXiaoxileixing("baomingyiman");
+                        xiaoxi.setXiaoxibiaoti( "报名已满");
+                        xiaoxi.setXiaoxineirong("您的活动「" + biaoti + "」报名已满");
+                        xiaoxi.setFabushijian(new Date());
+                        xiaoxi.setYuedu(0);
+                        xiaoxiService.sendMessage(xiaoxi);
+                    }
                 }
             }
         }
-        
+
         huodongbaomingService.insert(huodongbaoming);
         return R.ok();
     }
-    
+
     /**
      * 前端保存
      */
@@ -163,24 +175,32 @@ public class HuodongbaomingController {
     public R add(@RequestBody HuodongbaomingEntity huodongbaoming, HttpServletRequest request){
     	huodongbaoming.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(huodongbaoming);
-        
-        // 检查活动名额是否已满
+
         String biaoti = huodongbaoming.getBiaoti();
         if(StringUtils.isNotBlank(biaoti)) {
-            // 查询活动信息
             ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectOne(new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti));
             if(shetuanhuodong != null) {
                 Integer huodongrenshu = shetuanhuodong.getHuodongrenshu();
                 if(huodongrenshu != null && huodongrenshu > 0) {
-                    // 统计已报名人数
                     int count = huodongbaomingService.selectCount(new EntityWrapper<HuodongbaomingEntity>().eq("biaoti", biaoti));
                     if(count >= huodongrenshu) {
                         return R.error("活动名额已满，无法报名");
                     }
+                    if(count + 1 >= huodongrenshu) {
+                        XxiaoxiEntity xiaoxi = new XxiaoxiEntity();
+                        xiaoxi.setYonghu(shetuanhuodong.getZhanghao());
+                        xiaoxi.setYonghutable("shezhang");
+                        xiaoxi.setXiaoxileixing("baomingyiman");
+                        xiaoxi.setXiaoxibiaoti("报名已满");
+                        xiaoxi.setXiaoxineirong("您的活动「" + biaoti + "」报名已满");
+                        xiaoxi.setFabushijian(new Date());
+                        xiaoxi.setYuedu(0);
+                        xiaoxiService.sendMessage(xiaoxi);
+                    }
                 }
             }
         }
-        
+
         huodongbaomingService.insert(huodongbaoming);
         return R.ok();
     }
@@ -190,11 +210,22 @@ public class HuodongbaomingController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody HuodongbaomingEntity huodongbaoming, HttpServletRequest request){
-        //ValidatorUtils.validateEntity(huodongbaoming);
-        huodongbaomingService.updateById(huodongbaoming);//全部更新
+        HuodongbaomingEntity old = huodongbaomingService.selectById(huodongbaoming.getId());
+        if(old != null && "否".equals(old.getSfsh()) && "是".equals(huodongbaoming.getSfsh())) {
+            XxiaoxiEntity xiaoxi = new XxiaoxiEntity();
+            xiaoxi.setYonghu(huodongbaoming.getXuehao());
+            xiaoxi.setYonghutable("xuesheng");
+            xiaoxi.setXiaoxileixing("baomingtongguo");
+            xiaoxi.setXiaoxibiaoti("报名通过");
+            xiaoxi.setXiaoxineirong("您的活动「" + huodongbaoming.getBiaoti() + "」报名已通过审核");
+            xiaoxi.setFabushijian(new Date());
+            xiaoxi.setYuedu(0);
+            xiaoxiService.sendMessage(xiaoxi);
+        }
+        huodongbaomingService.updateById(huodongbaoming);
         return R.ok();
     }
-    
+
 
     /**
      * 删除
@@ -204,16 +235,16 @@ public class HuodongbaomingController {
         huodongbaomingService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
     }
-    
+
     /**
      * 提醒接口
      */
 	@RequestMapping("/remind/{columnName}/{type}")
-	public R remindCount(@PathVariable("columnName") String columnName, HttpServletRequest request, 
-						 @PathVariable("type") String type,@RequestParam Map<String, Object> map) {
+	public R remindCount(@PathVariable("columnName") String columnName, HttpServletRequest request,
+			 @PathVariable("type") String type,@RequestParam Map<String, Object> map) {
 		map.put("column", columnName);
 		map.put("type", type);
-		
+
 		if(type.equals("2")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar c = Calendar.getInstance();
@@ -221,7 +252,7 @@ public class HuodongbaomingController {
 			Date remindEndDate = null;
 			if(map.get("remindstart")!=null) {
 				Integer remindStart = Integer.parseInt(map.get("remindstart").toString());
-				c.setTime(new Date()); 
+				c.setTime(new Date());
 				c.add(Calendar.DAY_OF_MONTH,remindStart);
 				remindStartDate = c.getTime();
 				map.put("remindstart", sdf.format(remindStartDate));
@@ -234,7 +265,7 @@ public class HuodongbaomingController {
 				map.put("remindend", sdf.format(remindEndDate));
 			}
 		}
-		
+
 		Wrapper<HuodongbaomingEntity> wrapper = new EntityWrapper<HuodongbaomingEntity>();
 		if(map.get("remindstart")!=null) {
 			wrapper.ge(columnName, map.get("remindstart"));
@@ -254,7 +285,7 @@ public class HuodongbaomingController {
 		int count = huodongbaomingService.selectCount(wrapper);
 		return R.ok().put("count", count);
 	}
-	
+
 
 
 }
