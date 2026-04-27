@@ -192,12 +192,12 @@
 	line-height: 25px;
 	text-align: center;
 	background: #f7eedc;
-	color: #d42e3b;
+	color: #ff9900;
 	font-size: 14px;
 	border-radius: 6px
 }
 .student .list a:hover {
-	background: #d42e3b;
+	background: #ff9900;
 	color: #fff
 }
 .student li .photo {
@@ -221,8 +221,8 @@
 	background: #fff
 }
 .student li:hover {
-	background: #d42e3b;
-	border-color: #d42e3b
+	background: #ff9900;
+	border-color: #ff9900
 }
 .student li:hover a {
 	color: #fff
@@ -297,7 +297,7 @@
 .first_list .right .tit {
 	display: block;
 	height: 31px;
-	color: #d42e3b;
+	color: #ff9900;
 	font-size: 14px;
 }
 .first_list .right .text {
@@ -326,7 +326,7 @@
 	border-bottom: dotted 1px #dddddd;
 }
 .other_list a:hover, .other_list li:hover {
-	color: #d42e3b
+	color: #ff9900
 }
 .other_list li span {
 	float: right;
@@ -379,8 +379,8 @@
 	transition: all 0.5s;
 }
 .list_btn_num a:hover, .list_btn_num .hover {
-	color: #d42e3b;
-	border-color: #d42e3b;
+	color: #ff9900;
+	border-color: #ff9900;
 }
 /*????????????*/
 .news_con .ny_right .content_tit {
@@ -462,10 +462,10 @@
 	transition: all 0.3s;
 }
 .pro_con .ny_right .content li:hover {
-	border-color: #d42e3b
+	border-color: #ff9900
 }
 .pro_con .ny_right .content li:hover .more {
-	background: #d42e3b
+	background: #ff9900
 }
 .pagelink {
 	height: 26px;

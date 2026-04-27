@@ -3,29 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>登录</title>
+    <title>校园活动系统 - 登录</title>
     <link rel="stylesheet" type="text/css" href="../../layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="../../xznstatic/css/public.css"/>
     <link rel="stylesheet" type="text/css" href="../../xznstatic/css/login.css"/>
     <style type="text/css">
+    	/* ===== Background & Layout ===== */
+    	html, body {
+    		width: 100%;
+    		height: 100%;
+    		margin: 0;
+    		padding: 0;
+    	}
     	.login {
     		display: flex;
     		justify-content: center;
     		align-items: center;
-    	    width: 100%;
-    	    height: 100%;
-    		background-attachment: fixed;
-    		background-size: cover;
-    		background-position: center;
-    		    		background-image: url(http://codegen.caihongy.cn/20201213/be9fc07223494670927b98c1df592666.jpg);
-    		    	}
+    		width: 100%;
+    		height: 100%;
+    		position: relative;
+    		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    	}
+
+    	/* ===== Login Form Container ===== */
+    	#loginForm {
+    		position: relative;
+    		z-index: 2;
+    		animation: formFadeIn 0.6s ease;
+    	}
+    	@keyframes formFadeIn {
+    		from { opacity: 0; transform: translateY(20px); }
+    		to { opacity: 1; transform: translateY(0); }
+    	}
     	.login form {
     		box-sizing: border-box;
     		min-height: 400px;
     		display: flex;
     		flex-direction: column;
     		justify-content: center !important;
-			position: inherit;
+    		position: relative;
     	}
     	.login .logo, .login .title {
     		box-sizing: border-box;
@@ -54,19 +70,27 @@
     		margin: 0;
     		box-sizing: border-box;
     	}
+
+    	/* ===== Role Radio Buttons ===== */
+		.l-redio {
+			display: flex !important;
+			justify-content: center;
+			gap: 20px;
+			padding: 6px 0 !important;
+		}
 		.l-redio .layui-form-radio {
 			margin: 0;
 		}
 		.l-redio .layui-form-radio>i {
-			font-size: 16px;
+			font-size: 18px;
 			color: #DCDFE6;
 		}
 		.l-redio .layui-form-radio>div {
 			font-size: 14px;
-			color: #606266;
+			color: #999;
 		}
 		.l-redio .layui-form-radioed>i {
-			font-size: 16px;
+			font-size: 18px;
 			color: rgba(255, 153, 0, 1);
 		}
 		.l-redio .layui-form-radioed>div {
@@ -74,27 +98,26 @@
 			color: rgba(255, 153, 0, 1);
 		}
 
-#loginForm .codes {
-				display: none;
-			}
-	
-	#loginForm .codes input {
-		width: calc(100% - 84px);
-		height: 44px;
-		margin: 0;
-		color: #1e90ff;
-		font-size: 14px;
-		padding: 0 10px;
-		border-radius: 0;
-		border-width: 1px;
-		border-style: solid;
-		border-color: #1e90ff;
-		background-color: #fff;
-		box-shadow: 0 0 6px rgba(30, 144, 255, 0);
-		outline: none;
-	}
-	
-	#loginForm .codes .nums {
+		/* ===== Captcha (disabled) ===== */
+		#loginForm .codes {
+			display: none;
+		}
+		#loginForm .codes input {
+			width: calc(100% - 84px);
+			height: 44px;
+			margin: 0;
+			color: #1e90ff;
+			font-size: 14px;
+			padding: 0 10px;
+			border-radius: 0;
+			border-width: 1px;
+			border-style: solid;
+			border-color: #1e90ff;
+			background-color: #fff;
+			box-shadow: 0 0 6px rgba(30, 144, 255, 0);
+			outline: none;
+		}
+		#loginForm .codes .nums {
 			width: 84px;
 			height: 44px;
 			margin: 0;
@@ -111,45 +134,79 @@
 			box-sizing: border-box;
 		}
 
+		/* ===== System Title ===== */
+		.system-title {
+			text-align: center;
+			font-size: 28px;
+			font-weight: 700;
+			color: #333;
+			margin-bottom: 8px;
+			letter-spacing: 2px;
+		}
+		.system-subtitle {
+			text-align: center;
+			font-size: 14px;
+			color: #999;
+			margin-bottom: 20px;
+			letter-spacing: 4px;
+		}
+
     </style>
 </head>
 <body>
     <div id="app" class="login">
-        <form id="loginForm" class="layui-form login-form" :style='{"padding":"30px","boxShadow":"0 0 0px rgba(255,0,0,.8)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 1)","borderRadius":"20px","borderWidth":"0","width":"400px","borderStyle":"solid","justifyContent":"center","height":"auto"}'>
+        <form id="loginForm" class="layui-form login-form" :style='{"padding":"40px 30px 30px","boxShadow":"0 8px 40px rgba(0,0,0,0.2)","borderColor":"rgba(255,255,255,0.2)","backgroundColor":"rgba(255, 255, 255, 0.95)","borderRadius":"16px","borderWidth":"1px","width":"420px","borderStyle":"solid","justifyContent":"center","height":"auto"}'>
+            <!-- System Title -->
+            <div class="system-title">校园活动系统</div>
+            <div class="system-subtitle">CAMPUS ACTIVITY SYSTEM</div>
+
             <h1 class="logo" v-if="false" :style='{"padding":"5px 0","boxShadow":"0 0 0px rgba(255,0,0,.8)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"6px","borderWidth":"0","borderStyle":"solid"}'><img :style='{"boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 auto","borderColor":"rgba(255, 255, 255, 0.3)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"0","borderWidth":"0px","width":"140px","borderStyle":"solid","height":"140px"}' src="http://codegen.caihongy.cn/20210123/46be50155ce34c7fb71f292d03774a77.png"></h1>
             
             <div class="msg-warn hide title" v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"10px auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(255, 255, 255, 1)","isshow":false,"borderRadius":"8px","borderWidth":"0","width":"auto","lineHeight":"32px","fontSize":"0","borderStyle":"solid"}'>公共场所不建议自动登录，以防账号丢失</div>
-            <div :style='{"padding":"0","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0 00px 0","width":"80%","borderStyle":"solid","height":"64px"}' class="form-item">
-                <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">账号</label>
-				<input :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(0,0,0,.5)","borderColor":"rgba(36, 126, 222, 1)","backgroundColor":"rgba(255, 255, 255, 0.3)","color":"rgba(23, 23, 23, 1)","borderRadius":"20px","textAlign":"center","borderWidth":"0","width":"100%","fontSize":"14px","borderStyle":"solid","height":"33px"}' type="text" name="username" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
-            </div>
-            <div :style='{"padding":"0","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0 00px 0","width":"80%","borderStyle":"solid","height":"64px"}' class="form-item">
-                <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">密码</label>
-				<input :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(0,0,0,.5)","borderColor":"rgba(36, 126, 222, 1)","backgroundColor":"rgba(255, 255, 255, 0.3)","color":"rgba(23, 23, 23, 1)","borderRadius":"20px","textAlign":"center","borderWidth":"0","width":"100%","fontSize":"14px","borderStyle":"solid","height":"33px"}' type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-            </div>
-				<!-- 验证码功能暂时禁用 -->
-		<!-- <div :style='{"padding":"0","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0 00px 0","width":"80%","borderStyle":"solid","height":"64px"}' class="form-item codes">
-		  <input style="flex: 1;" type="text" id="code" placeholder="请输入验证码">
-		  <div class="nums" id="nums" style="display: flex;justify-content: center;align-items: center;">
-		    
-		  </div>
-		</div> -->
 
-            <div :style='{"padding":"10px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0 0 0px 0","width":"80%","borderStyle":"solid","height":"64px"}' class="form-item l-redio">
+            <!-- Account Input -->
+            <div :style='{"padding":"0","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 auto 8px","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0","width":"85%","borderStyle":"solid","height":"auto"}' class="form-item">
+                <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">账号</label>
+				<div style="position:relative;width:100%;">
+					<span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#bbb;font-size:16px;z-index:1;">👤</span>
+					<input :style='{"padding":"0 10px 0 42px","boxShadow":"0 2px 6px rgba(0,0,0,0.06)","borderColor":"rgba(220,220,220,0.8)","backgroundColor":"rgba(249,249,249,0.9)","color":"rgba(51,51,51,1)","borderRadius":"10px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"48px"}' type="text" name="username" required lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+				</div>
+            </div>
+
+            <!-- Password Input -->
+            <div :style='{"padding":"0","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 auto 8px","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0","width":"85%","borderStyle":"solid","height":"auto"}' class="form-item">
+                <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">密码</label>
+				<div style="position:relative;width:100%;">
+					<span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#bbb;font-size:16px;z-index:1;">🔒</span>
+					<input :style='{"padding":"0 10px 0 42px","boxShadow":"0 2px 6px rgba(0,0,0,0.06)","borderColor":"rgba(220,220,220,0.8)","backgroundColor":"rgba(249,249,249,0.9)","color":"rgba(51,51,51,1)","borderRadius":"10px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"48px"}' type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+				</div>
+            </div>
+
+			<!-- Captcha disabled -->
+			<div :style='{"padding":"0","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0 00px 0","width":"80%","borderStyle":"solid","height":"64px"}' class="form-item codes">
+			  <input style="flex: 1;" type="text" id="code" placeholder="请输入验证码">
+			  <div class="nums" id="nums" style="display: flex;justify-content: center;align-items: center;"></div>
+			</div>
+
+			<!-- Role Selection -->
+            <div :style='{"padding":"4px 0","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 auto","borderColor":"rgba(0,0,0,1)","backgroundColor":"rgba(255, 255, 255, 0.1)","borderRadius":"0","borderWidth":"0","width":"85%","borderStyle":"solid","height":"auto"}' class="form-item l-redio">
 				<input v-if="item.hasFrontLogin=='是'" v-for="(item,index) in menu" v-bind:key="index" type="radio" name="role" id="role" :value="item.tableName" :title="item.roleName">
             </div>
-			<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.5)","margin":"10px auto","borderColor":"#ccc","backgroundColor":"rgba(255, 153, 0, 1)","color":"#fff","borderRadius":"20px","borderWidth":"0","width":"50%","fontSize":"14px","lineHeight":"","borderStyle":"solid","height":"44px"}' class="layui-btn layui-btn-fluid layui-btn-danger btn-submit" lay-submit lay-filter="login">登录</button>
-            <p :style='{"color":"rgba(255, 153, 0, 1)","textAlign":"center","fontSize":"14px"}' class="txt"><a style="color: inherit;font-size: inherit;" v-if="item.hasFrontRegister=='是'" v-for="(item,index) in menu" v-bind:key="index" :href="'javascript:registerClick(\''+item.tableName+'\')'">注册{{item.roleName.replace('注册','')}}</a></p>
+
+            <!-- Login Button -->
+            <div style="text-align:center;width:85%;margin:0 auto;">
+				<button :style='{"padding":"0","boxShadow":"0 4px 14px rgba(255,153,0,0.35)","margin":"6px 0 0","borderColor":"#ccc","background":"linear-gradient(135deg, #ff9900 0%, #ff7700 100%)","color":"#fff","borderRadius":"10px","borderWidth":"0","width":"100%","fontSize":"16px","fontWeight":"600","letterSpacing":"2px","lineHeight":"","borderStyle":"solid","height":"48px"}' class="layui-btn layui-btn-fluid layui-btn-danger btn-submit" lay-submit lay-filter="login">登 录</button>
+            </div>
+
+			<!-- Register Links -->
+            <p :style='{"color":"rgba(255, 153, 0, 1)","textAlign":"center","fontSize":"14px","marginTop":"16px"}' class="txt"><a style="color: inherit;font-size: inherit;" v-if="item.hasFrontRegister=='是'" v-for="(item,index) in menu" v-bind:key="index" :href="'javascript:registerClick(\''+item.tableName+'\')'">注册{{item.roleName.replace('注册','')}}</a></p>
         </form>
     </div>
 
     <script src="../../layui/layui.js"></script>
     <script src="../../js/vue.js"></script>
-    <!-- 组件配置信息 -->
     <script src="../../js/config.js"></script>
-    <!-- 扩展插件配置信息 -->
     <script src="../../modules/config.js"></script>
-    <!-- 工具方法 -->
     <script src="../../js/utils.js"></script>
     <script type="text/javascript">
         var vue = new Vue({
@@ -194,10 +251,8 @@
             var http = layui.http;
             var jquery = layui.jquery;
 
-            // 登录
             form.on('submit(login)', function(data) {
 		
-
                 data = data.field;
                 if (!data.role) {
                     layer.msg('请选择登录用户类型', {
@@ -214,7 +269,6 @@
 			if(arr.join('').toLowerCase() != jquery('#code').val().toLowerCase()) {
 				alert("请输入正确的验证码");
 				randomString()
-				
 				return false;
 			}
 		}
@@ -224,23 +278,17 @@
                             time: 2000,
                             icon: 6
                         });
-                        // 登录凭证
                         localStorage.setItem('Token', res.token);
                         localStorage.setItem('role', jquery('input[name="role"]:checked').attr('title'));
-                        // 当前登录用户角色
                         localStorage.setItem('userTable', data.role);
                         localStorage.setItem('sessionTable', data.role);
-                        // 用户名称
                         localStorage.setItem('adminName', data.username);
                         http.request(data.role + '/session', 'get', {}, function(sessionRes) {
                             if (sessionRes.code === 0) {
-                                // 用户id
                                 localStorage.setItem('userid', sessionRes.data.id);
-                                // 用户名称 - 兼容各种角色
                                 var userName = sessionRes.data.zhanghao || sessionRes.data.xuehao || sessionRes.data.username || data.username;
                                 localStorage.setItem('username', userName);
                                 localStorage.setItem('adminName', userName);
-                                // 路径访问设置
                                 window.location.href = '../../index.html';
                             } else {
                                 layer.msg('获取用户信息失败', {
@@ -273,15 +321,9 @@
 
         });
 
-        /**
-         * 跳转登录
-         * @param {Object} tablename
-         */
         function registerClick(tablename) {
             window.location.href = '../' + tablename + '/register.html?tablename=' + tablename;
         }
-
-	
 
     </script>
 </body>

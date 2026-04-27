@@ -17,8 +17,15 @@
 				background-attachment: fixed;
 				background-size: cover;
 				background-position: center;
-								background-image: url(http://codegen.caihongy.cn/20201213/be9fc07223494670927b98c1df592666.jpg);
-							}
+				background: linear-gradient(135deg, #ff9900 0%, #ff6600 50%, #cc5500 100%);
+			}
+			.register form {
+				animation: formFadeIn 0.6s ease;
+			}
+			@keyframes formFadeIn {
+				from { opacity: 0; transform: translateY(20px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
 			.register form {
 				box-sizing: border-box;
 				min-height: 400px;
@@ -142,7 +149,21 @@
 						});
                         return false
                     }
-                                                                                                                                                                                    					                                                                                                                                                                					                                                                                                                                                                					                                                                                                                                                                					                                                                                                                                                                					                                                                                                                                                                					                                                                                if(!isMobile(data.shouji)){
+                                                                                                                                                                                    					                    if(!data.shezhangxingming){
+                        layer.msg('社长姓名不能为空', {
+							time: 2000,
+							icon: 5
+						});
+                        return false
+                    }
+                                                                                                                                                                					                                                                                                                                                                					                                                                                                                                                                					                                                                                                                                                                					                    if(!data.danweimingcheng){
+                        layer.msg('单位名称不能为空', {
+							time: 2000,
+							icon: 5
+						});
+                        return false
+                    }
+                                                                                                                                                                					                                                                                if(!isMobile(data.shouji)){
                         layer.msg('手机应输入手机格式', {
 							time: 2000,
 							icon: 5

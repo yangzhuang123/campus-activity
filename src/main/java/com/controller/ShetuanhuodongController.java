@@ -54,6 +54,8 @@ public class ShetuanhuodongController {
     @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,ShetuanhuodongEntity shetuanhuodong,
 		HttpServletRequest request){
+        // 自动更新已结束活动状态
+        autoUpdateExpiredActivities();
 		String tableName = request.getSession().getAttribute("tableName").toString();
 		if(tableName.equals("shezhang")) {
 			shetuanhuodong.setZhanghao((String)request.getSession().getAttribute("username"));
@@ -89,6 +91,9 @@ public class ShetuanhuodongController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params,ShetuanhuodongEntity shetuanhuodong,
 		HttpServletRequest request){
+        // 自动更新已结束活动状态
+        autoUpdateExpiredActivities();
+
         EntityWrapper<ShetuanhuodongEntity> ew = new EntityWrapper<ShetuanhuodongEntity>();
         ew.eq("is_deleted", 0);
         ew.eq("is_publish", "已发布");
@@ -113,6 +118,36 @@ public class ShetuanhuodongController {
             ew.le("jieshushijian", params.get("endDate"));
         }
 		PageUtils page = shetuanhuodongService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, shetuanhuodong), params), params));
+
+        // 为每条活动补充报名人数信息
+        List<?> rawList = page.getList();
+        if(rawList != null && !rawList.isEmpty()) {
+            List<Map<String, Object>> enrichedList = new ArrayList<>();
+            for(Object item : rawList) {
+                try {
+                    Map<String, Object> enriched = BeanUtils.describe(item);
+                    String biaoti = (String) enriched.get("biaoti");
+                    Object huodongrenshuObj = enriched.get("huodongrenshu");
+                    int huodongrenshu = huodongrenshuObj != null ? Integer.parseInt(huodongrenshuObj.toString()) : 0;
+                    if(StringUtils.isNotBlank(biaoti) && huodongrenshu > 0) {
+                        int count = huodongbaomingService.selectCount(
+                            new EntityWrapper<HuodongbaomingEntity>().eq("biaoti", biaoti)
+                        );
+                        enriched.put("baomingrenshu", count);
+                        int shengyu = huodongrenshu - count;
+                        enriched.put("shengyuminge", shengyu > 0 ? shengyu : 0);
+                    } else {
+                        enriched.put("baomingrenshu", 0);
+                        enriched.put("shengyuminge", huodongrenshu > 0 ? huodongrenshu : 0);
+                    }
+                    enrichedList.add(enriched);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            page.setList(enrichedList);
+        }
+
         return R.ok().put("data", page);
     }
 
@@ -148,6 +183,13 @@ public class ShetuanhuodongController {
 
         Map<String, Object> result = new HashMap<>();
         if(shetuanhuodong != null) {
+            // 自动更新活动状态：如果结束时间已过，标记为"已结束"
+            if(shetuanhuodong.getJieshushijian() != null && shetuanhuodong.getJieshushijian().before(new Date())) {
+                if(!"已结束".equals(shetuanhuodong.getHuodongzhuangtai())) {
+                    shetuanhuodong.setHuodongzhuangtai("已结束");
+                    shetuanhuodongService.updateById(shetuanhuodong);
+                }
+            }
             try {
                 result = BeanUtils.describe(shetuanhuodong);
             } catch (Exception e) {
@@ -286,6 +328,26 @@ public class ShetuanhuodongController {
 
 		int count = shetuanhuodongService.selectCount(wrapper);
 		return R.ok().put("count", count);
+	}
+
+	/**
+	 * 自动更新已过期活动的状态为"已结束"
+	 */
+	private void autoUpdateExpiredActivities() {
+		try {
+			EntityWrapper<ShetuanhuodongEntity> wrapper = new EntityWrapper<ShetuanhuodongEntity>();
+			wrapper.eq("is_deleted", 0);
+			wrapper.isNotNull("jieshushijian");
+			wrapper.lt("jieshushijian", new Date());
+			wrapper.ne("huodongzhuangtai", "已结束");
+			List<ShetuanhuodongEntity> expiredList = shetuanhuodongService.selectList(wrapper);
+			for(ShetuanhuodongEntity item : expiredList) {
+				item.setHuodongzhuangtai("已结束");
+				shetuanhuodongService.updateById(item);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

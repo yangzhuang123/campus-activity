@@ -74,11 +74,45 @@ public class HuodongbaomingController {
     /**
      * 前端列表
      */
+    @SuppressWarnings("unchecked")
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params,HuodongbaomingEntity huodongbaoming,
 		HttpServletRequest request){
         EntityWrapper<HuodongbaomingEntity> ew = new EntityWrapper<HuodongbaomingEntity>();
 		PageUtils page = huodongbaomingService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, huodongbaoming), params), params));
+
+        // 为每条报名记录补充活动状态信息
+        List<?> rawList = page.getList();
+        if(rawList != null && !rawList.isEmpty()) {
+            List<Map<String, Object>> enrichedList = new ArrayList<>();
+            for(Object item : rawList) {
+                try {
+                    // 转换为 Map 以便添加扩展属性
+                    Map<String, Object> enriched = cn.hutool.core.bean.BeanUtil.beanToMap(item);
+                    String biaoti = (String) enriched.get("biaoti");
+                    if(StringUtils.isNotBlank(biaoti)) {
+                        ShetuanhuodongEntity activity = shetuanhuodongService.selectOne(
+                            new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti).last("LIMIT 1")
+                        );
+                        if(activity != null) {
+                            // 自动更新已结束状态
+                            if(activity.getJieshushijian() != null && activity.getJieshushijian().before(new Date())) {
+                                if(!"已结束".equals(activity.getHuodongzhuangtai())) {
+                                    activity.setHuodongzhuangtai("已结束");
+                                    shetuanhuodongService.updateById(activity);
+                                }
+                            }
+                            enriched.put("huodongzhuangtai", activity.getHuodongzhuangtai());
+                        }
+                    }
+                    enrichedList.add(enriched);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            page.setList(enrichedList);
+        }
+
         return R.ok().put("data", page);
     }
 
@@ -139,7 +173,20 @@ public class HuodongbaomingController {
     	huodongbaoming.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(huodongbaoming);
 
+        // 检查重复报名
+        String xuehao = huodongbaoming.getXuehao();
         String biaoti = huodongbaoming.getBiaoti();
+        if(StringUtils.isNotBlank(xuehao) && StringUtils.isNotBlank(biaoti)) {
+            int existsCount = huodongbaomingService.selectCount(
+                new EntityWrapper<HuodongbaomingEntity>()
+                    .eq("xuehao", xuehao)
+                    .eq("biaoti", biaoti)
+            );
+            if(existsCount > 0) {
+                return R.error("您已报名该活动，请勿重复报名");
+            }
+        }
+
         if(StringUtils.isNotBlank(biaoti)) {
             ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectOne(new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti));
             if(shetuanhuodong != null) {
@@ -176,7 +223,20 @@ public class HuodongbaomingController {
     	huodongbaoming.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(huodongbaoming);
 
+        // 检查重复报名
+        String xuehao = huodongbaoming.getXuehao();
         String biaoti = huodongbaoming.getBiaoti();
+        if(StringUtils.isNotBlank(xuehao) && StringUtils.isNotBlank(biaoti)) {
+            int existsCount = huodongbaomingService.selectCount(
+                new EntityWrapper<HuodongbaomingEntity>()
+                    .eq("xuehao", xuehao)
+                    .eq("biaoti", biaoti)
+            );
+            if(existsCount > 0) {
+                return R.error("您已报名该活动，请勿重复报名");
+            }
+        }
+
         if(StringUtils.isNotBlank(biaoti)) {
             ShetuanhuodongEntity shetuanhuodong = shetuanhuodongService.selectOne(new EntityWrapper<ShetuanhuodongEntity>().eq("biaoti", biaoti));
             if(shetuanhuodong != null) {

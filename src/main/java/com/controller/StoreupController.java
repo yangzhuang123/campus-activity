@@ -161,8 +161,22 @@ public class StoreupController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-        storeupService.deleteBatchIds(Arrays.asList(ids));
+    public R delete(@RequestParam(value="ids", required=false) String idsParam, @RequestBody(required=false) Long[] ids){
+        if (ids != null) {
+            storeupService.deleteBatchIds(Arrays.asList(ids));
+        } else if (idsParam != null) {
+            idsParam = idsParam.replace("[", "").replace("]", "").replace("\"", "");
+            String[] idStrs = idsParam.split(",");
+            List<Long> idList = new ArrayList<>();
+            for (String s : idStrs) {
+                try {
+                    idList.add(Long.parseLong(s.trim()));
+                } catch (NumberFormatException e) {
+                    // skip invalid ids
+                }
+            }
+            storeupService.deleteBatchIds(idList);
+        }
         return R.ok();
     }
     

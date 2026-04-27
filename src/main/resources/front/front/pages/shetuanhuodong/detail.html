@@ -378,15 +378,16 @@
 					}
 					if (this.isCollected) {
 						if (!this.collectId) return;
-						layui.http.requestJson('storeup/delete', 'post', JSON.stringify([this.collectId]), function(res) {
+						layui.http.request('storeup/delete', 'post', {ids: JSON.stringify([this.collectId])}, function(res) {
 							vue.isCollected = false;
 							vue.collectId = null;
 							layer.msg('已取消收藏', {icon: 6});
 						}, function(error) {
 							console.log('取消收藏失败:', error);
+							layer.msg('取消收藏失败，请重试', {icon: 5});
 						});
 					} else {
-						layui.http.requestJson('storeup/save', 'post', {
+						layui.http.request('storeup/save', 'post', {
 							userid: userid,
 							tablename: 'shetuanhuodong',
 							refid: this.detail.id,
@@ -398,6 +399,7 @@
 							vue.checkCollect();
 						}, function(error) {
 							console.log('添加收藏失败:', error);
+							layer.msg('添加收藏失败，请重试', {icon: 5});
 						});
 					}
 				},
@@ -456,6 +458,15 @@
 					var embedded = http.getParam('embedded');
 					var embed = http.getParam('embed');
 					var noMenu = http.getParam('noMenu');
+
+					// 非嵌入模式时检查登录状态
+					if (embedded !== 'true' && embedded !== '1' && embed !== 'true' && embed !== '1') {
+						var userTable = localStorage.getItem('userTable');
+						if (!userTable) {
+							window.location.href = '../login/login.html';
+							return;
+						}
+					}
 
 					if (embedded === 'true' || embedded === '1' || embed === 'true' || embed === '1') {
 						vue.embedded = true;

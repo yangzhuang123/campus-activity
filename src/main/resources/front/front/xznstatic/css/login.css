@@ -91,7 +91,7 @@ html, body {
 
 .reg input[type="submit"], .login input[type="submit"] {
     width: 280px;
-    background: #C10000;
+    background: #ff9900;
     font-size: 20px;
     border: none;
     color: #fff;
@@ -112,7 +112,7 @@ div.reg form p.txtL img {
 }
 
 div.reg form p.txtL a {
-    color: #c10000;
+    color: #ff9900;
 }
 
 .reg form p.txt, .login form p.txt {

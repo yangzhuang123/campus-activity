@@ -345,11 +345,11 @@ html::after {
               </span>
             </div>
             <div class="card-content">
-              <div class="card-title">{{item.biaoti}}</div>
+              <div class="card-title" v-html="highlightKeyword(item.biaoti)"></div>
               <div class="card-info">
                 <div class="info-item">
                   <span class="icon"><i class="layui-icon layui-icon-group"></i></span>
-                  <span class="text">{{item.shetuanmingcheng}}</span>
+                  <span class="text" v-html="highlightKeyword(item.shetuanmingcheng)"></span>
                 </div>
                 <div class="info-item">
                   <span class="icon"><i class="layui-icon layui-icon-date"></i></span>
@@ -357,7 +357,7 @@ html::after {
                 </div>
                 <div class="info-item">
                   <span class="icon"><i class="layui-icon layui-icon-location"></i></span>
-                  <span class="text">{{item.huodongdidian}}</span>
+                  <span class="text" v-html="highlightKeyword(item.huodongdidian)"></span>
                 </div>
                 <div class="info-item">
                   <span class="icon"><i class="layui-icon layui-icon-user"></i></span>
@@ -400,7 +400,8 @@ html::after {
     var vue = new Vue({
       el: '#app',
       data: {
-        dataList: []
+        dataList: [],
+        keyword: ''
       },
       filters: {
         newsDesc: function(val) {
@@ -436,6 +437,12 @@ html::after {
           if (status === '进行中') return 'active';
           if (status === '已结束') return 'ended';
           return 'upcoming';
+        },
+        highlightKeyword(text) {
+          if (!text || !this.keyword) return text;
+          var kw = this.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          var regex = new RegExp('(' + kw + ')', 'gi');
+          return text.replace(regex, '<span style="color: #ff6600; font-weight: bold;">$1</span>');
         }
       }
     });
@@ -512,6 +519,7 @@ html::after {
 
       jquery('#btn-search').click(function(e) {
         console.log('Search button clicked, calling pageList');
+        vue.keyword = jquery('#biaoti').val() || jquery('#shetuanmingcheng').val() || '';
         pageList();
       });
     });

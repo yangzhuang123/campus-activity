@@ -10,21 +10,21 @@
 .layui-nav .layui-this:after,
 .layui-nav-bar,
 .layui-nav-tree .layui-nav-itemed:after {
-	background-color: #ce0b07;
+	background-color: #ff9900;
 }
 
 .layui-nav .layui-nav-item a:hover {
 	color: #FFFFFF;
-	background-color: #ce0b07;
+	background-color: #ff9900;
 }
 
 .layui-nav .layui-nav-child dd.layui-this a,
 .layui-nav-child dd.layui-this {
-	background-color: #ce0b07;
+	background-color: #ff9900;
 }
 
 .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover {
-    background-color: #ce0b07;
+    background-color: #ff9900;
     color: #fff;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .layui-carousel-ind li.layui-this {
-	background-color: #ce0b07;
+	background-color: #ff9900;
 }
 
 .layui-carousel-ind li {
@@ -43,7 +43,7 @@
 
 /* 首页标题 */
 .index-title {
-	color: #ce0b07;
+	color: #ff9900;
 }
 
 /* 首页新闻 */
@@ -66,7 +66,7 @@
 }
 
 .news-home-container .layui-colla-title:hover {
-	background: #ce0b07;
+	background: #ff9900;
 	color: #FFFFFF;
 }
 
@@ -79,12 +79,12 @@
 /* 图文列表 */
 
 .data-container .data-list .data-item:hover {
-	border: 1px solid #ce0b07;
+	border: 1px solid #ff9900;
 }
 
 
 .data-container .data-list .data-item .title:hover {
-	background: #ce0b07;
+	background: #ff9900;
 }
 
 
@@ -94,7 +94,7 @@
 }
 
 .data-container .data-list .data-item .price {
-	color: #ce0b07;
+	color: #ff9900;
 }
 
 /* 详情页 */
@@ -125,18 +125,18 @@
 }
 
 .data-detail .price{
-	color: #ce0b07;
+	color: #ff9900;
 }
 
 
 .layui-tab-card>.layui-tab-title .layui-this {
-    background-color: #ce0b07;
+    background-color: #ff9900;
 	color: #FFFFFF;
 }
 
 /* 底部导航栏 */
 .nav-bottom {
-	background: #ce0b07;
+	background: #ff9900;
 }
 
 .nav-bottom .layui-nav-item a {
@@ -145,7 +145,7 @@
 
 /* banner */
 .banner {
-	background: #ce0b07;
+	background: #ff9900;
 }
 
 /* 新闻资讯 */
@@ -162,41 +162,41 @@
 }
 
 .news-container .title {
-	color: #ce0b07;
+	color: #ff9900;
 }
 
 
 .news-container .bottom-container .btn {
-	background: #ce0b07;
+	background: #ff9900;
 	color: #FFFFFF;
 }
 
 /* 论坛 */
 
 .forum-container .bottom-container .btn {
-	background: #ce0b07;
+	background: #ff9900;
 	color: #FFFFFF;
 }
 
 .forum-container .forum-list .forum-item:hover {
-	background: #ce0b07;
+	background: #ff9900;
 	color: #FFFFFF;
 }
 
 .forum-container .forum-list .forum-item.line:hover {
-	background: #ce0b07;
+	background: #ff9900;
 	color: #FFFFFF;
 }
 
 /* 考试 */
 .paper-container thead tr{
-	background: #ce0b07 ;
+	background: #ff9900 ;
 	color: #FFFFFF;
 }
 
 .paper-container tbody tr:hover{
 	color: #FFFFFF;
-	background-color: #ce0b07;
+	background-color: #ff9900;
 }
 
 /* 个人中心 */
@@ -225,41 +225,118 @@
 .center-container .layui-nav-tree .layui-nav-bar {
     width: 5px;
     height: 0;
-    background-color: #ce0b07;
+    background-color: #ff9900;
 }
 
 /* 分页插件 */
 .layui-laypage .layui-laypage-curr .layui-laypage-em {
-	background-color: #ce0b07;
+	background-color: #ff9900;
 }
 
 .layui-laypage a:hover {
-	color: #ce0b07;
+	color: #ff9900;
 }
 
 .btn-submit {
-	background: #ce0b07;
+	background: #ff9900;
 }
 
 .btn-theme{
-	background: #ce0b07;
+	background: #ff9900;
 }
 
 
 /* checkbox */
 .layui-form-radio>i:hover, .layui-form-radioed>i {
-    color: #ce0b07;
+    color: #ff9900;
 }
 
 .layui-form-select dl dd.layui-this {
-    background-color: #ce0b07;
+    background-color: #ff9900;
     color: #fff;
 }
 
 .layui-tab-brief>.layui-tab-title .layui-this {
-    color: #ce0b07;
+    color: #ff9900;
 }
 
 .layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after {
-    border-bottom: 2px solid #ce0b07;
+    border-bottom: 2px solid #ff9900;
+}
+
+/* ============ Modern UI Enhancements ============ */
+
+/* Card hover animation */
+.activity-card, .data-item, .recommend-item li {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.activity-card:hover, .data-item:hover, .recommend-item li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* Button transitions */
+.layui-btn, .btn-submit, .btn-theme, .view-btn, .action-btn {
+    transition: all 0.3s ease !important;
+}
+.layui-btn:hover, .btn-submit:hover, .btn-theme:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 153, 0, 0.4);
+}
+
+/* Form input focus effect */
+.layui-input:focus, input:focus, textarea:focus, select:focus {
+    border-color: #ff9900 !important;
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Image hover overlay effect */
+.card-image, .recommend-item li img {
+    overflow: hidden;
+}
+.card-image img, .recommend-item li img {
+    transition: transform 0.5s ease;
+}
+.card-image:hover img, .recommend-item li:hover img {
+    transform: scale(1.08);
+}
+
+/* Status badge enhancements */
+.status-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+    background: #ff9900;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #e68a00;
+}
+
+/* Table row hover */
+.layui-table tbody tr:hover {
+    background-color: rgba(255, 153, 0, 0.05) !important;
+}
+.layui-table thead tr {
+    background-color: #ff9900;
+    color: #fff;
+}
+.layui-table thead tr th {
+    color: #fff !important;
+    font-weight: 600;
 }

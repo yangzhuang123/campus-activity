@@ -297,7 +297,6 @@
 						<li class='current'><a href="javascript:navPage('./pages/home/home.html')" class="menumain"><i v-if="false" class="layui-icon layui-icon-home"></i>首页</a></li>
 						<li v-for="(item,index) in indexNav" v-bind:key="index"><a :href="'javascript:navPage(\''+item.url+'\')'" class="menumain" style="cursor: pointer;"><i v-if="false" class="layui-icon" :class="iconArr[index]"></i>{{item.name}}</a></li>
 						<li><a href="javascript:centerPage();" class="menumain"><i v-if="false" class="layui-icon layui-icon-username"></i>个人中心</a></li>
-						<li v-if="getUserTable() !== 'xuesheng' && getUserTable() !== 'shezhang'"><a href="javascript:navPage('../admin/index.html')" class="menumain">后台管理</a></li>
 						<li v-if="cartFlag"><a href="javascript:navPage('./pages/shop-cart/list.html')" class="menumain"><i v-if="false" class="layui-icon">&#xe657;</i>购物车</a></li>
 						<li v-if="chatFlag"><a href="javascript:chatTap()" class="menumain"><i v-if="false" class="layui-icon">&#xe677;</i>客服</a></li>
 					</ul>
@@ -395,7 +394,6 @@
 				iconArr: ['layui-icon-gift','layui-icon-email','layui-icon-logout','layui-icon-transfer','layui-icon-slider','layui-icon-print','layui-icon-cols','layui-icon-snowflake','layui-icon-note','layui-icon-flag','layui-icon-theme','layui-icon-website','layui-icon-console','layui-icon-face-surprised','layui-icon-template-1','layui-icon-app','layui-icon-read','layui-icon-component','layui-icon-file-b','layui-icon-unlink','layui-icon-tabs','layui-icon-form','layui-icon-chat'],
 				indexNav: indexNav,
 				cartFlag: cartFlag,
-				adminurl: adminurl,
 				chatFlag: chatFlag,
 				projectName: projectName,
 				showNotifyPanel: false,
@@ -652,183 +650,7 @@
               if (iframeWin.document.body) {
                   iframe.height = iframeWin.document.body.scrollHeight;
                   
-                  // 为活动管理页面注入样式，使其与首页风格一致
-                  if (iframe.src.includes('admin/index.html')) {
-                      try {
-                          var style = iframeWin.document.createElement('style');
-                          style.textContent = `
-                              /* 全局样式 */
-                              body {
-                                  background-color: #f8f9fa !important;
-                                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-                              }
-                              
-                              /* 顶部标题栏 */
-                              .el-header {
-                                  background-color: #fff !important;
-                                  box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
-                                  padding: 0 20px !important;
-                                  height: 60px !important;
-                              }
-                              
-                              .el-header .el-menu {
-                                  background-color: transparent !important;
-                                  border-bottom: none !important;
-                              }
-                              
-                              .el-header .el-menu-item {
-                                  color: #666 !important;
-                                  font-size: 15px !important;
-                                  height: 60px !important;
-                                  line-height: 60px !important;
-                                  margin: 0 10px !important;
-                              }
-                              
-                              .el-header .el-menu-item.is-active {
-                                  color: #ff9900 !important;
-                                  background-color: transparent !important;
-                                  border-bottom: 2px solid #ff9900 !important;
-                              }
-                              
-                              /* 侧边栏 */
-                              .el-aside {
-                                  background-color: #fff !important;
-                                  box-shadow: 1px 0 10px rgba(0,0,0,0.05) !important;
-                              }
-                              
-                              .el-menu {
-                                  background-color: #fff !important;
-                                  border-right: none !important;
-                              }
-                              
-                              .el-menu-item {
-                                  color: #666 !important;
-                                  font-size: 14px !important;
-                                  height: 45px !important;
-                                  line-height: 45px !important;
-                                  margin: 0 !important;
-                                  border-left: 3px solid transparent !important;
-                              }
-                              
-                              .el-menu-item.is-active {
-                                  color: #ff9900 !important;
-                                  background-color: #fff9f0 !important;
-                                  border-left-color: #ff9900 !important;
-                              }
-                              
-                              .el-submenu__title {
-                                  color: #666 !important;
-                                  font-size: 14px !important;
-                                  height: 45px !important;
-                                  line-height: 45px !important;
-                              }
-                              
-                              .el-submenu__title:hover {
-                                  background-color: #f8f9fa !important;
-                              }
-                              
-                              /* 主内容区 */
-                              .el-main {
-                                  padding: 20px !important;
-                              }
-                              
-                              /* 卡片样式 */
-                              .el-card {
-                                  border-radius: 12px !important;
-                                  box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
-                                  border: none !important;
-                                  margin-bottom: 20px !important;
-                              }
-                              
-                              /* 按钮样式 */
-                              .el-button--primary {
-                                  background-color: #ff9900 !important;
-                                  border-color: #ff9900 !important;
-                                  border-radius: 4px !important;
-                              }
-                              
-                              .el-button--primary:hover {
-                                  background-color: #ff8800 !important;
-                                  border-color: #ff8800 !important;
-                              }
-                              
-                              /* 表格样式 */
-                              .el-table {
-                                  border-radius: 8px !important;
-                                  overflow: hidden !important;
-                                  margin-top: 15px !important;
-                              }
-                              
-                              .el-table th {
-                                  background-color: #f8f9fa !important;
-                                  font-weight: 600 !important;
-                                  color: #333 !important;
-                              }
-                              
-                              .el-table tr:hover {
-                                  background-color: #f8f9fa !important;
-                              }
-                              
-                              /* 输入框样式 */
-                              .el-input__inner {
-                                  border-radius: 4px !important;
-                                  border-color: #ddd !important;
-                              }
-                              
-                              .el-input__inner:focus {
-                                  border-color: #ff9900 !important;
-                                  box-shadow: 0 0 0 2px rgba(255,153,0,0.1) !important;
-                              }
-                              
-                              /* 标签样式 */
-                              .el-tag {
-                                  border-radius: 4px !important;
-                              }
-                              
-                              /* 分页样式 */
-                              .el-pagination {
-                                  margin-top: 20px !important;
-                                  text-align: center !important;
-                              }
-                              
-                              /* 表单样式 */
-                              .el-form-item__label {
-                                  font-weight: 500 !important;
-                                  color: #333 !important;
-                              }
-                              
-                              /* 对话框样式 */
-                              .el-dialog {
-                                  border-radius: 12px !important;
-                                  overflow: hidden !important;
-                              }
-                              
-                              .el-dialog__header {
-                                  background-color: #f8f9fa !important;
-                                  padding: 20px !important;
-                                  border-bottom: 1px solid #eee !important;
-                              }
-                              
-                              .el-dialog__title {
-                                  font-size: 16px !important;
-                                  font-weight: 600 !important;
-                                  color: #333 !important;
-                              }
-                              
-                              /* 面包屑 */
-                              .el-breadcrumb {
-                                  margin-bottom: 15px !important;
-                              }
-                              
-                              .el-breadcrumb__item:last-child .el-breadcrumb__inner {
-                                  color: #ff9900 !important;
-                              }
-                          `;
-                          iframeWin.document.head.appendChild(style);
-                      } catch (e) {
-                          // 跨域安全限制，忽略
-                      }
-                  }
+                  // admin后台样式注入已移除
               }
           }
       };
