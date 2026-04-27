@@ -339,7 +339,7 @@ html::after {
         <div class="activity-grid" v-if="dataList && dataList.length > 0">
           <div class="activity-card animation-box" v-for="(item,index) in dataList" :key="index" @click="jump('../shetuanhuodong/detail.html?id='+item.id)">
             <div class="card-image">
-              <img :src="item.huodongtupian?item.huodongtupian.split(',')[0]:'../../xznstatic/img/banner.jpg'" alt="">
+              <img :src="item.huodongtupian?item.huodongtupian.split(',')[0]:'../../img/banner.jpg'" alt="">
               <span class="status-badge" :class="getStatusClass(item.huodongzhuangtai)">
                 {{item.huodongzhuangtai || '未开始'}}
               </span>

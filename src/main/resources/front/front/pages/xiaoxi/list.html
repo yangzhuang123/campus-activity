@@ -191,10 +191,7 @@
                     jump(url)
                 },
                 markAsRead(id) {
-                    layui.http.request('xiaoxi/update', 'post', {
-                        id: id,
-                        yuedu: 1
-                    }, function(res) {
+                    layui.http.request('xiaoxi/read/' + id, 'get', {}, function(res) {
                         if (res.code === 0) {
                             pageList();
                         } else {

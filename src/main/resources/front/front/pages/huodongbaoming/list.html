@@ -15,71 +15,55 @@
 <link rel="stylesheet" href="../../css/common.css" />
 </head>
 <style>
-	html::after {
-		position: fixed;
-		top: 0;
-		right: 0;
-		left: 0;
-		bottom: 0;
-		content: '';
-		display: block;
-		background: #f5f5f5;
-		z-index: -1;
-	}
-	.center-wrapper {
-		max-width: 1000px;
-		margin: 30px auto;
-		display: flex;
-		background: #fff;
-		border-radius: 8px;
-		box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-		overflow: hidden;
-	}
-	.left-menu {
-		width: 180px;
-		background: #fff;
-		border-right: 1px solid #eee;
-		flex-shrink: 0;
-	}
-	.left-menu .layui-nav-tree {
-		width: 100%;
-	}
-	.left-menu .layui-nav {
-		position: relative;
-		background: transparent;
-	}
-	.left-menu .layui-nav-item {
-		height: 48px;
-		line-height: 48px;
-		font-size: 14px;
-		color: #333;
-	}
-	.left-menu .layui-nav-item a {
-		color: #333;
-		padding: 0 20px;
-	}
-	.left-menu .layui-nav-item.layui-this,
-	.left-menu .layui-nav-item:hover {
-		background: #ff6600;
-		color: #fff;
-	}
-	.left-menu .layui-nav-item.layui-this a,
-	.left-menu .layui-nav-item:hover a {
-		color: #fff;
-	}
-	.right-content {
-		flex: 1;
-		padding: 30px 40px;
-		min-height: 500px;
-	}
-	.page-title {
-		font-size: 18px;
-		font-weight: 600;
-		color: #333;
-		margin-bottom: 25px;
-		padding-bottom: 15px;
-		border-bottom: 2px solid #ff6600;
-	}
+		.center-wrapper {
+			display: flex;
+			min-height: 500px;
+		}
+		.left-menu {
+			width: 180px;
+			background: #f5f5f5;
+			border-right: 1px solid #eee;
+			flex-shrink: 0;
+		}
+		.left-menu .layui-nav-tree {
+			width: 100%;
+		}
+		.left-menu .layui-nav {
+			position: relative;
+			background: transparent;
+		}
+		.left-menu .layui-nav-item {
+			height: 48px;
+			line-height: 48px;
+			font-size: 14px;
+			color: #333;
+		}
+		.left-menu .layui-nav-item a {
+			color: #333;
+			padding: 0 20px;
+		}
+		.left-menu .layui-nav-item.layui-this,
+		.left-menu .layui-nav-item:hover {
+			background: #36b468;
+			color: #fff;
+		}
+		.left-menu .layui-nav-item.layui-this a,
+		.left-menu .layui-nav-item:hover a {
+			color: #fff;
+		}
+		.right-content {
+			flex: 1;
+			padding: 30px 40px;
+			min-height: 500px;
+		}
+		.page-title {
+			font-size: 18px;
+			font-weight: 600;
+			color: #333;
+			margin-bottom: 25px;
+			padding-bottom: 15px;
+			border-bottom: 2px solid #36b468;
+		}
 	.activity-list {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -160,12 +144,12 @@
 	<div id="app">
 		<div class="center-wrapper">
 			<div class="left-menu">
-				<ul class="layui-nav layui-nav-tree">
-					<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="index==2?'layui-this':''">
-						<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
-					</li>
-				</ul>
-			</div>
+					<ul class="layui-nav layui-nav-tree">
+						<li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="isCurrentMenu(item.url)?'layui-this':''">
+							<a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
+						</li>
+					</ul>
+				</div>
 			<div class="right-content">
 				<div class="page-title">我的活动</div>
 				<div v-if="dataList.length === 0" class="empty-tip">
@@ -204,6 +188,11 @@
 			methods: {
 				jump(url) {
 					window.location.href = url;
+				},
+				isCurrentMenu(url) {
+					var currentPath = window.location.pathname;
+					var menuPath = url.replace('../', '');
+					return currentPath.includes(menuPath);
 				},
 				goDetail(item) {
 					window.location.href = 'detail.html?id=' + item.id;

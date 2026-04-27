@@ -181,6 +181,15 @@ public class ShezhangController {
         ShezhangEntity shezhang = shezhangService.selectById(id);
         return R.ok().put("data", shezhang);
     }
+    
+    /**
+     * 前端详情（通过账号查询）
+     */
+    @RequestMapping("/info")
+    public R infoByZhanghao(@RequestParam("zhanghao") String zhanghao){
+        ShezhangEntity shezhang = shezhangService.selectOne(new EntityWrapper<ShezhangEntity>().eq("zhanghao", zhanghao));
+        return R.ok().put("data", shezhang);
+    }
 
     /**
      * 前端详情

@@ -317,7 +317,7 @@
                 approve(id) {
                     var _this = this;
                     layui.layer.prompt({title: '请输入审核回复', formType: 0}, function(text, index) {
-                        layui.http.request('huodongbaoming/update', 'post', {
+                        layui.http.requestJson('huodongbaoming/update', 'post', {
                             id: id,
                             sfsh: '是',
                             shhf: text || ''
@@ -338,7 +338,7 @@
                 reject(id) {
                     var _this = this;
                     layui.layer.prompt({title: '请输入审核回复', formType: 0}, function(text, index) {
-                        layui.http.request('huodongbaoming/update', 'post', {
+                        layui.http.requestJson('huodongbaoming/update', 'post', {
                             id: id,
                             sfsh: '否',
                             shhf: text || ''
