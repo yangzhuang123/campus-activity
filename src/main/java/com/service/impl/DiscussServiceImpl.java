@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.dao.DiscussDao;
@@ -11,6 +12,7 @@ import com.utils.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.List;
 
 /**
  * 评论服务实现
@@ -25,6 +27,15 @@ public class DiscussServiceImpl extends ServiceImpl<DiscussDao, DiscussEntity> i
                 new EntityWrapper<DiscussEntity>()
         );
 
+        return new PageUtils(page);
+    }
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params, Wrapper<DiscussEntity> wrapper) {
+        Page<DiscussEntity> page = this.selectPage(
+                new Query<DiscussEntity>(params).getPage(),
+                wrapper
+        );
         return new PageUtils(page);
     }
 
@@ -58,6 +69,17 @@ public class DiscussServiceImpl extends ServiceImpl<DiscussDao, DiscussEntity> i
             comment.setLikeCount(comment.getLikeCount() - 1);
             this.updateById(comment);
         }
+    }
+
+    @Override
+    public PageUtils getReplies(Long parentId, Map<String, Object> params) {
+        Page<DiscussEntity> page = this.selectPage(
+                new Query<DiscussEntity>(params).getPage(),
+                new EntityWrapper<DiscussEntity>()
+                        .eq("parent_id", parentId)
+                        .orderBy("create_time", true)
+        );
+        return new PageUtils(page);
     }
 
 }

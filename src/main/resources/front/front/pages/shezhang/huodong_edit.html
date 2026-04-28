@@ -10,89 +10,247 @@
     <link rel="stylesheet" href="../../css/common.css" />
 </head>
 <style>
-    html::after {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        content: '';
-        display: block;
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-        z-index: -1;
+    .center-wrapper {
+        display: flex;
+        min-height: 500px;
     }
-    .data-edit-container { padding: 20px; }
-    .data-edit-container .edit .layui-form-item { margin-bottom: 15px; }
-    .data-edit-container .edit .layui-form-item .layui-form-label { width: 100px; padding: 9px 10px 9px 0; }
-    .data-edit-container .edit .layui-input-block { margin-left: 110px; }
-    .btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
-    .btn-group .layui-btn { width: 120px; height: 40px; line-height: 40px; }
+    .left-menu {
+        width: 180px;
+        background: #f5f5f5;
+        border-right: 1px solid #eee;
+        flex-shrink: 0;
+    }
+    .left-menu .layui-nav-tree {
+        width: 100%;
+    }
+    .left-menu .layui-nav {
+        position: relative;
+        background: transparent;
+    }
+    .left-menu .layui-nav-item {
+        height: 48px;
+        line-height: 48px;
+        font-size: 14px;
+        color: #333;
+    }
+    .left-menu .layui-nav-item a {
+        color: #333;
+        padding: 0 20px;
+    }
+    .left-menu .layui-nav-item.layui-this,
+    .left-menu .layui-nav-item:hover {
+        background: #ff6600;
+        color: #fff;
+    }
+    .left-menu .layui-nav-item.layui-this a,
+    .left-menu .layui-nav-item:hover a {
+        color: #fff;
+    }
+    .right-content {
+        flex: 1;
+        padding: 30px 40px;
+        min-height: 500px;
+    }
+    .page-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #ff6600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .edit-form {
+        max-width: 700px;
+    }
+    .edit-form .layui-form-item {
+        margin-bottom: 18px;
+    }
+    .edit-form .layui-form-label {
+        width: 100px;
+        padding: 9px 10px 9px 0;
+        font-weight: 500;
+        color: #333;
+    }
+    .edit-form .layui-input-block {
+        margin-left: 110px;
+    }
+    .edit-form .layui-input {
+        border-radius: 4px;
+        border-color: #e0e0e0;
+        transition: border-color 0.2s;
+    }
+    .edit-form .layui-input:focus {
+        border-color: #ff6600;
+    }
+    .edit-form .layui-textarea {
+        border-radius: 4px;
+        border-color: #e0e0e0;
+        min-height: 100px;
+        transition: border-color 0.2s;
+    }
+    .edit-form .layui-textarea:focus {
+        border-color: #ff6600;
+    }
+    .cover-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 6px;
+        border: 1px solid #eee;
+        object-fit: cover;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .cover-upload-btn {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 10px;
+    }
+    .btn-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #f0f0f0;
+    }
+    .btn-group .layui-btn {
+        width: 130px;
+        height: 42px;
+        line-height: 42px;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+    .tag-checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 4px 0;
+    }
+    .tag-checkbox-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        padding: 6px 14px;
+        border: 1px solid #e8e8e8;
+        border-radius: 20px;
+        transition: all 0.2s;
+        background: #fafafa;
+    }
+    .tag-checkbox-item:hover {
+        border-color: #ff6600;
+        background: #fff8f0;
+    }
+    .tag-checkbox-item input[type="checkbox"]:checked + .tag-checkbox-label {
+        color: #ff6600;
+        font-weight: 600;
+    }
+    .tag-checkbox-item:has(input:checked) {
+        border-color: #ff6600;
+        background: #fff8f0;
+        box-shadow: 0 0 0 1px #ff6600;
+    }
+    .tag-checkbox-label {
+        font-size: 13px;
+        color: #555;
+    }
+    .empty-tip {
+        color: #999;
+        font-size: 13px;
+        padding: 6px 0;
+    }
 </style>
 <body>
     <div id="app">
-        <div class="data-edit-container" :style='{"padding":"20px","boxShadow":"1px 1px 6px rgba(213, 213, 213, 0.3)","margin":"30px auto","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"10px","borderWidth":"1px","borderStyle":"solid"}'>
-            <form class="layui-form layui-form-pane edit" lay-filter="myForm">
-                <input type="hidden" v-model="detail.id" name="id" id="id" />
-                <div class="layui-form-item">
-                    <label class="layui-form-label">标题</label>
-                    <div class="layui-input-block">
-                        <input v-model="detail.biaoti" type="text" name="biaoti" id="biaoti" autocomplete="off" class="layui-input" placeholder="请输入活动标题">
-                    </div>
+        <div class="center-wrapper">
+            <div class="left-menu">
+                <ul class="layui-nav layui-nav-tree">
+                    <li v-for="(item,index) in centerMenu" v-bind:key="index" class="layui-nav-item" :class="isCurrentMenu(item.url)?'layui-this':''">
+                        <a :href="item.url" @click.prevent="jump(item.url)">{{item.name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right-content">
+                <div class="page-title">
+                    <span>编辑活动</span>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">社团名称</label>
-                    <div class="layui-input-block">
-                        <input v-model="detail.shetuanmingcheng" type="text" name="shetuanmingcheng" id="shetuanmingcheng" autocomplete="off" class="layui-input" placeholder="请输入社团名称">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">封面图片</label>
-                    <div class="layui-input-block">
-                        <div v-if="detail.huodongtupian" style="display:inline-block;margin-right:10px;">
-                            <img id="huodongtupianImg" style="width: 100px;height: 100px;border-radius: 4px;border: 1px solid #eee;" :src="detail.huodongtupian">
-                            <input type="hidden" :value="detail.huodongtupian" id="huodongtupian" name="huodongtupian" />
+                <form class="layui-form edit-form" lay-filter="myForm">
+                    <input type="hidden" v-model="detail.id" name="id" id="id" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">活动标题</label>
+                        <div class="layui-input-block">
+                            <input v-model="detail.biaoti" type="text" name="biaoti" id="biaoti" autocomplete="off" class="layui-input" placeholder="请输入活动标题">
                         </div>
-                        <button v-if="!ro.huodongtupian" style="display:inline-block;" type="button" class="layui-btn" id="huodongtupianUpload">
-                            <i class="layui-icon">&#xe67c;</i>上传封面图
-                        </button>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">开始时间</label>
-                    <div class="layui-input-block">
-                        <input v-model="detail.kaishishijian" type="text" name="kaishishijian" id="kaishishijian" autocomplete="off" class="layui-input" placeholder="请选择开始时间">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">社团名称</label>
+                        <div class="layui-input-block">
+                            <input v-model="detail.shetuanmingcheng" type="text" name="shetuanmingcheng" id="shetuanmingcheng" autocomplete="off" class="layui-input" placeholder="请输入社团名称">
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">结束时间</label>
-                    <div class="layui-input-block">
-                        <input v-model="detail.jieshushijian" type="text" name="jieshushijian" id="jieshushijian" autocomplete="off" class="layui-input" placeholder="请选择结束时间">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">封面图片</label>
+                        <div class="layui-input-block">
+                            <div v-if="detail.huodongtupian" style="display:inline-block;">
+                                <img class="cover-preview" id="huodongtupianImg" :src="detail.huodongtupian">
+                                <input type="hidden" :value="detail.huodongtupian" id="huodongtupian" name="huodongtupian" />
+                            </div>
+                            <button v-if="!ro.huodongtupian" type="button" class="layui-btn layui-btn-primary cover-upload-btn" id="huodongtupianUpload">
+                                <i class="layui-icon">&#xe67c;</i> 上传封面图
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">活动人数</label>
-                    <div class="layui-input-block">
-                        <input v-model="detail.huodongrenshu" type="number" name="huodongrenshu" id="huodongrenshu" autocomplete="off" class="layui-input" placeholder="请输入活动人数">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开始时间</label>
+                        <div class="layui-input-block">
+                            <input v-model="detail.kaishishijian" type="text" name="kaishishijian" id="kaishishijian" autocomplete="off" class="layui-input" placeholder="请选择开始时间" readonly>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">活动地点</label>
-                    <div class="layui-input-block">
-                        <input v-model="detail.huodongdidian" type="text" name="huodongdidian" id="huodongdidian" autocomplete="off" class="layui-input" placeholder="请输入活动地点">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">结束时间</label>
+                        <div class="layui-input-block">
+                            <input v-model="detail.jieshushijian" type="text" name="jieshushijian" id="jieshushijian" autocomplete="off" class="layui-input" placeholder="请选择结束时间" readonly>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">简单介绍</label>
-                    <div class="layui-input-block">
-                        <textarea v-model="detail.huodongxiangqing" name="huodongxiangqing" id="huodongxiangqing" rows="4" class="layui-textarea" placeholder="请输入活动简单介绍"></textarea>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">活动人数</label>
+                        <div class="layui-input-block">
+                            <input v-model="detail.huodongrenshu" type="number" name="huodongrenshu" id="huodongrenshu" autocomplete="off" class="layui-input" placeholder="请输入活动人数">
+                        </div>
                     </div>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="layui-btn" style="background-color: rgba(255, 153, 0, 1);" @click="saveEdit">保存</button>
-                </div>
-            </form>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">活动地点</label>
+                        <div class="layui-input-block">
+                            <input v-model="detail.huodongdidian" type="text" name="huodongdidian" id="huodongdidian" autocomplete="off" class="layui-input" placeholder="请输入活动地点">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">活动简介</label>
+                        <div class="layui-input-block">
+                            <textarea v-model="detail.huodongxiangqing" name="huodongxiangqing" id="huodongxiangqing" rows="4" class="layui-textarea" placeholder="请输入活动简介"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">活动标签</label>
+                        <div class="layui-input-block">
+                            <div v-if="tagOptions.length === 0" class="empty-tip">暂无可用标签</div>
+                            <div v-else class="tag-checkbox-group">
+                                <label class="tag-checkbox-item" v-for="tag in tagOptions" :key="tag.id">
+                                    <input type="checkbox" :value="tag.id" v-model="selectedTagIds">
+                                    <span class="tag-checkbox-label">{{tag.name}}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="layui-btn" style="background-color:#ff6600;" @click="saveEdit">保存</button>
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="history.back()">返回</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -121,11 +279,25 @@
                 },
                 ro: {
                     huodongtupian: false
-                }
+                },
+                tagOptions: [],
+                selectedTagIds: []
             },
             methods: {
                 jump(url) {
                     jump(url)
+                },
+                isCurrentMenu(url) {
+                    var currentPath = window.location.pathname;
+                    var menuPath = url.replace('../', '');
+                    // 编辑页面高亮"我的发布"菜单
+                    if (currentPath.includes('huodong_edit.html') && menuPath.includes('mypublish.html')) {
+                        return true;
+                    }
+                    if (currentPath.includes('huodong_add.html') && menuPath.includes('mypublish.html')) {
+                        return true;
+                    }
+                    return currentPath.includes(menuPath);
                 },
                 saveEdit() {
                     if(!this.detail.biaoti) {
@@ -152,12 +324,39 @@
                         layer.msg('请输入活动地点', {icon: 5});
                         return;
                     }
+                    var _this = this;
                     layui.http.requestJson('shetuanhuodong/update', 'post', this.detail, function(res) {
-                        layer.msg('保存成功', {icon: 6}, function() {
-                            window.location.href = 'mypublish.html';
-                        });
+                        if (res.code === 0) {
+                            _this.bindActivityTags(_this.detail.id, function() {
+                                layer.msg('保存成功', {icon: 6}, function() {
+                                    window.location.href = 'mypublish.html';
+                                });
+                            });
+                        } else {
+                            layer.msg(res.msg || '保存失败', {icon: 5});
+                        }
                     }, function(error) {
                         layer.msg('保存失败', {icon: 5});
+                    });
+                },
+                bindActivityTags(activityId, callback) {
+                    if (!activityId || this.selectedTagIds.length === 0) {
+                        if (callback) callback();
+                        return;
+                    }
+                    layui.http.requestJson('shetuanhuodong/bindTags', 'post', {
+                        activityId: activityId,
+                        tagIds: this.selectedTagIds
+                    }, function(res) {
+                        if (res.code === 0) {
+                            if (callback) callback();
+                        } else {
+                            console.log('绑定标签失败:', res.msg);
+                            if (callback) callback();
+                        }
+                    }, function(error) {
+                        console.log('绑定标签网络错误:', error);
+                        if (callback) callback();
                     });
                 }
             }
@@ -186,6 +385,22 @@
                 type: 'date',
                 done: function(value, date) {
                     vue.detail.jieshushijian = value;
+                }
+            });
+
+            // 加载可用标签
+            layui.http.request('tag/list', 'get', {}, function(res) {
+                if(res && res.code === 0) {
+                    vue.tagOptions = res.data || [];
+                    // 如果有活动ID，加载该活动的标签并选中
+                    if(id) {
+                        layui.http.request('shetuanhuodong/tags/' + id, 'get', {}, function(tagRes) {
+                            if(tagRes && tagRes.code === 0) {
+                                var tags = tagRes.data || [];
+                                vue.selectedTagIds = tags.map(function(t) { return t.id; });
+                            }
+                        });
+                    }
                 }
             });
 

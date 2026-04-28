@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.dao.TagDao;
@@ -26,6 +27,15 @@ public class TagServiceImpl extends ServiceImpl<TagDao, TagEntity> implements Ta
                 new EntityWrapper<TagEntity>()
         );
 
+        return new PageUtils(page);
+    }
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params, Wrapper<TagEntity> wrapper) {
+        Page<TagEntity> page = this.selectPage(
+                new Query<TagEntity>(params).getPage(),
+                wrapper
+        );
         return new PageUtils(page);
     }
 

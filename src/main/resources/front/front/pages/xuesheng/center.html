@@ -455,9 +455,15 @@
 						layer.closeAll();
 						if (res.code == 0) {
 							layer.msg("上传成功", { time: 2000, icon: 6 })
+							// 构建完整的图片URL
 							var url = http.baseurl + 'upload/' + res.file;
+							// 设置隐藏字段的值（用于表单提交）
 							jquery('#touxiang').val(url);
-							jquery('#touxiangImg').attr('src', url)
+							// 更新头像预览
+							jquery('#touxiangImg').attr('src', url);
+							// 同时更新layui form的值
+							form.val('myForm', {touxiang: url});
+							console.log('头像URL已设置:', url);
 						} else {
 							layer.msg(res.msg, { time: 2000, icon: 5 })
 						}
@@ -482,6 +488,7 @@
 
 				form.on('submit(*)', function(data) {
 					data = data.field;
+					console.log('提交的表单数据:', data);
 					if(!data.xuehao){
 						layer.msg('学号不能为空', { time: 2000, icon: 5 });
 						return false
@@ -494,6 +501,7 @@
 						layer.msg('手机应输入手机格式', { time: 2000, icon: 5 });
 						return false
 					}
+					console.log('准备更新头像，touxiang字段值:', data.touxiang);
 					http.requestJson(table + '/update', 'post', data, function(res) {
 						layer.msg('修改成功', { time: 2000, icon: 6 }, function() {
 							window.location.reload();

@@ -23,6 +23,8 @@ import center from '@/views/center'
     import storeup from '@/views/modules/storeup/list'
     import config from '@/views/modules/config/list'
     import shetuanfenlei from '@/views/modules/shetuanfenlei/list'
+    import discuss from '@/views/modules/discuss/list'
+    import tag from '@/views/modules/tag/list'
 
 
 //2.配置路由   注意：名字
@@ -111,6 +113,16 @@ const routes = [{
 	path: '/shetuanfenlei',
         name: '社团分类',
         component: shetuanfenlei
+      }
+      ,{
+	path: '/discuss',
+        name: '评论管理',
+        component: discuss
+      }
+      ,{
+	path: '/tag',
+        name: '标签管理',
+        component: tag
       }
     ]
   },

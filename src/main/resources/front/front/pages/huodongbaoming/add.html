@@ -91,6 +91,88 @@
 			flex: 1;
 			display: flex;
 		}
+		/* 报名页面头部样式 */
+		.add-page-header {
+			max-width: 900px;
+			margin: 20px auto 0;
+			padding: 0 20px;
+		}
+		.add-page-title {
+			display: flex;
+			align-items: center;
+			background: #fff;
+			padding: 16px 24px;
+			border-radius: 10px 10px 0 0;
+		}
+		.add-page-title h3 {
+			margin: 0;
+			font-size: 18px;
+			font-weight: 600;
+			color: #333;
+		}
+		.add-back-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			margin-right: 16px;
+			padding: 6px 0;
+			background: none;
+			color: #999;
+			border: none;
+			font-size: 14px;
+			cursor: pointer;
+			transition: color 0.2s;
+		}
+		.add-back-btn:hover {
+			color: #ff6600;
+		}
+		/* 报名表单样式优化 */
+		.data-add-container .add-form-item {
+			padding: 12px 0 !important;
+			margin: 0 0 8px 0 !important;
+			border-bottom: 1px solid #f0f0f0 !important;
+			box-shadow: none !important;
+			border-radius: 0 !important;
+		}
+		.data-add-container .add-form-label {
+			width: 94px !important;
+			padding: 0 12px 0 0 !important;
+			font-size: 14px !important;
+			color: #333 !important;
+			text-align: right !important;
+			font-weight: 500 !important;
+		}
+		.data-add-container .add-form-input {
+			padding: 0 12px !important;
+			height: 40px !important;
+			border: 1px solid #DCDFE6 !important;
+			border-radius: 4px !important;
+			font-size: 14px !important;
+			color: #333 !important;
+			box-shadow: none !important;
+			transition: border-color 0.2s;
+		}
+		.data-add-container .add-form-input:focus {
+			border-color: #ff6600 !important;
+		}
+		.data-add-container .add-form-input[readonly] {
+			background: #f9f9f9 !important;
+			cursor: not-allowed;
+		}
+		.data-add-container .add-submit-btn {
+			padding: 0 32px !important;
+			height: 44px !important;
+			background: #ff6600 !important;
+			color: #fff !important;
+			border: none !important;
+			border-radius: 8px !important;
+			font-size: 15px !important;
+			cursor: pointer !important;
+			transition: background 0.2s;
+		}
+		.data-add-container .add-submit-btn:hover {
+			background: #ff8533 !important;
+		}
 	</style>
 	<body style="background: #EEEEEE; ">
 
@@ -114,64 +196,78 @@
 			</div>
 			<!-- 轮播图 -->
 
-			<div class="data-add-container" :style='{"padding":"20px","boxShadow":"1px 1px 6px rgba(213, 213, 213, 0.3)","margin":"30px auto","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"10px","borderWidth":"1px","borderStyle":"solid"}'>
+			<div class="add-page-header">
+				<div class="add-page-title">
+					<button class="add-back-btn" @click="goBackToDetail">← 返回活动详情</button>
+					<h3>活动报名</h3>
+				</div>
+			</div>
+
+			<div class="data-add-container" :style='{"padding":"20px","boxShadow":"1px 1px 6px rgba(213, 213, 213, 0.3)","margin":"0 auto 30px","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"0 0 10px 10px","borderWidth":"1px","borderStyle":"solid"}'>
 
 				<form class="layui-form layui-form-pane add" lay-filter="myForm">
 					
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">标题：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">标题：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.biaoti" type="text" :readonly="ro.biaoti" name="biaoti" id="biaoti" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.biaoti" type="text" :readonly="ro.biaoti" name="biaoti" id="biaoti" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">主办方名称：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">主办方名称：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.shetuanmingcheng" type="text" :readonly="ro.shetuanmingcheng" name="shetuanmingcheng" id="shetuanmingcheng" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.shetuanmingcheng" type="text" :readonly="ro.shetuanmingcheng" name="shetuanmingcheng" id="shetuanmingcheng" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">账号：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">账号：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.zhanghao" type="text" :readonly="ro.zhanghao" name="zhanghao" id="zhanghao" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.zhanghao" type="text" :readonly="ro.zhanghao" name="zhanghao" id="zhanghao" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">报名内容：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">报名内容：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.baomingneirong" type="text" :readonly="ro.baomingneirong" name="baomingneirong" id="baomingneirong" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.baomingneirong" type="text" :readonly="ro.baomingneirong" name="baomingneirong" id="baomingneirong" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">报名日期：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">报名日期：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' type="text" name="baomingriqi" id="baomingriqi" autocomplete="off" class="layui-input">
+
+							<input type="text" name="baomingriqi" id="baomingriqi" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">学号：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">学号：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.xuehao" type="text" :readonly="ro.xuehao" name="xuehao" id="xuehao" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.xuehao" type="text" :readonly="ro.xuehao" name="xuehao" id="xuehao" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">学生姓名：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">学生姓名：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.xueshengxingming" type="text" :readonly="ro.xueshengxingming" name="xueshengxingming" id="xueshengxingming" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.xueshengxingming" type="text" :readonly="ro.xueshengxingming" name="xueshengxingming" id="xueshengxingming" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
-                    <div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item" pane>
-						<label  :style='{"width":"94px","padding":"0 12px 0 0","fontSize":"14px","color":"#333","textAlign":"right"}' class="layui-form-label">手机：</label>
+                    <div  class="layui-form-item add-form-item" pane>
+						<label  class="layui-form-label add-form-label">手机：</label>
 						<div class="layui-input-block">
-							<input :style='{"padding":"0 12px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","borderColor":"#DCDFE6","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' v-model="detail.shouji" type="text" :readonly="ro.shouji" name="shouji" id="shouji" autocomplete="off" class="layui-input">
+
+							<input v-model="detail.shouji" type="text" :readonly="ro.shouji" name="shouji" id="shouji" autocomplete="off" class="layui-input add-form-input">
 						</div>
 					</div>
 
 
-					<div  :style='{"padding":"10px","boxShadow":"0 0 6px rgba(213, 213, 213, 0.3)","margin":"0 0 10px 0","borderColor":"rgba(213, 213, 213, 0.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="layui-form-item">
+					<div class="add-form-item" pane>
 						<div class="layui-input-block" style="text-align: right;">
-							<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.5)","margin":"0 10px","borderColor":"#ccc","backgroundColor":"rgba(255, 153, 0, 1)","color":"#fff","borderRadius":"8px","borderWidth":"0","width":"25%","fontSize":"14px","borderStyle":"solid","height":"44px"}' class="layui-btn btn-submit" lay-submit lay-filter="*">提交</button>
-							<button :style='{"padding":"0 10px","boxShadow":"0 0 2px rgb(255,153,0)","margin":"0 10px","borderColor":"#ccc","backgroundColor":"#fff","color":"rgba(255, 153, 0, 1)","borderRadius":"8px","borderWidth":"0","width":"25%","fontSize":"14px","borderStyle":"solid","height":"44px"}' type="reset" class="layui-btn layui-btn-primary">重置</button>
+							<button class="layui-btn add-submit-btn" lay-submit lay-filter="*">提交报名</button>
 						</div>
 					</div>
 				</form>
@@ -239,6 +335,18 @@
 				methods: {
 					jump(url) {
 						jump(url)
+					},
+					goBackToDetail() {
+						var crossObj = {};
+						try {
+							crossObj = JSON.parse(localStorage.getItem('crossObj') || '{}');
+						} catch(e) {}
+						var id = crossObj.id || '';
+						if (id) {
+							window.location.href = '../shetuanhuodong/detail.html?id=' + id;
+						} else {
+							back();
+						}
 					}
 				}
 			})
@@ -302,23 +410,28 @@
 					type: 'datetime'
 				});
 				
-                // session独取
+                // session读取 - 自动填充用户信息
 				let table = localStorage.getItem("userTable");
 				http.request(`${table}/session`, 'get', {}, function(data) {
-					// 表单赋值
-					//form.val("myForm", data.data);
 					data = data.data
 					for (var key in data){
 					if(key=='xuehao'){
 						vue.detail[`${key}`] = data[`${key}`]
+						vue.ro.xuehao = true;
 						continue;
                                         }
 					if(key=='xueshengxingming'){
 						vue.detail[`${key}`] = data[`${key}`]
+						vue.ro.xueshengxingming = true;
 						continue;
                                         }
 					if(key=='shouji'){
 						vue.detail[`${key}`] = data[`${key}`]
+						continue;
+                                        }
+					if(key=='zhanghao'){
+						vue.detail[`${key}`] = data[`${key}`]
+						vue.ro.zhanghao = true;
 						continue;
                                         }
                                         }
@@ -388,7 +501,16 @@
 					 		time: 2000,
 					 		icon: 6
 					 	}, function() {
-					 		back();
+					 		var crossObj = {};
+							try {
+								crossObj = JSON.parse(localStorage.getItem('crossObj') || '{}');
+							} catch(e) {}
+							var id = crossObj.id || '';
+							if (id) {
+								window.location.href = '../shetuanhuodong/detail.html?id=' + id;
+							} else {
+								back();
+							}
 						});
 					 });
 

@@ -58,68 +58,63 @@
             align-items: center;
         }
         .activity-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            width: 100%;
+            overflow-x: auto;
         }
-        .activity-item {
+        .activity-list table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
             background: #fff;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
         }
-        .activity-item:hover {
-            box-shadow: 0 4px 16px rgba(54,176,104,0.2);
-            transform: translateY(-2px);
+        .activity-list table thead {
+            background: #fafafa;
         }
-        .activity-item img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-        }
-        .activity-item .info {
-            padding: 15px;
-        }
-        .activity-item .info .title {
-            font-size: 14px;
+        .activity-list table thead th {
+            padding: 12px 16px;
+            text-align: left;
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            border-bottom: 2px solid #ff6600;
             white-space: nowrap;
         }
-        .activity-item .info .meta {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 6px;
+        .activity-list table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            vertical-align: middle;
         }
-        .activity-item .info .stats {
-            font-size: 12px;
-            color: #666;
-            margin-top: 8px;
+        .activity-list table tbody tr:hover {
+            background: #fff8f0;
         }
-        .activity-item .actions {
-            margin-top: 10px;
-            display: flex;
-            gap: 8px;
+        .activity-list table tbody tr:last-child td {
+            border-bottom: none;
         }
-        .activity-item .actions .btn {
-            flex: 1;
-            padding: 6px 0;
+        .action-link {
+            padding: 4px 14px;
             border-radius: 4px;
             font-size: 12px;
-            cursor: pointer;
             border: 1px solid #ff9900;
             background: #fff;
             color: #ff9900;
-            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
         }
-        .activity-item .actions .btn:hover {
+        .action-link:hover {
             background: #ff9900;
             color: #fff;
         }
+        .col-title { min-width: 160px; }
+        .col-location { min-width: 120px; }
+        .col-capacity { min-width: 60px; text-align: center; }
+        .col-count { min-width: 60px; text-align: center; }
+        .col-remain { min-width: 60px; text-align: center; }
+        .col-date { min-width: 100px; }
+        .col-action { min-width: 100px; text-align: center; }
         .empty-tip {
             text-align: center;
             padding: 80px 0;
@@ -135,6 +130,42 @@
             text-align: center;
             padding: 30px 0 10px;
         }
+        .create-btn {
+            background: #ff6600 !important;
+            color: #fff !important;
+            border: 2px solid #ff6600 !important;
+            padding: 10px 24px !important;
+            border-radius: 8px !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            display: inline-block !important;
+            z-index: 9999 !important;
+            position: relative !important;
+        }
+        .create-btn:hover {
+            background: #ff8533 !important;
+            border-color: #ff8533 !important;
+        }
+        .tag-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #fff8f0;
+            color: #ff6600;
+            border: 1px solid #ffdbb5;
+            margin: 2px 4px 2px 0;
+            white-space: nowrap;
+        }
+        .tag-badge:hover {
+            background: #ff6600;
+            color: #fff;
+            border-color: #ff6600;
+        }
+        .col-tags { min-width: 140px; }
+        .action-link + .action-link { margin-left: 6px; }
     </style>
 </head>
 <body>
@@ -149,34 +180,49 @@
             </div>
             <div class="right-content">
                 <div class="page-title">
-                    <span>我的发布</span>
+                    <button class="create-btn" @click="goToCreate">创建活动</button>
                 </div>
                 <div v-if="dataList.length === 0" class="empty-tip">
                     <div class="layui-icon">&#xe6c6;</div>
                     <p>暂无发布的活动</p>
                 </div>
                 <div v-else class="activity-list">
-                    <div v-for="(item,index) in dataList" :key="index" class="activity-item">
-                        <img :src="item.huodongtupian || '../../img/avator.png'">
-                        <div class="info">
-                            <div class="title">{{item.biaoti}}</div>
-                            <div class="meta">
-                                <span>时间：{{item.huodongshijian}}</span>
-                            </div>
-                            <div class="meta">
-                                <span>地点：{{item.huodongdidian}}</span>
-                            </div>
-                            <div class="meta">
-                                <span>人数：{{item.huodongrenshu}}人</span>
-                            </div>
-                            <div class="stats">
-                                <span>发布时间：{{formatDate(item.addtime)}}</span>
-                            </div>
-                            <div class="actions">
-                                <a :href="'../shezhang/baomingreview.html?activityId=' + item.id" class="btn">查看报名</a>
-                            </div>
-                        </div>
-                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-title">活动名称</th>
+                                <th class="col-tags">标签</th>
+                                <th class="col-location">地点</th>
+                                <th class="col-capacity">总名额</th>
+                                <th class="col-count">已报名</th>
+                                <th class="col-remain">剩余</th>
+                                <th class="col-date">活动时间</th>
+                                <th class="col-date">发布时间</th>
+                                <th class="col-action">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in dataList" :key="index">
+                                <td class="col-title"><strong>{{item.biaoti}}</strong></td>
+                                <td class="col-tags">
+                                    <span v-if="getActivityTags(item.id).length === 0" style="color:#ccc;">无</span>
+                                    <span v-else>
+                                        <span class="tag-badge" v-for="tag in getActivityTags(item.id)" :key="tag.id">{{tag.name}}</span>
+                                    </span>
+                                </td>
+                                <td class="col-location">{{item.huodongdidian || '暂无'}}</td>
+                                <td class="col-capacity">{{item.huodongrenshu || 0}}</td>
+                                <td class="col-count">{{getRegisteredCount(item.biaoti)}}</td>
+                                <td class="col-remain" :style="{color: getRemainColor(item)}">{{getRemaining(item)}}</td>
+                                <td class="col-date">{{item.huodongshijian || '暂无'}}</td>
+                                <td class="col-date">{{formatDate(item.addtime)}}</td>
+                                <td class="col-action">
+                                    <a :href="'../shezhang/huodong_edit.html?id=' + item.id" class="action-link">编辑</a>
+                                    <a :href="'../shezhang/baomingreview.html?activityId=' + item.id" class="action-link">查看报名</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="pager" id="pager"></div>
             </div>
@@ -194,7 +240,9 @@
             el: '#app',
             data: {
                 dataList: [],
-                centerMenu: centerMenu()
+                centerMenu: centerMenu(),
+                registeredCount: {},
+                activityTags: {}
             },
             methods: {
                 jump(url) {
@@ -209,6 +257,28 @@
                     var hours = d.getHours().toString().padStart(2, '0');
                     var minutes = d.getMinutes().toString().padStart(2, '0');
                     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+                },
+                getRegisteredCount(title) {
+                    return this.registeredCount[title] || 0;
+                },
+                getRemaining(item) {
+                    var capacity = item.huodongrenshu || 0;
+                    var count = this.getRegisteredCount(item.biaoti);
+                    return Math.max(0, capacity - count);
+                },
+                getRemainColor(item) {
+                    var capacity = item.huodongrenshu || 0;
+                    var count = this.getRegisteredCount(item.biaoti);
+                    var remain = capacity - count;
+                    if (remain <= 0) return '#d9534f';
+                    if (remain <= capacity * 0.2) return '#ff9900';
+                    return '#52c41a';
+                },
+                getActivityTags(activityId) {
+                    return this.activityTags[activityId] || [];
+                },
+                goToCreate() {
+                    window.location.href = '../shezhang/huodong_add.html';
                 }
             }
         });
@@ -219,7 +289,41 @@
             var jquery = layui.jquery;
             var laypage = layui.laypage;
 
-            var limit = 9;
+            var limit = 15;
+
+            function loadRegisteredCounts(username) {
+                http.request('huodongbaoming/lists', 'get', {
+                    zhanghao: username,
+                    sfsh: '是',
+                    limit: 10000
+                }, function(res) {
+                    if (res.code === 0) {
+                        var counts = {};
+                        var list = res.data.list || [];
+                        for (var i = 0; i < list.length; i++) {
+                            var title = list[i].biaoti;
+                            if (title) {
+                                counts[title] = (counts[title] || 0) + 1;
+                            }
+                        }
+                        vue.registeredCount = counts;
+                    }
+                });
+            }
+
+            function loadActivityTags(activities) {
+                if (!activities || activities.length === 0) return;
+                var loaded = 0;
+                for (var i = 0; i < activities.length; i++) {
+                    (function(activityId) {
+                        http.request('shetuanhuodong/tags/' + activityId, 'get', {}, function(res) {
+                            if (res && res.code === 0) {
+                                vue.$set(vue.activityTags, activityId, res.data || []);
+                            }
+                        });
+                    })(activities[i].id);
+                }
+            }
 
             function pageList() {
                 var userTable = localStorage.getItem('userTable');
@@ -249,6 +353,8 @@
                 http.request('shetuanhuodong/lists', 'get', param, function(res) {
                     if (res.code === 0) {
                         vue.dataList = res.data.list || [];
+                        loadRegisteredCounts(username);
+                        loadActivityTags(vue.dataList);
                         laypage.render({
                             elem: 'pager',
                             count: res.data.total || 0,
@@ -262,6 +368,8 @@
                                     http.request('shetuanhuodong/lists', 'get', param, function(res) {
                                         if (res.code === 0) {
                                             vue.dataList = res.data.list || [];
+                                            loadRegisteredCounts(username);
+                                            loadActivityTags(vue.dataList);
                                         } else {
                                             layer.msg('获取数据失败: ' + (res.msg || '未知错误'), {icon: 5});
                                         }

@@ -34,6 +34,10 @@ import com.service.ShetuanhuodongService;
 import com.service.XxiaoxiService;
 import com.service.TokenService;
 import com.service.HuodongbaomingService;
+import com.service.ActivityTagService;
+import com.entity.TagEntity;
+import com.entity.ActivityTagEntity;
+import com.service.TagService;
 import com.utils.PageUtils;
 import com.utils.R;
 import com.utils.MD5Util;
@@ -50,6 +54,10 @@ public class ShetuanhuodongController {
     private HuodongbaomingService huodongbaomingService;
     @Autowired
     private XxiaoxiService xiaoxiService;
+    @Autowired
+    private ActivityTagService activityTagService;
+    @Autowired
+    private TagService tagService;
 
     @RequestMapping("/page")
     public R page(@RequestParam Map<String, Object> params,ShetuanhuodongEntity shetuanhuodong,
@@ -117,6 +125,28 @@ public class ShetuanhuodongController {
         if(params.get("endDate") != null && !params.get("endDate").toString().isEmpty()) {
             ew.le("jieshushijian", params.get("endDate"));
         }
+        if(params.get("tag") != null && !params.get("tag").toString().isEmpty()) {
+            String tagName = params.get("tag").toString();
+            List<TagEntity> tagList = tagService.selectList(
+                new EntityWrapper<TagEntity>().eq("name", tagName)
+            );
+            if(tagList != null && !tagList.isEmpty()) {
+                List<ActivityTagEntity> relations = activityTagService.selectList(
+                    new EntityWrapper<ActivityTagEntity>().eq("tag_id", tagList.get(0).getId())
+                );
+                if(relations != null && !relations.isEmpty()) {
+                    List<Long> activityIds = new ArrayList<>();
+                    for(ActivityTagEntity relation : relations) {
+                        activityIds.add(relation.getActivityId());
+                    }
+                    ew.in("id", activityIds);
+                } else {
+                    ew.eq("id", -1);
+                }
+            } else {
+                ew.eq("id", -1);
+            }
+        }
 		PageUtils page = shetuanhuodongService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, shetuanhuodong), params), params));
 
         // 为每条活动补充报名人数信息
@@ -183,11 +213,21 @@ public class ShetuanhuodongController {
 
         Map<String, Object> result = new HashMap<>();
         if(shetuanhuodong != null) {
+            Date now = new Date();
             // 自动更新活动状态：如果结束时间已过，标记为"已结束"
-            if(shetuanhuodong.getJieshushijian() != null && shetuanhuodong.getJieshushijian().before(new Date())) {
+            if(shetuanhuodong.getJieshushijian() != null && shetuanhuodong.getJieshushijian().before(now)) {
                 if(!"已结束".equals(shetuanhuodong.getHuodongzhuangtai())) {
                     shetuanhuodong.setHuodongzhuangtai("已结束");
                     shetuanhuodongService.updateById(shetuanhuodong);
+                }
+            }
+            // 自动更新活动状态：如果开始时间已到且未结束，标记为"进行中"
+            if(shetuanhuodong.getKaishishijian() != null && shetuanhuodong.getKaishishijian().before(now)) {
+                if(!"已结束".equals(shetuanhuodong.getHuodongzhuangtai()) && !"进行中".equals(shetuanhuodong.getHuodongzhuangtai())) {
+                    if(shetuanhuodong.getJieshushijian() == null || shetuanhuodong.getJieshushijian().after(now)) {
+                        shetuanhuodong.setHuodongzhuangtai("进行中");
+                        shetuanhuodongService.updateById(shetuanhuodong);
+                    }
                 }
             }
             try {
@@ -232,7 +272,7 @@ public class ShetuanhuodongController {
     	shetuanhuodong.setBaomingzhuangtai("开放报名");
     	shetuanhuodong.setSfsh("是");
         shetuanhuodongService.insert(shetuanhuodong);
-        return R.ok();
+        return R.ok().put("data", shetuanhuodong.getId());
     }
 
     @RequestMapping("/publishNow")
@@ -253,7 +293,7 @@ public class ShetuanhuodongController {
         xiaoxi.setYuedu(0);
         xiaoxiService.sendMessage(xiaoxi);
 
-        return R.ok();
+        return R.ok().put("data", shetuanhuodong.getId());
     }
 
     @RequestMapping("/closeBaoming/{id}")
@@ -331,10 +371,13 @@ public class ShetuanhuodongController {
 	}
 
 	/**
-	 * 自动更新已过期活动的状态为"已结束"
+	 * 自动更新过期活动的状态：
+	 * - 结束时间已过 → "已结束"
+	 * - 开始时间已到且未结束 → "进行中"
 	 */
 	private void autoUpdateExpiredActivities() {
 		try {
+			// 1. 更新已结束的活动
 			EntityWrapper<ShetuanhuodongEntity> wrapper = new EntityWrapper<ShetuanhuodongEntity>();
 			wrapper.eq("is_deleted", 0);
 			wrapper.isNotNull("jieshushijian");
@@ -345,9 +388,59 @@ public class ShetuanhuodongController {
 				item.setHuodongzhuangtai("已结束");
 				shetuanhuodongService.updateById(item);
 			}
+
+			// 2. 更新进行中的活动（开始时间已到，且结束时间未到或未设置）
+			EntityWrapper<ShetuanhuodongEntity> ongoingWrapper = new EntityWrapper<ShetuanhuodongEntity>();
+			ongoingWrapper.eq("is_deleted", 0);
+			ongoingWrapper.isNotNull("kaishishijian");
+			ongoingWrapper.le("kaishishijian", new Date());
+			List<ShetuanhuodongEntity> allStarting = shetuanhuodongService.selectList(ongoingWrapper);
+			for(ShetuanhuodongEntity item : allStarting) {
+				if("已结束".equals(item.getHuodongzhuangtai()) || "进行中".equals(item.getHuodongzhuangtai())) {
+					continue;
+				}
+				if(item.getJieshushijian() == null || item.getJieshushijian().after(new Date())) {
+					item.setHuodongzhuangtai("进行中");
+					shetuanhuodongService.updateById(item);
+				}
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 绑定活动标签
+	 */
+	@RequestMapping("/bindTags")
+	public R bindTags(@RequestBody Map<String, Object> params){
+		Long activityId = Long.valueOf(params.get("activityId").toString());
+		// 校验活动是否存在
+		ShetuanhuodongEntity activity = shetuanhuodongService.selectById(activityId);
+		if(activity == null) {
+			return R.error("活动不存在");
+		}
+		Object tagIdsObj = params.get("tagIds");
+		Long[] tagIds = new Long[0];
+		if(tagIdsObj != null) {
+			java.util.List<Integer> tagIdsList = (java.util.List<Integer>) tagIdsObj;
+			tagIds = new Long[tagIdsList.size()];
+			for(int i = 0; i < tagIdsList.size(); i++) {
+				tagIds[i] = tagIdsList.get(i).longValue();
+			}
+		}
+		activityTagService.bindTags(activityId, tagIds);
+		return R.ok();
+	}
+
+	/**
+	 * 获取活动标签列表
+	 */
+	@IgnoreAuth
+	@RequestMapping("/tags/{activityId}")
+	public R getActivityTags(@PathVariable("activityId") Long activityId){
+		java.util.List<com.entity.TagEntity> tags = activityTagService.getTagsByActivityId(activityId);
+		return R.ok().put("data", tags);
 	}
 
 }

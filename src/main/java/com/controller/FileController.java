@@ -47,12 +47,10 @@ public class FileController{
 			throw new EIException("上传文件不能为空");
 		}
 		String fileExt = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
-		Resource resource = resourceLoader.getResource("classpath:static");
-		File path = resource.getFile();
-		if(!path.exists()) {
-		    path = new File("");
-		}
-		File upload = new File(path.getAbsolutePath(),"/upload/");
+		
+		// 使用外部目录而不是classpath
+		String projectPath = System.getProperty("user.dir");
+		File upload = new File(projectPath, "upload");
 		if(!upload.exists()) {
 		    upload.mkdirs();
 		}
@@ -80,11 +78,9 @@ public class FileController{
 	@RequestMapping("/download")
 	public ResponseEntity<byte[]> download(@RequestParam String fileName) {
 		try {
-			File path = new File(ResourceUtils.getURL("classpath:static").getPath());
-			if(!path.exists()) {
-			    path = new File("");
-			}
-			File upload = new File(path.getAbsolutePath(),"/upload/");
+			// 使用外部目录而不是classpath
+			String projectPath = System.getProperty("user.dir");
+			File upload = new File(projectPath, "upload");
 			if(!upload.exists()) {
 			    upload.mkdirs();
 			}

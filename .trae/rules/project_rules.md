@@ -79,7 +79,6 @@ java -jar target/springbootnp4n3-0.0.1-SNAPSHOT.jar
 
 ## 访问地址
 - **前台地址**：http://localhost:8080/springbootnp4n3/front/index.html
-- **后台地址**：http://localhost:8080/springbootnp4n3/admin/dist/index.html
 
 ## 测试账号
 ### 管理员账号

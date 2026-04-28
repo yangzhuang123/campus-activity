@@ -79,6 +79,18 @@ public class HuodongbaomingController {
     public R list(@RequestParam Map<String, Object> params,HuodongbaomingEntity huodongbaoming,
 		HttpServletRequest request){
         EntityWrapper<HuodongbaomingEntity> ew = new EntityWrapper<HuodongbaomingEntity>();
+        
+        // 根据当前登录用户筛选
+        String tableName = request.getSession().getAttribute("tableName") != null ? 
+                          request.getSession().getAttribute("tableName").toString() : null;
+        if(tableName != null && tableName.equals("xuesheng")) {
+            // 学生只能看到自己的报名记录
+            String xuehao = (String)request.getSession().getAttribute("username");
+            if(StringUtils.isNotBlank(xuehao)) {
+                ew.eq("xuehao", xuehao);
+            }
+        }
+        
 		PageUtils page = huodongbaomingService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, huodongbaoming), params), params));
 
         // 为每条报名记录补充活动状态信息

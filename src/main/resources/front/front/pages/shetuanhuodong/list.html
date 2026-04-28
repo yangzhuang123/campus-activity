@@ -43,27 +43,9 @@ html::after {
   max-width: 1200px;
   margin: 0 auto;
 }
-.recommend .box .title {
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%);
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
-}
-.recommend .box .title span {
-  padding: 0 10px;
-  font-size: 20px;
-  line-height: 1.4;
-  color: #fff;
-  font-weight: bold;
-}
 
 .recommend .box .filter {
-  padding: 20px;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -77,35 +59,57 @@ html::after {
 .recommend .box .filter .search-group {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   flex-wrap: wrap;
+  width: 100%;
 }
 .recommend .box .filter .item-list {
   display: flex;
   align-items: center;
 }
 .recommend .box .filter .item-list .lable {
-  font-size: 14px;
-  color: #333;
+  font-size: 13px;
+  color: #fff;
   box-sizing: border-box;
-  font-weight: 500;
   white-space: nowrap;
+  background: #ff9900;
+  padding: 0 12px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 6px 0 0 6px;
+  font-weight: 500;
 }
-.recommend .box .filter .item-list input {
-  padding: 10px 15px;
+.recommend .box .filter .item-list input,
+.recommend .box .filter .item-list select {
+  padding: 0 12px;
+  height: 36px;
   box-sizing: border-box;
   outline: none;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
   transition: all 0.3s;
+  font-size: 13px;
+  min-width: 140px;
 }
-.recommend .box .filter .item-list input:focus {
+.recommend .box .filter .item-list input:focus,
+.recommend .box .filter .item-list select:focus {
   border-color: #ff9900;
   box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
 }
+.recommend .box .filter .item-list select {
+  background: #fff;
+  cursor: pointer;
+}
+.recommend .box .filter .btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .recommend .box .filter button {
   display: flex;
-  padding: 10px 20px;
+  padding: 0 18px;
+  height: 36px;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
@@ -113,29 +117,30 @@ html::after {
   border: none;
   cursor: pointer;
   transition: all 0.3s;
+  font-size: 13px;
+  border-radius: 6px;
+  gap: 4px;
 }
 .recommend .box .filter button i {
-  margin-right: 6px;
+  font-size: 15px;
 }
 .recommend .box .filter .btn-search {
   background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%);
   color: #fff;
-  border-radius: 6px;
   font-weight: 500;
 }
 .recommend .box .filter .btn-search:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(255, 153, 0, 0.4);
 }
 .recommend .box .filter .btn-add {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-  color: #fff;
-  border-radius: 6px;
+  background: #f0f0f0;
+  color: #333;
   font-weight: 500;
 }
 .recommend .box .filter .btn-add:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  background: #e0e0e0;
+  transform: translateY(-1px);
 }
 
 .recommend .box .activity-grid {
@@ -272,6 +277,45 @@ html::after {
   padding-left: 10px;
 }
 
+.tag-filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.tag-filter-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.tag-filter-item {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #666;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #eee;
+}
+.tag-filter-item:hover {
+  color: #ff6600;
+  border-color: #ff6600;
+  background: #fff5f0;
+}
+.tag-filter-item.active {
+  color: #fff;
+  background: #ff6600;
+  border-color: #ff6600;
+}
+
 .empty-state {
   text-align: center;
   padding: 60px 20px;
@@ -286,7 +330,7 @@ html::after {
   font-size: 16px;
 }
 
-@media (max768px) {
+@media (max-width: 768px) {
   .recommend .box .activity-grid {
     grid-template-columns: 1fr;
   }
@@ -300,11 +344,16 @@ html::after {
   }
   .recommend .box .filter .item-list {
     width: 100%;
-    margin-bottom: 10px;
   }
-  .recommend .box .filter .item-list input {
-    flex: 1;
+  .recommend .box .filter .item-list input,
+  .recommend .box .filter .item-list select {
     width: 100%;
+  }
+  .recommend .box .filter .btn-group {
+    width: 100%;
+  }
+  .recommend .box .filter .btn-group button {
+    flex: 1;
   }
 }
 </style>
@@ -313,10 +362,6 @@ html::after {
 
     <div class="recommend index-pv1" :style='{"padding":"20px 0","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0","backgroundColor":"#f5f5f5"}'>
       <div class="box">
-        <div class="title">
-          <span>校园活动</span>
-        </div>
-
         <form class="layui-form filter">
           <div class="search-group">
             <div class="item-list">
@@ -324,17 +369,26 @@ html::after {
               <input type="text" name="biaoti" id="biaoti" placeholder="请输入活动标题" autocomplete="off" class="layui-input">
             </div>
             <div class="item-list">
-              <span class="lable">主办方名称</span>
+              <span class="lable">主办方</span>
               <input type="text" name="shetuanmingcheng" id="shetuanmingcheng" placeholder="请输入主办方名称" autocomplete="off" class="layui-input">
             </div>
-            <button id="btn-search" type="button" class="layui-btn btn-search">
-              <i class="layui-icon layui-icon-search"></i>搜索
-            </button>
-            <button v-if="isAuth('shetuanhuodong','新增')" @click="jump('../shetuanhuodong/add.html')" type="button" class="layui-btn btn-add">
-              <i class="layui-icon">&#xe654;</i>发布活动
-            </button>
+
+            <div class="btn-group">
+              <button id="btn-search" type="button" class="layui-btn btn-search">
+                <i class="layui-icon layui-icon-search"></i>搜索
+              </button>
+              <button v-if="isAuth('shetuanhuodong','新增')" @click="jump('../shetuanhuodong/add.html')" type="button" class="layui-btn btn-add">
+                <i class="layui-icon">&#xe654;</i>发布活动
+              </button>
+            </div>
           </div>
         </form>
+
+        <div class="tag-filter-bar" v-if="tagList.length > 0">
+          <span class="tag-filter-label">标签筛选：</span>
+          <span class="tag-filter-item" :class="{'active': activeTag === ''}" @click="selectTag('')">全部</span>
+          <span class="tag-filter-item" v-for="tag in tagList" :key="tag.id" :class="{'active': activeTag === tag.name}" @click="selectTag(tag.name)">{{tag.name}}</span>
+        </div>
 
         <div class="activity-grid" v-if="dataList && dataList.length > 0">
           <div class="activity-card animation-box" v-for="(item,index) in dataList" :key="index" @click="jump('../shetuanhuodong/detail.html?id='+item.id)">
@@ -401,7 +455,9 @@ html::after {
       el: '#app',
       data: {
         dataList: [],
-        keyword: ''
+        keyword: '',
+        tagList: [],
+        activeTag: ''
       },
       filters: {
         newsDesc: function(val) {
@@ -424,14 +480,19 @@ html::after {
         },
         formatDate(date) {
           if (!date) return '';
+          var d;
           if (typeof date === 'string') {
-            return date.substring(0, 10);
+            d = new Date(date.replace(/-/g, '/'));
+          } else {
+            d = new Date(date);
           }
-          var d = new Date(date);
+          if (isNaN(d.getTime())) return date.substring(0, 16);
           var year = d.getFullYear();
           var month = ('0' + (d.getMonth() + 1)).slice(-2);
           var day = ('0' + d.getDate()).slice(-2);
-          return year + '-' + month + '-' + day;
+          var hours = ('0' + d.getHours()).slice(-2);
+          var minutes = ('0' + d.getMinutes()).slice(-2);
+          return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
         },
         getStatusClass(status) {
           if (status === '进行中') return 'active';
@@ -443,9 +504,23 @@ html::after {
           var kw = this.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
           var regex = new RegExp('(' + kw + ')', 'gi');
           return text.replace(regex, '<span style="color: #ff6600; font-weight: bold;">$1</span>');
+        },
+        loadTags() {
+          var http = layui.http;
+          http.request('tag/list', 'get', {}, function(res) {
+            if (res && res.code === 0) {
+              vue.tagList = res.data || [];
+            }
+          });
+        },
+        selectTag(tagName) {
+          vue.activeTag = vue.activeTag === tagName ? '' : tagName;
+          pageList();
         }
       }
     });
+
+    var pageList;
 
     layui.use(['layer', 'element', 'carousel', 'laypage', 'http', 'jquery','laydate'], function() {
       var layer = layui.layer;
@@ -458,7 +533,14 @@ html::after {
 
       var limit = 12;
 
+      // 检查 URL 中的 tag 参数
+      var urlTag = http.getParam('tag');
+      if (urlTag) {
+        vue.activeTag = urlTag;
+      }
 
+      // 加载所有可用标签
+      vue.loadTags();
 
       function getStatsForList(list) {
         console.log('getStatsForList called, list length:', list.length);
@@ -474,8 +556,7 @@ html::after {
         });
       }
 
-      function pageList() {
-        console.log('pageList called');
+      pageList = function() {
         var param = {
           page: 1,
           limit: limit
@@ -486,6 +567,9 @@ html::after {
         }
         if (jquery('#shetuanmingcheng').val()) {
           param['shetuanmingcheng'] = '%' + jquery('#shetuanmingcheng').val() + '%';
+        }
+        if (vue.activeTag) {
+          param['tag'] = vue.activeTag;
         }
 
         param['sfsh'] = '是';
@@ -520,6 +604,7 @@ html::after {
       jquery('#btn-search').click(function(e) {
         console.log('Search button clicked, calling pageList');
         vue.keyword = jquery('#biaoti').val() || jquery('#shetuanmingcheng').val() || '';
+        vue.activeTag = '';
         pageList();
       });
     });

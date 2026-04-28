@@ -77,6 +77,10 @@ var centerMenu = function() {
                 url: '../shezhang/baomingreview.html'
             },
             {
+                name: '标签管理',
+                url: '../shezhang/tag_list.html'
+            },
+            {
                 name: '消息通知',
                 url: '../xiaoxi/list.html'
             },

@@ -279,7 +279,7 @@
 				<div class="activity-info">
 					<div class="name">{{item.biaoti}}</div>
 					<div class="info-item"><span class="label">主办方：</span>{{item.shetuanmingcheng}}</div>
-					<div class="info-item"><span class="label">时间：</span>{{item.kaishishijian}}</div>
+					<div class="info-item"><span class="label">时间：</span>{{formatDate(item.kaishishijian)}}</div>
 					<div class="info-item quota"><span class="label">剩余名额：</span>{{item.huodongrenshu - (item.baomingrenshu || 0)}} / {{item.huodongrenshu}}</div>
 				</div>
 	        </div>
@@ -311,6 +311,22 @@
       methods: {
         jump(url) {
           	jump(url)
+        },
+        formatDate(date) {
+          if (!date) return '';
+          var d;
+          if (typeof date === 'string') {
+            d = new Date(date.replace(/-/g, '/'));
+          } else {
+            d = new Date(date);
+          }
+          if (isNaN(d.getTime())) return date;
+          var year = d.getFullYear();
+          var month = ('0' + (d.getMonth() + 1)).slice(-2);
+          var day = ('0' + d.getDate()).slice(-2);
+          var hours = ('0' + d.getHours()).slice(-2);
+          var minutes = ('0' + d.getMinutes()).slice(-2);
+          return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
         },
       }
     });

@@ -29,6 +29,12 @@
     .data-add-container .add .layui-input-block { margin-left: 110px; }
     .btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
     .btn-group .layui-btn { width: 120px; height: 40px; line-height: 40px; }
+    .tag-checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; padding: 4px 0; }
+    .tag-checkbox-item { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; padding: 4px 8px; border: 1px solid #eee; border-radius: 4px; transition: all 0.2s; }
+    .tag-checkbox-item:hover { border-color: #ff6600; background: #fff8f0; }
+    .tag-checkbox-item input[type="checkbox"]:checked + .tag-checkbox-label { color: #ff6600; font-weight: 600; }
+    .tag-checkbox-item:has(input:checked) { border-color: #ff6600; background: #fff8f0; }
+    .tag-checkbox-label { font-size: 13px; color: #555; }
 </style>
 <body>
     <div id="app">
@@ -88,6 +94,18 @@
                         <textarea v-model="detail.huodongxiangqing" name="huodongxiangqing" id="huodongxiangqing" rows="4" class="layui-textarea" placeholder="请输入活动简单介绍"></textarea>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">活动标签</label>
+                    <div class="layui-input-block">
+                        <div v-if="tagOptions.length === 0" style="color:#999;font-size:13px;padding:6px 0;">暂无可用标签，请先到标签管理页面添加</div>
+                        <div v-else class="tag-checkbox-group">
+                            <label class="tag-checkbox-item" v-for="tag in tagOptions" :key="tag.id">
+                                <input type="checkbox" :value="tag.id" v-model="selectedTagIds">
+                                <span class="tag-checkbox-label">{{tag.name}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="btn-group">
                     <button type="button" class="layui-btn layui-btn-primary" @click="saveDraft">保存草稿</button>
                     <button type="button" class="layui-btn" style="background-color: rgba(255, 153, 0, 1);" @click="publishNow">立即发布</button>
@@ -118,7 +136,9 @@
                 },
                 ro: {
                     huodongtupian: false
-                }
+                },
+                tagOptions: [],
+                selectedTagIds: []
             },
             methods: {
                 jump(url) {
@@ -149,10 +169,18 @@
                         layer.msg('请输入活动地点', {icon: 5});
                         return;
                     }
+                    var _this = this;
                     layui.http.requestJson('shetuanhuodong/saveDraft', 'post', this.detail, function(res) {
-                        layer.msg('草稿保存成功', {icon: 6}, function() {
-                            window.location.href = 'mypublish.html';
-                        });
+                        if (res.code === 0) {
+                            var activityId = _this.detail.id || res.data;
+                            _this.bindActivityTags(activityId, function() {
+                                layer.msg('草稿保存成功', {icon: 6}, function() {
+                                    window.location.href = 'mypublish.html';
+                                });
+                            });
+                        } else {
+                            layer.msg(res.msg || '保存失败', {icon: 5});
+                        }
                     }, function(error) {
                         layer.msg('保存失败', {icon: 5});
                     });
@@ -182,12 +210,40 @@
                         layer.msg('请输入活动地点', {icon: 5});
                         return;
                     }
+                    var _this = this;
                     layui.http.requestJson('shetuanhuodong/publishNow', 'post', this.detail, function(res) {
-                        layer.msg('发布成功', {icon: 6}, function() {
-                            window.location.href = 'mypublish.html';
-                        });
+                        if (res.code === 0) {
+                            var activityId = _this.detail.id || res.data;
+                            _this.bindActivityTags(activityId, function() {
+                                layer.msg('发布成功', {icon: 6}, function() {
+                                    window.location.href = 'mypublish.html';
+                                });
+                            });
+                        } else {
+                            layer.msg(res.msg || '发布失败', {icon: 5});
+                        }
                     }, function(error) {
                         layer.msg('发布失败', {icon: 5});
+                    });
+                },
+                bindActivityTags(activityId, callback) {
+                    if (!activityId || this.selectedTagIds.length === 0) {
+                        if (callback) callback();
+                        return;
+                    }
+                    layui.http.requestJson('shetuanhuodong/bindTags', 'post', {
+                        activityId: activityId,
+                        tagIds: this.selectedTagIds
+                    }, function(res) {
+                        if (res.code === 0) {
+                            if (callback) callback();
+                        } else {
+                            console.log('绑定标签失败:', res.msg);
+                            if (callback) callback();
+                        }
+                    }, function(error) {
+                        console.log('绑定标签网络错误:', error);
+                        if (callback) callback();
                     });
                 }
             }
@@ -241,6 +297,13 @@
                 error: function() {
                     layer.closeAll();
                     layer.msg("请求接口异常", {icon: 5});
+                }
+            });
+
+            // 加载可用标签
+            layui.http.request('tag/list', 'get', {}, function(res) {
+                if(res && res.code === 0) {
+                    vue.tagOptions = res.data || [];
                 }
             });
 

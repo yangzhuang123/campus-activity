@@ -169,6 +169,608 @@
 				width: 100%;
 				flex: none;
 			}
+	/* ===== 非嵌入模式（校园活动详情页）样式 ===== */
+	.detail-back-bar {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 16px 0 0;
+	}
+	.back-list-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 6px 0;
+		background: none;
+		color: #999;
+		border: none;
+		font-size: 14px;
+		cursor: pointer;
+		transition: color 0.2s;
+	}
+	.back-list-btn:hover {
+		color: #ff6600;
+	}
+	.detail-main-card {
+		max-width: 1100px;
+		margin: 15px auto 40px;
+		background: #fff;
+		border-radius: 12px;
+		box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+		overflow: hidden;
+	}
+	.detail-card-top {
+		display: flex;
+		gap: 0;
+		padding: 30px;
+	}
+	.detail-card-image {
+		width: 420px;
+		flex-shrink: 0;
+		border-radius: 10px;
+		overflow: hidden;
+	}
+	.detail-card-image img {
+		width: 100%;
+		height: 320px;
+		object-fit: cover;
+		display: block;
+	}
+	.detail-card-info {
+		flex: 1;
+		padding-left: 30px;
+		display: flex;
+		flex-direction: column;
+	}
+	.detail-title {
+		font-size: 24px;
+		font-weight: 700;
+		color: #222;
+		margin: 0 0 12px;
+		line-height: 1.3;
+	}
+	.detail-meta-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+	.meta-tag {
+		display: inline-block;
+		padding: 4px 14px;
+		border-radius: 20px;
+		font-size: 13px;
+		color: #fff;
+	}
+	.meta-organizer {
+		background: #ff6600;
+	}
+	.meta-location {
+		background: #5b8ff9;
+	}
+	.detail-stats-row {
+		display: flex;
+		gap: 0;
+		background: #fafafa;
+		border-radius: 8px;
+		padding: 16px 0;
+		margin-bottom: 18px;
+		border: 1px solid #f0f0f0;
+	}
+	.stat-item {
+		flex: 1;
+		text-align: center;
+		border-right: 1px solid #eee;
+	}
+	.stat-item:last-child {
+		border-right: none;
+	}
+	.stat-value {
+		display: block;
+		font-size: 22px;
+		font-weight: 700;
+		color: #333;
+		line-height: 1.2;
+	}
+	.stat-label {
+		display: block;
+		font-size: 13px;
+		color: #999;
+		margin-top: 4px;
+	}
+	.stat-warning {
+		color: #ff8c00;
+	}
+	.stat-danger {
+		color: #f56c6c;
+	}
+	.detail-time-row {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 20px;
+	}
+	.time-item {
+		flex: 1;
+		background: #fafafa;
+		padding: 12px 16px;
+		border-radius: 8px;
+		border: 1px solid #f0f0f0;
+	}
+	.time-label {
+		display: block;
+		font-size: 12px;
+		color: #999;
+		margin-bottom: 2px;
+	}
+	.time-value {
+		display: block;
+		font-size: 15px;
+		font-weight: 600;
+		color: #333;
+	}
+	.detail-actions {
+		display: flex;
+		gap: 12px;
+		margin-top: auto;
+		padding-top: 16px;
+	}
+	.detail-actions .action-btn {
+		padding: 12px 32px;
+		border-radius: 8px;
+		font-size: 15px;
+		font-weight: 600;
+		cursor: pointer;
+		border: none;
+		transition: all 0.25s ease;
+	}
+	.action-primary {
+		background: linear-gradient(135deg, #ff6600, #ff8533);
+		color: #fff;
+		box-shadow: 0 4px 14px rgba(255,102,0,0.35);
+	}
+	.action-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 20px rgba(255,102,0,0.45);
+	}
+	.action-secondary {
+		background: #fff;
+		color: #ff6600;
+		border: 1px solid #ff6600;
+	}
+	.action-secondary:hover {
+		background: #fff5f0;
+	}
+	.action-collected {
+		background: #e8e8e8;
+		color: #999;
+		border: 1px solid #ddd;
+		cursor: default;
+	}
+	.detail-card-body {
+		border-top: 1px solid #f0f0f0;
+		padding: 0 30px 30px;
+	}
+	.body-tab-header {
+		padding: 20px 0 0;
+		border-bottom: 2px solid #f0f0f0;
+		margin-bottom: 20px;
+	}
+	.body-tab-header .tab-item {
+		display: inline-block;
+		padding: 12px 24px;
+		font-size: 15px;
+		font-weight: 600;
+		color: #999;
+		cursor: pointer;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -2px;
+		transition: all 0.25s ease;
+	}
+	.body-tab-header .tab-item.active {
+		color: #ff6600;
+		border-bottom-color: #ff6600;
+	}
+	.body-tab-content {
+		min-height: 100px;
+	}
+	.rich-content {
+		line-height: 1.8;
+		color: #333;
+		font-size: 14px;
+	}
+	.rich-content img {
+		max-width: 100%;
+		border-radius: 6px;
+	}
+	@media (max-width: 768px) {
+		.detail-card-top {
+			flex-direction: column;
+			padding: 20px;
+		}
+		.detail-card-image {
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		.detail-card-image img {
+			height: 220px;
+		}
+		.detail-card-info {
+			padding-left: 0;
+		}
+		.detail-title {
+			font-size: 20px;
+		}
+		.detail-stats-row {
+			padding: 12px 0;
+		}
+		.stat-value {
+			font-size: 18px;
+		}
+		.detail-time-row {
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+
+	/* ===== 独立展示模式 - 左右字段布局 ===== */
+	.detail-field-card {
+		max-width: 1100px;
+		margin: 15px auto 40px;
+		background: #fff;
+		border-radius: 12px;
+		box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+		overflow: hidden;
+	}
+	.detail-field-image {
+		width: 100%;
+		height: 360px;
+		overflow: hidden;
+	}
+	.detail-field-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	.detail-fields {
+		padding: 10px 40px;
+	}
+	.detail-field-row {
+		display: flex;
+		padding: 16px 0;
+		border-bottom: 1px solid #f0f0f0;
+		align-items: flex-start;
+	}
+	.detail-field-row:last-of-type {
+		border-bottom: none;
+	}
+	.detail-field-label {
+		min-width: 110px;
+		font-size: 15px;
+		font-weight: 600;
+		color: #333;
+		flex-shrink: 0;
+		line-height: 1.6;
+	}
+	.detail-field-value {
+		flex: 1;
+		font-size: 15px;
+		color: #555;
+		word-break: break-word;
+		line-height: 1.6;
+	}
+	.detail-field-value .rich-content {
+		font-size: 15px;
+		line-height: 1.8;
+		color: #555;
+	}
+	.detail-field-value .rich-content img {
+		max-width: 100%;
+		border-radius: 6px;
+	}
+	.detail-field-actions {
+		padding: 20px 40px 30px;
+		display: flex;
+		gap: 12px;
+		border-top: 1px solid #f0f0f0;
+	}
+	.detail-desc-section {
+		padding: 0 40px 30px;
+	}
+	.detail-desc-header {
+		font-size: 16px;
+		font-weight: 600;
+		color: #333;
+		margin: 0 0 16px;
+		padding: 20px 0 0;
+		border-top: 1px solid #f0f0f0;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.detail-desc-header::before {
+		content: '';
+		display: inline-block;
+		width: 3px;
+		height: 18px;
+		background: #ff6600;
+		border-radius: 2px;
+		flex-shrink: 0;
+	}
+	@media (max-width: 768px) {
+		.detail-field-image {
+			height: 220px;
+		}
+		.detail-fields {
+			padding: 10px 20px;
+		}
+		.detail-field-actions {
+			padding: 16px 20px 24px;
+		}
+		.detail-desc-section {
+			padding: 0 20px 24px;
+		}
+		.detail-field-row {
+			padding: 12px 0;
+			flex-direction: column;
+		}
+		.detail-field-label {
+			min-width: auto;
+			margin-bottom: 4px;
+			font-size: 13px;
+			color: #999;
+		}
+		.detail-field-value {
+			font-size: 14px;
+		}
+	}
+	
+	/* ===== 标签样式 ===== */
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 15px;
+	}
+	.tag-badge {
+		display: inline-block;
+		padding: 3px 12px;
+		border-radius: 12px;
+		font-size: 12px;
+		color: #fff;
+		background: #5b8ff9;
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+	.tag-badge:hover {
+		opacity: 0.8;
+		transform: translateY(-1px);
+	}
+	
+	/* ===== 评论区样式 ===== */
+	.comment-section {
+		margin-top: 30px;
+		padding-top: 20px;
+		border-top: 1px solid #f0f0f0;
+	}
+	.comment-section h3 {
+		font-size: 16px;
+		font-weight: 600;
+		color: #333;
+		margin: 0 0 16px;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.comment-section h3::before {
+		content: '';
+		display: inline-block;
+		width: 3px;
+		height: 18px;
+		background: #ff6600;
+		border-radius: 2px;
+		flex-shrink: 0;
+	}
+	.comment-input-area {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+	.comment-input-area textarea {
+		flex: 1;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		resize: none;
+		font-size: 14px;
+		outline: none;
+		transition: border-color 0.2s;
+		min-height: 60px;
+	}
+	.comment-input-area textarea:focus {
+		border-color: #ff6600;
+	}
+	.comment-input-area .comment-submit-btn {
+		padding: 10px 20px;
+		background: #ff6600;
+		color: #fff;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		font-size: 14px;
+		white-space: nowrap;
+		align-self: flex-end;
+		transition: background 0.2s;
+	}
+	.comment-input-area .comment-submit-btn:hover {
+		background: #ff8533;
+	}
+	.comment-input-area .comment-submit-btn:disabled {
+		background: #ccc;
+		cursor: not-allowed;
+	}
+	.char-count {
+		font-size: 12px;
+		color: #999;
+		text-align: right;
+		margin-top: 4px;
+	}
+	.comment-list {
+		margin-bottom: 20px;
+	}
+	.comment-item {
+		padding: 16px 0;
+		border-bottom: 1px solid #f5f5f5;
+	}
+	.comment-item:last-child {
+		border-bottom: none;
+	}
+	.comment-header {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 8px;
+	}
+	.comment-avatar {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		background: #ff6600;
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 14px;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+	.comment-username {
+		font-size: 14px;
+		font-weight: 600;
+		color: #333;
+	}
+	.comment-time {
+		font-size: 12px;
+		color: #999;
+		margin-left: auto;
+	}
+	.comment-content {
+		font-size: 14px;
+		color: #555;
+		line-height: 1.6;
+		margin-bottom: 8px;
+		padding-left: 46px;
+		word-break: break-word;
+	}
+	.comment-actions {
+		display: flex;
+		gap: 15px;
+		padding-left: 46px;
+	}
+	.comment-action-btn {
+		font-size: 13px;
+		color: #999;
+		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 2px 6px;
+		transition: color 0.2s;
+		display: flex;
+		align-items: center;
+		gap: 3px;
+	}
+	.comment-action-btn:hover {
+		color: #ff6600;
+	}
+	.comment-action-btn.liked {
+		color: #ff6600;
+	}
+	.comment-action-btn.danger:hover {
+		color: #f56c6c;
+	}
+	/* 回复样式 */
+	.replies-wrapper {
+		padding-left: 46px;
+		margin-top: 10px;
+	}
+	.reply-item {
+		padding: 10px 12px;
+		background: #fafafa;
+		border-radius: 6px;
+		margin-bottom: 6px;
+	}
+	.reply-header {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 4px;
+	}
+	.reply-username {
+		font-size: 13px;
+		font-weight: 600;
+		color: #ff6600;
+	}
+	.reply-time {
+		font-size: 11px;
+		color: #999;
+		margin-left: auto;
+	}
+	.reply-content-text {
+		font-size: 13px;
+		color: #555;
+		line-height: 1.5;
+		padding-left: 0 !important;
+		margin-bottom: 0 !important;
+	}
+	.reply-input-wrapper {
+		display: flex;
+		gap: 8px;
+		margin-top: 8px;
+	}
+	.reply-input-wrapper input {
+		flex: 1;
+		padding: 6px 10px;
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		font-size: 13px;
+		outline: none;
+	}
+	.reply-input-wrapper input:focus {
+		border-color: #ff6600;
+	}
+	.reply-input-wrapper .reply-submit-btn {
+		padding: 6px 14px;
+		background: #ff6600;
+		color: #fff;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		font-size: 13px;
+	}
+	.load-more-btn {
+		display: block;
+		width: 100%;
+		padding: 10px;
+		background: #f5f5f5;
+		color: #666;
+		border: 1px dashed #ddd;
+		border-radius: 6px;
+		cursor: pointer;
+		font-size: 14px;
+		text-align: center;
+		transition: all 0.2s;
+	}
+	.load-more-btn:hover {
+		background: #eee;
+		color: #ff6600;
+	}
+	.empty-comments {
+		text-align: center;
+		padding: 40px 0;
+		color: #999;
+		font-size: 14px;
+	}
+
 </style>
 <body>
 	<div id="app">
@@ -190,6 +792,13 @@
 					<div class="detail-item">
 						<span class="detail-label">标题：</span>
 						<span class="detail-value">{{detail.biaoti || '暂无'}}</span>
+					</div>
+					<!-- 标签展示 -->
+					<div class="detail-item" v-if="tagList.length > 0">
+						<span class="detail-label">标签：</span>
+						<span class="detail-value">
+							<span class="tag-badge" v-for="tag in tagList" :key="tag.id" @click="goToListWithTag(tag.name)">{{tag.name}}</span>
+						</span>
 					</div>
 					<div class="detail-item">
 							<span class="detail-label">开始时间：</span>
@@ -224,79 +833,164 @@
 						<div class="detail-value" v-html="detail.huodongxiangqing"></div>
 					</div>
 					<div class="action-buttons">
-						<button v-if="isAuth('shetuanhuodong','报名')" class="action-btn primary" @click="onAcrossTap('huodongbaoming')">报名</button>
+						<button v-if="isAuth('shetuanhuodong','报名')" class="action-btn primary" @click="directRegister()">报名</button>
 						<button class="action-btn secondary" :class="{'disabled': isCollected}" @click="toggleCollect">{{isCollected?'已收藏':'收藏'}}</button>
 					</div>
 				</div>
-				<div v-else-if="loading" class="empty-tip">
-					<p>加载中...</p>
-				</div>
-				<div v-else class="empty-tip">
-					<p>活动信息不存在</p>
+				<!-- 评论区 -->
+				<div class="comment-section">
+					<h3>活动评论 ({{commentTotal}})</h3>
+					<div class="comment-input-area" v-if="isLoggedIn">
+						<textarea v-model="newComment" placeholder="写下你的评论..." maxlength="500" rows="2"></textarea>
+						<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+							<button class="comment-submit-btn" @click="submitComment" :disabled="!newComment.trim() || submitting">{{submitting ? '发布中...' : '发布'}}</button>
+							<span class="char-count">{{newComment.length}}/500</span>
+						</div>
+					</div>
+					<div v-else class="comment-input-area">
+						<textarea placeholder="请先登录后再评论" disabled rows="1" style="background:#f9f9f9;cursor:not-allowed;"></textarea>
+					</div>
+					<div class="comment-list">
+						<div v-if="commentList.length === 0" class="empty-comments">暂无评论，快来发表第一条评论吧！</div>
+						<div class="comment-item" v-for="comment in commentList" :key="comment.id">
+							<div class="comment-header">
+								<div class="comment-avatar">{{comment.userName ? comment.userName.charAt(0) : '?'}}</div>
+								<span class="comment-username">{{comment.userName || '匿名'}}</span>
+								<span class="comment-time">{{formatDate(comment.createTime)}}</span>
+							</div>
+							<div class="comment-content">{{comment.content}}</div>
+							<div class="comment-actions">
+								<button class="comment-action-btn" :class="{'liked': comment.isLiked}" @click="toggleLike(comment)">
+									{{comment.isLiked ? '❤️' : '♡'}} {{comment.likeCount || 0}}
+								</button>
+								<button class="comment-action-btn" @click="showReplyInput(comment.id)">💬 回复</button>
+								<button class="comment-action-btn danger" v-if="isCurrentUser(comment.userId)" @click="deleteComment(comment.id)">🗑️ 删除</button>
+							</div>
+							<div class="replies-wrapper" v-if="comment.replies && comment.replies.length > 0">
+								<div class="reply-item" v-for="reply in comment.replies" :key="reply.id">
+									<div class="reply-header">
+										<span class="reply-username">{{reply.userName}}</span>
+										<span class="reply-time">{{formatDate(reply.createTime)}}</span>
+									</div>
+									<div class="comment-content reply-content-text">{{reply.content}}</div>
+								</div>
+							</div>
+							<div class="reply-input-wrapper" v-if="replyTargetId === comment.id">
+								<input v-model="replyContent" :placeholder="'回复 @' + comment.userName + '...'" maxlength="500" @keyup.enter="submitReply(comment.id)" />
+								<button class="reply-submit-btn" @click="submitReply(comment.id)" :disabled="!replyContent.trim()">回复</button>
+							</div>
+						</div>
+					</div>
+					<button v-if="hasMoreComments" class="load-more-btn" @click="loadMoreComments">加载更多评论</button>
 				</div>
 			</div>
 		</div>
 		<div v-else class="data-detail">
-			<button v-if="isEmbed" class="embed-back-btn" @click="goBack">← 返回列表</button>
-			<div class="data-detail-breadcrumb" :style='{"padding":"0 10px","boxShadow":"0 00px rgba(255,0,0,.3)","margin":"10px auto","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(247, 247, 247, 1)","borderRadius":"4px","borderWidth":"0","borderStyle":"solid","height":"54px"}' :class="{'embed-mode': isEmbed}">
-				<span class="layui-breadcrumb">
-					<a class="first" :style='{"padding":"8px 10px","boxShadow":"0 0 0px rgba(255,0,0,0)","margin":"0 5px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"0","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' href="../home/home.html">首页</a>
-					<a><cite :style='{"padding":"8px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 15px","borderColor":"rgba(255,0,0,.3)","backgroundColor":"rgba(255, 255, 255, 0)","color":"rgba(52, 52, 52, 1)","borderRadius":"4px","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}'>{{title}}</cite></a>
-				</span>
+			<div class="detail-back-bar">
+				<button class="back-list-btn" @click="goBackToList">← 返回校园活动列表</button>
 			</div>
-			<div class="layui-row" style="display: flex">
-			<div v-if="swiperList.length" class="layui-col-md5" style="width:450px">
-				<img style="width: 100%;height: 400px;object-fit:cover;" :src="swiperList[0]" />
-			</div>
-			<div class="layui-col-md7" style="padding-left: 20px;flex: 1;" :style='{"padding":"0","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0 0 0 20px","borderColor":"rgba(247, 247, 247, 1)","backgroundColor":"rgba(255, 255, 255, 0)","borderRadius":"0","borderWidth":"10px","borderStyle":"solid"}'>
-				<h1 style="position: relative;" :style='{"padding":"10px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"rgba(0, 0, 0, 1)","borderRadius":"0","textAlign":"left","borderWidth":"0","fontSize":"16px","borderStyle":"solid"}' class="title">{{title}}</h1>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>标题：</span>
-					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.biaoti || '暂无'}}</span>
+			<div class="detail-field-card">
+				<div v-if="swiperList.length" class="detail-field-image">
+					<img :src="swiperList[0]" />
 				</div>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-							<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>开始时间：</span>
-							<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{formatDate(detail.kaishishijian)}}</span>
+				<div class="detail-fields">
+					<div class="detail-field-row">
+						<span class="detail-field-label">标题</span>
+						<span class="detail-field-value">{{detail.biaoti || '暂无'}}</span>
+					</div>
+					<div class="detail-field-row" v-if="tagList.length > 0">
+						<span class="detail-field-label">活动标签</span>
+						<span class="detail-field-value">
+							<span class="tag-badge" v-for="tag in tagList" :key="tag.id" @click="goToListWithTag(tag.name)">{{tag.name}}</span>
+						</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">开始时间</span>
+						<span class="detail-field-value">{{formatDate(detail.kaishishijian)}}</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">结束时间</span>
+						<span class="detail-field-value">{{formatDate(detail.jieshushijian)}}</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">活动人数</span>
+						<span class="detail-field-value">{{detail.huodongrenshu || '不限'}}</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">已报名人数</span>
+						<span class="detail-field-value">{{stats.yibaomingrenshu || 0}}</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">剩余名额</span>
+						<span class="detail-field-value">
+							<span :class="{'stat-warning': stats.shengyuminge <= 5 && stats.shengyuminge > 0, 'stat-danger': stats.shengyuminge <= 0}">{{stats.shengyuminge >= 0 ? stats.shengyuminge : '不限'}}</span>
+						</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">活动地点</span>
+						<span class="detail-field-value">{{detail.huodongdidian || '暂无'}}</span>
+					</div>
+					<div class="detail-field-row">
+						<span class="detail-field-label">主办方</span>
+						<span class="detail-field-value">{{detail.shetuanmingcheng || '暂无'}}</span>
+					</div>
+				</div>
+				<div class="detail-field-actions">
+					<button v-if="isAuth('shetuanhuodong','报名')" class="action-btn action-primary" @click="directRegister()">立即报名</button>
+					<button class="action-btn" :class="isCollected ? 'action-collected' : 'action-secondary'" @click="toggleCollect">{{isCollected ? '✓ 已收藏' : '☆ 收藏'}}</button>
+				</div>
+				<div class="detail-desc-section">
+					<h3 class="detail-desc-header">活动详情</h3>
+					<div v-html="detail.huodongxiangqing" class="rich-content"></div>
+				</div>
+				<!-- 评论区 -->
+				<div class="detail-desc-section" style="border-top: none;">
+					<div class="comment-section">
+						<h3>活动评论 ({{commentTotal}})</h3>
+						<div class="comment-input-area" v-if="isLoggedIn">
+							<textarea v-model="newComment" placeholder="写下你的评论..." maxlength="500" rows="3"></textarea>
+							<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+								<button class="comment-submit-btn" @click="submitComment" :disabled="!newComment.trim() || submitting">{{submitting ? '发布中...' : '发布'}}</button>
+								<span class="char-count">{{newComment.length}}/500</span>
+							</div>
 						</div>
-						<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-							<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>结束时间：</span>
-							<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{formatDate(detail.jieshushijian)}}</span>
+						<div v-else class="comment-input-area">
+							<textarea placeholder="请先登录后再评论" disabled rows="2" style="background:#f9f9f9;cursor:not-allowed;"></textarea>
 						</div>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动人数：</span>
-					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.huodongrenshu || '暂无'}}</span>
-				</div>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>已报名人数：</span>
-					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{stats.yibaomingrenshu || 0}}</span>
-				</div>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>剩余名额：</span>
-					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{stats.shengyuminge || 0}}</span>
-				</div>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>活动地点：</span>
-					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.huodongdidian || '暂无'}}</span>
-				</div>
-				<div :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' class="detail-item">
-					<span :style='{"padding":"0 12px 0 0","minWidth":"94px","fontSize":"14px","color":"#333","textAlign":"right"}'>主办方：</span>
-					<span style="word-break: break-all" :style='{"padding":"5px 15px","boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(0,0,0,.3)","backgroundColor":"#fff","color":"#333","borderRadius":"4px","textAlign":"left","borderWidth":"0","width":"auto","lineHeight":"16px","fontSize":"14px","borderStyle":"solid"}' class="desc">{{detail.shetuanmingcheng || '暂无'}}</span>
-				</div>
-				<div class="detail-item" :style='{"padding":"6px 15px","boxShadow":"0 0 6px rgba(255,0,0,0)","margin":"0","borderColor":"rgba(109, 94, 94, 0.3)","backgroundColor":"#fff","borderRadius":"0","borderWidth":"0 0 1px 0","borderStyle":"solid"}' style="text-align: right;">
-					<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' v-if="isAuth('shetuanhuodong','报名')" @click="onAcrossTap('huodongbaoming')" type="button" class="layui-btn">报名</button>
-					<button :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":isCollected?"#999":"rgba(255, 153, 0, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","width":"auto","lineHeight":"34px","fontSize":"14px","borderStyle":"solid"}' @click="toggleCollect" type="button" class="layui-btn">{{isCollected?'已收藏':'收藏'}}</button>
-				</div>
-			</div>
-			</div>
-			<div class="layui-row detail-tab">
-				<div class="layui-tab layui-tab-card" :style='{"boxShadow":"0 0 0px rgba(255,0,0,.3)","borderColor":"rgba(255, 255, 255, 0.3)","backgroundColor":"rgba(255, 255, 255, 1)","borderRadius":"0px","borderStyle":"solid","borderWidth":"10px"}' style="overflow: hidden;">
-					<ul class="layui-tab-title" :style='{"color":"rgba(113, 113, 113, 1)","backgroundColor":"#f2f2f2","fontSize":"14px"}'>
-						<li class="layui-this">活动详情</li>
-					</ul>
-					<div class="layui-tab-content">
-						<div class="layui-tab-item layui-show">
-							<div v-html="detail.huodongxiangqing"></div>
+						<div class="comment-list">
+							<div v-if="commentList.length === 0" class="empty-comments">暂无评论，快来发表第一条评论吧！</div>
+							<div class="comment-item" v-for="comment in commentList" :key="comment.id">
+								<div class="comment-header">
+									<div class="comment-avatar">{{comment.userName ? comment.userName.charAt(0) : '?'}}</div>
+									<span class="comment-username">{{comment.userName || '匿名'}}</span>
+									<span class="comment-time">{{formatDate(comment.createTime)}}</span>
+								</div>
+								<div class="comment-content">{{comment.content}}</div>
+								<div class="comment-actions">
+									<button class="comment-action-btn" :class="{'liked': comment.isLiked}" @click="toggleLike(comment)">
+										{{comment.isLiked ? '❤️' : '♡'}} {{comment.likeCount || 0}}
+									</button>
+									<button class="comment-action-btn" @click="showReplyInput(comment.id)">💬 回复</button>
+									<button class="comment-action-btn danger" v-if="isCurrentUser(comment.userId)" @click="deleteComment(comment.id)">🗑️ 删除</button>
+								</div>
+								<!-- 回复列表 -->
+								<div class="replies-wrapper" v-if="comment.replies && comment.replies.length > 0">
+									<div class="reply-item" v-for="reply in comment.replies" :key="reply.id">
+										<div class="reply-header">
+											<span class="reply-username">{{reply.userName}}</span>
+											<span class="reply-time">{{formatDate(reply.createTime)}}</span>
+										</div>
+										<div class="comment-content reply-content-text">{{reply.content}}</div>
+									</div>
+								</div>
+								<!-- 回复输入框 -->
+								<div class="reply-input-wrapper" v-if="replyTargetId === comment.id">
+									<input v-model="replyContent" :placeholder="'回复 @' + comment.userName + '...'" maxlength="500" @keyup.enter="submitReply(comment.id)" />
+									<button class="reply-submit-btn" @click="submitReply(comment.id)" :disabled="!replyContent.trim()">回复</button>
+								</div>
+							</div>
 						</div>
+						<button v-if="hasMoreComments" class="load-more-btn" @click="loadMoreComments">加载更多评论</button>
 					</div>
 				</div>
 			</div>
@@ -323,7 +1017,21 @@
 					title: '',
 					detailTable: 'shetuanhuodong',
 					stats: {},
-					centerMenu: centerMenu()
+					centerMenu: centerMenu(),
+					tagList: [],
+					// 评论相关
+					commentList: [],
+					commentTotal: 0,
+					commentPage: 1,
+					commentLimit: 10,
+					hasMoreComments: false,
+					newComment: '',
+					submitting: false,
+					replyTargetId: null,
+					replyContent: '',
+					isLoggedIn: false,
+					currentUserId: null,
+					currentUserName: ''
 				},
 			methods: {
 				jump(url) {
@@ -334,6 +1042,9 @@
 				},
 				goBack() {
 					history.back();
+				},
+				goBackToList() {
+					window.location.href = 'list.html';
 				},
 				checkCollect() {
 					let userTable = localStorage.getItem('userTable');
@@ -381,13 +1092,13 @@
 						layui.http.request('storeup/delete', 'post', {ids: JSON.stringify([this.collectId])}, function(res) {
 							vue.isCollected = false;
 							vue.collectId = null;
-							layer.msg('已取消收藏', {icon: 6});
+							layui.layer.msg('已取消收藏', {icon: 6});
 						}, function(error) {
 							console.log('取消收藏失败:', error);
-							layer.msg('取消收藏失败，请重试', {icon: 5});
+							layui.layer.msg('取消收藏失败，请重试', {icon: 5});
 						});
 					} else {
-						layui.http.request('storeup/save', 'post', {
+						layui.http.requestJson('storeup/save', 'post', {
 							userid: userid,
 							tablename: 'shetuanhuodong',
 							refid: this.detail.id,
@@ -395,19 +1106,251 @@
 							picture: this.detail.huodongtupian ? this.detail.huodongtupian.split(',')[0] : ''
 						}, function(res) {
 							vue.isCollected = true;
-							layer.msg('收藏成功', {icon: 6});
+							layui.layer.msg('收藏成功', {icon: 6});
 							vue.checkCollect();
 						}, function(error) {
 							console.log('添加收藏失败:', error);
-							layer.msg('添加收藏失败，请重试', {icon: 5});
+							layui.layer.msg('添加收藏失败，请重试', {icon: 5});
 						});
 					}
 				},
 				onAcrossTap(acrossTable){
-							localStorage.setItem('crossTable','shetuanhuodong');
-							localStorage.setItem('crossObj', JSON.stringify(this.detail));
-							jump(`../${acrossTable}/add.html?corss=true`);
-						},
+					try {
+						localStorage.setItem('crossTable','shetuanhuodong');
+						localStorage.setItem('crossObj', JSON.stringify(this.detail));
+					} catch(e) {
+						console.error('保存跨表数据失败:', e);
+						localStorage.setItem('crossObj', '{}');
+					}
+					jump(`../${acrossTable}/add.html?corss=true`);
+				},
+				directRegister() {
+					let userTable = localStorage.getItem('userTable');
+					if (!userTable) {
+						layui.layer.msg('请先登录', {icon: 5, time: 2000});
+						return;
+					}
+
+					layui.http.request(userTable + '/session', 'get', {}, function(sessionRes) {
+						if (sessionRes.code !== 0) {
+							layui.layer.msg('获取用户信息失败', {icon: 5, time: 2000});
+							return;
+						}
+
+						let userData = sessionRes.data;
+
+						// 学生必须有学号才能报名
+						if (!userData.xuehao) {
+							layui.layer.msg('仅限学生报名', {icon: 5, time: 2000});
+							return;
+						}
+
+						let registerData = {
+							biaoti: vue.detail.biaoti,
+							shetuanmingcheng: vue.detail.shetuanmingcheng,
+							zhanghao: vue.detail.zhanghao || '',
+							xuehao: userData.xuehao || '',
+							xueshengxingming: userData.xueshengxingming || '',
+							shouji: userData.shouji || '',
+							baomingneirong: '立即报名',
+							baomingriqi: getCurDateTime()
+						};
+
+						layui.http.requestJson('huodongbaoming/add', 'post', registerData, function(res) {
+							if (res && res.code === 0) {
+								layui.layer.msg('报名成功', {icon: 6, time: 2000}, function() {
+									vue.loadDetail();
+								});
+							} else {
+								layui.layer.msg(res.msg || '报名失败', {icon: 5, time: 2000});
+							}
+						}, function(error) {
+							layui.layer.msg('报名失败，请重试', {icon: 5, time: 2000});
+						});
+					}, function(error) {
+						layui.layer.msg('获取用户信息失败，请重新登录', {icon: 5, time: 2000});
+					});
+				},
+				loadDetail() {
+					var http = layui.http;
+					vue.loading = true;
+					http.request(vue.detailTable + '/detail/' + vue.detail.id, 'get', {}, function(res) {
+						vue.loading = false;
+						if (res && res.code === 0) {
+							vue.detail = res.data || {};
+							vue.title = vue.detail.biaoti || '活动详情';
+							vue.swiperList = vue.detail.huodongtupian ? vue.detail.huodongtupian.split(",").map(img => {
+								if (img.startsWith('http://') || img.startsWith('https://')) {
+									return img;
+								} else if (img.startsWith('/')) {
+									return img;
+								} else {
+									return '/springbootnp4n3/upload/' + img;
+								}
+							}) : [];
+							vue.stats = {
+								yibaomingrenshu: res.data.yibaomingrenshu || 0,
+								shengyuminge: res.data.shengyuminge || (vue.detail.huodongrenshu ? vue.detail.huodongrenshu - (res.data.yibaomingrenshu || 0) : 0)
+							};
+							vue.checkCollect();
+							vue.loadTags();
+							vue.loadComments();
+						}
+					});
+				},
+				loadTags() {
+					var http = layui.http;
+					if (!vue.detail.id) return;
+					http.request('shetuanhuodong/tags/' + vue.detail.id, 'get', {}, function(res) {
+						if (res && res.code === 0) {
+							vue.tagList = res.data || [];
+						}
+					}, function(error) {
+						console.log('获取标签失败:', error);
+					});
+				},
+				loadComments() {
+					var http = layui.http;
+					if (!vue.detail.id) return;
+					http.request('discuss/list/' + 'shetuanhuodong' + '/' + vue.detail.id, 'get', {
+						page: vue.commentPage,
+						limit: vue.commentLimit
+					}, function(res) {
+						if (res && res.code === 0) {
+							if (vue.commentPage === 1) {
+								vue.commentList = res.data.list || [];
+							} else {
+								vue.commentList = vue.commentList.concat(res.data.list || []);
+							}
+							vue.commentTotal = res.data.total || 0;
+							vue.hasMoreComments = vue.commentList.length < vue.commentTotal;
+							vue.commentList.forEach(function(comment) {
+								if (comment.id) {
+									vue.loadReplies(comment.id);
+								}
+							});
+						}
+					}, function(error) {
+						console.log('获取评论失败:', error);
+					});
+				},
+				loadReplies(parentId) {
+					var http = layui.http;
+					http.request('discuss/replies/' + parentId, 'get', {limit: 100}, function(res) {
+						if (res && res.code === 0) {
+							var comment = vue.commentList.find(function(c) { return c.id === parentId; });
+							if (comment) {
+								comment.replies = res.data.list || [];
+							}
+						}
+					});
+				},
+				loadMoreComments() {
+					vue.commentPage++;
+					vue.loadComments();
+				},
+				submitComment() {
+					var http = layui.http;
+					var content = vue.newComment.trim();
+					if (!content) return;
+					vue.submitting = true;
+					http.requestJson('discuss/save', 'post', {
+						objectType: 'shetuanhuodong',
+						objectId: vue.detail.id,
+						content: content,
+						parentId: 0,
+						userName: vue.currentUserName
+					}, function(res) {
+						vue.submitting = false;
+						if (res && res.code === 0) {
+							vue.newComment = '';
+							vue.commentPage = 1;
+							vue.loadComments();
+							layui.layer.msg('评论发布成功', {icon: 6});
+						} else {
+							layui.layer.msg(res.msg || '评论发布失败', {icon: 5});
+						}
+					}, function(error) {
+						vue.submitting = false;
+						layui.layer.msg('评论发布失败', {icon: 5});
+					});
+				},
+				submitReply(commentId) {
+					var http = layui.http;
+					var content = vue.replyContent.trim();
+					if (!content) return;
+					http.requestJson('discuss/save', 'post', {
+						objectType: 'shetuanhuodong',
+						objectId: vue.detail.id,
+						content: content,
+						parentId: commentId,
+						userName: vue.currentUserName
+					}, function(res) {
+						if (res && res.code === 0) {
+							vue.replyContent = '';
+							vue.replyTargetId = null;
+							vue.loadReplies(commentId);
+							vue.loadComments();
+							layui.layer.msg('回复成功', {icon: 6});
+						} else {
+							layui.layer.msg(res.msg || '回复失败', {icon: 5});
+						}
+					}, function(error) {
+						layui.layer.msg('回复失败', {icon: 5});
+					});
+				},
+				showReplyInput(commentId) {
+					vue.replyTargetId = vue.replyTargetId === commentId ? null : commentId;
+					vue.replyContent = '';
+				},
+				toggleLike(comment) {
+					var http = layui.http;
+					if (!vue.isLoggedIn) {
+						window.location.href = '../login/login.html';
+						return;
+					}
+					if (comment.isLiked) {
+						http.request('discuss/unlike/' + comment.id, 'post', {}, function(res) {
+							if (res && res.code === 0) {
+								comment.isLiked = false;
+								comment.likeCount = Math.max(0, (comment.likeCount || 0) - 1);
+							}
+						});
+					} else {
+						http.request('discuss/like/' + comment.id, 'post', {}, function(res) {
+							if (res && res.code === 0) {
+								comment.isLiked = true;
+								comment.likeCount = (comment.likeCount || 0) + 1;
+							}
+						});
+					}
+				},
+				deleteComment(commentId) {
+					layui.layer.confirm('确定删除这条评论吗？', function(index) {
+						var http = layui.http;
+						http.requestJson('discuss/delete', 'post', [commentId], function(res) {
+							layui.layer.close(index);
+							if (res && res.code === 0) {
+								layui.layer.msg('删除成功', {icon: 6});
+								vue.commentPage = 1;
+								vue.loadComments();
+							} else {
+								layui.layer.msg(res.msg || '删除失败', {icon: 5});
+							}
+						});
+					});
+				},
+				isCurrentUser(userId) {
+					return vue.currentUserId && String(vue.currentUserId) === String(userId);
+				},
+				goToListWithTag(tagName) {
+					localStorage.setItem('tagFilter', tagName);
+					if (vue.embedded) {
+						window.location.href = 'list.html?tag=' + encodeURIComponent(tagName);
+					} else {
+						window.location.href = 'list.html?tag=' + encodeURIComponent(tagName);
+					}
+				},
 						formatDate(dateStr) {
 							if (!dateStr) return '暂无';
 							// 尝试不同的时间格式解析
@@ -475,6 +1418,15 @@
 						}
 					}
 
+					// 初始化登录状态
+					var userTable = localStorage.getItem('userTable');
+					var userid = localStorage.getItem('userid');
+					if (userTable && userid && userid !== 'null') {
+						vue.isLoggedIn = true;
+						vue.currentUserId = userid;
+						vue.currentUserName = localStorage.getItem('username') || '';
+					}
+
 			vue.detail.id = id;
 			vue.loading = true;
 
@@ -498,6 +1450,8 @@
 						shengyuminge: res.data.shengyuminge || (vue.detail.huodongrenshu ? vue.detail.huodongrenshu - (res.data.yibaomingrenshu || 0) : 0)
 					};
 					vue.checkCollect();
+					vue.loadTags();
+					vue.loadComments();
 				} else {
 					vue.detail = {};
 					vue.title = '活动详情';
